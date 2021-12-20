@@ -1,0 +1,48 @@
+
+skeleton.png
+size: 136,440
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Basic/Basic_Eye
+  rotate: false
+  xy: 2, 417
+  size: 49, 18
+  orig: 60, 23
+  offset: 6, 4
+  index: -1
+Basic/Basic_body
+  rotate: true
+  xy: 2, 2
+  size: 226, 122
+  orig: 243, 133
+  offset: 8, 6
+  index: -1
+Basic/Basic_house
+  rotate: false
+  xy: 2, 230
+  size: 129, 135
+  orig: 149, 146
+  offset: 10, 5
+  index: -1
+Basic/Basic_mouse
+  rotate: true
+  xy: 53, 412
+  size: 23, 24
+  orig: 28, 27
+  offset: 3, 2
+  index: -1
+Basic/arm_Left
+  rotate: true
+  xy: 2, 367
+  size: 43, 66
+  orig: 54, 73
+  offset: 6, 6
+  index: -1
+Basic/arm_Right
+  rotate: false
+  xy: 79, 370
+  size: 52, 65
+  orig: 61, 69
+  offset: 5, 4
+  index: -1

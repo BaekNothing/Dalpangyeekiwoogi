@@ -1,0 +1,27 @@
+
+skeleton.png
+size: 392,136
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Basic_mouse
+  rotate: false
+  xy: 367, 107
+  size: 23, 24
+  orig: 28, 27
+  offset: 3, 2
+  index: -1
+House
+  rotate: true
+  xy: 230, 2
+  size: 129, 135
+  orig: 149, 146
+  offset: 10, 5
+  index: -1
+Shadow
+  rotate: false
+  xy: 2, 9
+  size: 226, 122
+  orig: 244, 260
+  offset: 9, 69
+  index: -1

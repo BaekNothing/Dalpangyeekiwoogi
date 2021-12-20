@@ -1,0 +1,20 @@
+
+skeleton.png
+size: 384,264
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+excerise
+  rotate: false
+  xy: 2, 2
+  size: 335, 259
+  orig: 350, 350
+  offset: 15, 23
+  index: -1
+excerise_sweat
+  rotate: false
+  xy: 339, 201
+  size: 42, 60
+  orig: 350, 350
+  offset: 246, 242
+  index: -1

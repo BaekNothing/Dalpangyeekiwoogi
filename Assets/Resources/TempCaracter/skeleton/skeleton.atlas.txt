@@ -1,0 +1,34 @@
+
+skeleton.png
+size: 310,286
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Test001-ArmLeft
+  rotate: true
+  xy: 2, 2
+  size: 42, 59
+  orig: 44, 61
+  offset: 1, 1
+  index: -1
+Test001-ArmRight
+  rotate: true
+  xy: 63, 8
+  size: 36, 49
+  orig: 38, 51
+  offset: 1, 1
+  index: -1
+Test001-head
+  rotate: false
+  xy: 2, 46
+  size: 239, 238
+  orig: 240, 240
+  offset: 1, 1
+  index: -1
+Test001-leg
+  rotate: true
+  xy: 243, 26
+  size: 258, 65
+  orig: 260, 67
+  offset: 1, 1
+  index: -1

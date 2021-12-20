@@ -1,0 +1,62 @@
+
+skeleton.png
+size: 1132,244
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Basic
+  rotate: true
+  xy: 662, 15
+  size: 226, 122
+  orig: 244, 260
+  offset: 9, 69
+  index: -1
+Basic_mouse
+  rotate: false
+  xy: 910, 2
+  size: 23, 24
+  orig: 28, 27
+  offset: 3, 2
+  index: -1
+LongSnail
+  rotate: true
+  xy: 488, 15
+  size: 226, 172
+  orig: 244, 260
+  offset: 9, 69
+  index: -1
+Shadow
+  rotate: true
+  xy: 786, 15
+  size: 226, 122
+  orig: 244, 260
+  offset: 9, 69
+  index: -1
+VR
+  rotate: true
+  xy: 199, 6
+  size: 235, 122
+  orig: 244, 260
+  offset: 0, 69
+  index: -1
+Wing
+  rotate: true
+  xy: 910, 28
+  size: 213, 218
+  orig: 244, 260
+  offset: 9, 15
+  index: -1
+Wizard
+  rotate: true
+  xy: 2, 6
+  size: 235, 195
+  orig: 244, 260
+  offset: 0, 56
+  index: -1
+Worker
+  rotate: true
+  xy: 323, 10
+  size: 231, 163
+  orig: 244, 260
+  offset: 4, 69
+  index: -1

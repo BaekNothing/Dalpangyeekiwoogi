@@ -1,0 +1,20 @@
+
+skeleton.png
+size: 456,208
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Food
+  rotate: true
+  xy: 321, 2
+  size: 202, 133
+  orig: 350, 350
+  offset: 69, 50
+  index: -1
+TV
+  rotate: true
+  xy: 2, 27
+  size: 177, 317
+  orig: 350, 350
+  offset: 16, 19
+  index: -1
