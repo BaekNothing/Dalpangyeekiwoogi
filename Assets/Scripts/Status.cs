@@ -182,18 +182,6 @@ public class Status : MonoBehaviour
 
     void Start()
     {
-#if UNITY_ANDROID
-        string appId = "ca-app-pub-4709635254723192~5674517136";
-#elif UNITY_IPHONE
-       
-#else
-        string appId = "unexpected_platform";
-#endif
-        // Initialize the Google Mobile Ads SDK.
-        MobileAds.Initialize(appId);
-
-        this.RequestRewardedAd();
-
         //PlayerPrefs.DeleteAll();
 
         //앱을 진짜 처음 켰을때 부분. Perf에서 Key값을 검사해서, 없는 것들을 채워넣는다.
@@ -1238,7 +1226,7 @@ public class Status : MonoBehaviour
     }
 
     //스테이터스 변경 기본공식 / 보정값은 괄호 안쪽만 안건드리면 자유롭게 조정가능
-    float StatusIncrease( float Value, ref float Status ){
+    public float StatusIncrease( float Value, ref float Status ){
 
         Status += Value;
 
@@ -1720,170 +1708,5 @@ public class Status : MonoBehaviour
 
         Application.Quit();
         
-    }
-
-
-// Android Ads -
-
-    private RewardedAd rewardedAd;
-
-
-    // 보상형 광고
-    private void RequestRewardedAd()
-    {
-        string adUnitId;
-#if UNITY_ANDROID
-            adUnitId = "ca-app-pub-4709635254723192/2264372270";
-            //adUnitId = "ca-app-pub-3940256099942544/5224354917";
-#elif UNITY_IPHONE
-            adUnitId = "ca-app-pub-3940256099942544/1712485313";
-#else
-            adUnitId = "unexpected_platform";
-#endif
-
-        this.rewardedAd = new RewardedAd(adUnitId);
-
-
-        // Called when an ad request has successfully loaded.
-        this.rewardedAd.OnAdLoaded += HandleRewardedAdLoaded;
-        // Called when an ad request failed to load.
-        this.rewardedAd.OnAdFailedToLoad += HandleRewardedAdFailedToLoad;
-        // Called when an ad is shown.
-        this.rewardedAd.OnAdOpening += HandleRewardedAdOpening;
-        // Called when an ad request failed to show.
-        this.rewardedAd.OnAdFailedToShow += HandleRewardedAdFailedToShow;
-        // Called when the user should be rewarded for interacting with the ad.
-        this.rewardedAd.OnUserEarnedReward += HandleUserEarnedReward;
-        // Called when the ad is closed.
-        this.rewardedAd.OnAdClosed += HandleRewardedAdClosed;
-
-
-
-        // Create an empty ad request.
-        AdRequest request = new AdRequest.Builder()
-            .AddTestDevice(AdRequest.TestDeviceSimulator) // 테스트 광고 요청
-            .Build();
-        // Load the rewarded ad with the request.
-        this.rewardedAd.LoadAd(request);
-    }
-
-    void HandleRewardedAdLoaded(object sender, EventArgs args)
-    {
-        MonoBehaviour.print("HandleRewardedAdLoaded event received");
-    }
-
-    void HandleRewardedAdFailedToLoad(object sender, AdErrorEventArgs args)
-    {
-        MonoBehaviour.print(
-            "HandleRewardedAdFailedToLoad event received with message: "
-                             + args.Message);
-    }
-
-    void HandleRewardedAdOpening(object sender, EventArgs args)
-    {
-        MonoBehaviour.print("HandleRewardedAdOpening event received");
-    }
-
-    void HandleRewardedAdFailedToShow(object sender, AdErrorEventArgs args)
-    {
-        MonoBehaviour.print(
-            "HandleRewardedAdFailedToShow event received with message: "
-                             + args.Message);
-    }
-
-    void HandleRewardedAdClosed(object sender, EventArgs args)
-    {
-        MonoBehaviour.print("HandleRewardedAdClosed event received");
-        RequestRewardedAd();
-    }
-
-    void HandleUserEarnedReward(object sender, Reward args)
-    {
-        // 스테미나를 100 향상시킴
-        float tempStamina = PlayerPrefs.GetFloat("Stamina");
-        StatusIncrease(100f, ref tempStamina);
-        PlayerPrefs.SetFloat("Stamina", tempStamina);
-
-
-        string type = args.Type;
-        double amount = args.Amount;
-        MonoBehaviour.print(
-            "HandleRewardedAdRewarded event received for "
-                        + amount.ToString() + " " + type);
-
-        //여기서 Reward가 생기는 모양 
-    }
-
-    // 광고는 30분에 한번씩 
-
-    public void _ShowRewardedAd()
-    {
-        float LastTime = 0f;
-        float OnTime = 0f;
-        TimeToNumber(PlayerPrefs.GetString("ADTime"), ref LastTime);
-        TimeToNumber(System.DateTime.Now.ToString("yyyy-MM-dd-HH-mm"), ref OnTime);
-
-        if (OnTime - LastTime > 30) 
-        {
-            if (this.rewardedAd.IsLoaded())
-            {
-                PlayerPrefs.SetString("ADTime", System.DateTime.Now.ToString("yyyy-MM-dd-HH-mm"));
-                this.rewardedAd.Show();
-            }
-            else
-            {
-                Debug.Log("NOT Loaded Interstitial");
-                RequestRewardedAd();
-            }
-
-        }
-    }
-
-// - Android Ads
-}
-
-public class CSVReader
-{
-    static string SPLIT_RE = @",(?=(?:[^""]*""[^""]*"")*(?![^""]*""))";
-    static string LINE_SPLIT_RE = @"\r\n|\n\r|\n|\r";
-    static char[] TRIM_CHARS = { '\"' };
-
-    public static List<Dictionary<string, object>> Read(string file)
-    {
-        var list = new List<Dictionary<string, object>>();
-        TextAsset data = Resources.Load(file) as TextAsset;
-
-        var lines = Regex.Split(data.text, LINE_SPLIT_RE);
-
-        if (lines.Length <= 1) return list;
-
-        var header = Regex.Split(lines[0], SPLIT_RE);
-        for (var i = 1; i < lines.Length; i++)
-        {
-
-            var values = Regex.Split(lines[i], SPLIT_RE);
-            if (values.Length == 0 || values[0] == "") continue;
-
-            var entry = new Dictionary<string, object>();
-            for (var j = 0; j < header.Length && j < values.Length; j++)
-            {
-                string value = values[j];
-                value = value.TrimStart(TRIM_CHARS).TrimEnd(TRIM_CHARS).Replace("\\", "");
-                object finalvalue = value;
-                int n;
-                float f;
-                if (int.TryParse(value, out n))
-                {
-                    finalvalue = n;
-                }
-                else if (float.TryParse(value, out f))
-                {
-                    finalvalue = f;
-                }
-                entry[header[j]] = finalvalue;
-            }
-            list.Add(entry);
-        }
-        return list;
     }
 }
