@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public SnailStatusObject hunger;
+    public SnailStatusObject dirt;
+    public SnailStatusObject happy;
+    public SnailStatusObject health;
+
+    public CreatureObject creature;
+
     void Start()
     {
-        
-    }
+        hunger.status.StatInit();
+        dirt.status.StatInit();
+        happy.status.StatInit();
+        health.status.StatInit();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        creature.status.Clear();
+        List<Dictionary<string, object>> CreatureDatas 
+            = CSVReader.Read("TempCaracter/SkeletonStatus");
+        foreach (Dictionary<string, object> data in CreatureDatas)
+            creature.status.Add
+                (new CreatureObject.SingleCreature().Creature_init(data));
     }
 }

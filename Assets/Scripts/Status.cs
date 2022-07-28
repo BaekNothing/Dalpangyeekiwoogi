@@ -8,8 +8,6 @@ using Spine.Unity;
 using Unity.Notifications.Android;
 using GoogleMobileAds.Api;
 using System;
-using TMPro;
-
 
 #pragma warning disable 0414
 

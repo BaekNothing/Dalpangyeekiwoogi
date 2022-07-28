@@ -27728,6 +27728,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9634fab7bea0184ba74102907b1cb20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hunger: {fileID: 11400000, guid: 4067ef7794329de48b38fe9719d27855, type: 2}
+  dirt: {fileID: 11400000, guid: f85f11f51b9a0c94897b77b44228096f, type: 2}
+  happy: {fileID: 11400000, guid: 0bdacc712286d4a42805166f7773f8e2, type: 2}
+  health: {fileID: 11400000, guid: 5353bbc187316d646af4bf6b875fe392, type: 2}
+  creature: {fileID: 11400000, guid: 8bbcf993ff3f9254599c39a9322f34b9, type: 2}
 --- !u!1 &1936686976
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,7 +8,6 @@ using Spine.Unity;
 using Unity.Notifications.Android;
 using GoogleMobileAds.Api;
 using System;
-using TMPro;
 
 public class AdManager : MonoBehaviour
 {
