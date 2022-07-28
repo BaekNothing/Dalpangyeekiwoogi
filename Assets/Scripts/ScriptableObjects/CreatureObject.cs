@@ -14,7 +14,9 @@ using System.Linq;
 public class CreatureObject : ScriptableObject 
 {
     [SerializeField]
-    public List<SingleCreature> status;
+    public List<SingleCreature> creatureList;
+
+    public string creatureDataPath = "TempCaracter/SkeletonStatus";
 
     [Serializable]
     public struct SingleCreature
@@ -30,5 +32,8 @@ public class CreatureObject : ScriptableObject
                 this.values[i] = objValues[i].ToString();
             return this;
         }
+
+        public string GetName() => values[0];
+        public string GetDesc() => values[1];
     }
 }

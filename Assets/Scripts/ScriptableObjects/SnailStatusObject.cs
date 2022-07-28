@@ -13,7 +13,30 @@ using System;
 public class SnailStatusObject : ScriptableObject 
 {
     [SerializeField]
-    public SingleStatus status;
+
+    public SingleStatus dirt;
+    public SingleStatus happiness;
+    public SingleStatus health;
+    public SingleStatus hunger;
+
+    public void ClearAllStat()
+    {
+        dirt.StatClear();
+        happiness.StatClear();
+        health.StatClear();
+        hunger.StatClear();
+    }
+
+    public void InitAllStat()
+    {
+        dirt.StatInit();
+        happiness.StatInit();
+        health.StatInit();
+        hunger.StatInit();
+    }
+
+    readonly static float valueMax = 100f;
+    readonly static float valueMin = 0f;
 
     [Serializable]
     public struct SingleStatus
@@ -21,35 +44,32 @@ public class SnailStatusObject : ScriptableObject
         public string name;
         public float value;
         public int deadCount;
-
+        public float deadTime;
         public float tick;
         public float subtraction;
         
         public void StatInit()
         {
-            this.value = PlayerPrefs.GetFloat($"status_{name}");
-            this.deadCount = PlayerPrefs.GetInt($"{name}Stack");
-
-            this.tick = 900f;
-            this.subtraction = -1;
-        }
-
-        public void StatSave()
-        {
-            PlayerPrefs.SetFloat($"status_{name}", value);
-            PlayerPrefs.SetInt($"{name}Stack", deadCount);
+            StatClear();
         }
 
         public void StatClear(){
-            value = 0f;
-            deadCount = 0;
+            this.value = 100;
+            this.deadCount = 0;
+            this.deadTime = 0;
+            this.tick = 900f;
+            this.subtraction = 1;
         }
 
         public void StatCalculateTick(float correction = 1)
         {
-            value += subtraction * correction;
-            if (value <= 0)
-                deadCount++;
+            value -= subtraction * correction;
+            if (value <= valueMin)
+            { 
+                deadTime += correction;
+                value = valueMin;
+            }
+            if (deadTime >= 15) deadCount++;
         }        
     }
 }

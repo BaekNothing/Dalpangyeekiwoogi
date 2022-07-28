@@ -174,7 +174,6 @@ public class Status : MonoBehaviour
     IEnumerator dirt;
     IEnumerator happiness;
     IEnumerator health;
-
     IEnumerator TimeSet;
 
 
