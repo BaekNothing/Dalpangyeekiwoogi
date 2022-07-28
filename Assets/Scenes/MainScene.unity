@@ -27728,9 +27728,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9634fab7bea0184ba74102907b1cb20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInfo: {fileID: 11400000, guid: 70733f687753e004f9177e2335dd57ea, type: 2}
-  snailStat: {fileID: 11400000, guid: f85f11f51b9a0c94897b77b44228096f, type: 2}
-  creature: {fileID: 11400000, guid: 8bbcf993ff3f9254599c39a9322f34b9, type: 2}
+  _playerInfo: {fileID: 11400000, guid: 70733f687753e004f9177e2335dd57ea, type: 2}
+  _snailStat: {fileID: 11400000, guid: f85f11f51b9a0c94897b77b44228096f, type: 2}
+  _creature: {fileID: 11400000, guid: 8bbcf993ff3f9254599c39a9322f34b9, type: 2}
 --- !u!1 &1936686976
 GameObject:
   m_ObjectHideFlags: 0

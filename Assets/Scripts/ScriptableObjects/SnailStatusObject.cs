@@ -13,13 +13,13 @@ using System;
 public class SnailStatusObject : ScriptableObject 
 {
     [SerializeField]
-    static SingleStatus dirt;
+    SingleStatus dirt;
     [SerializeField]
-    static SingleStatus happiness;
+    SingleStatus happiness;
     [SerializeField]
-    static SingleStatus health;
+    SingleStatus health;
     [SerializeField]
-    static SingleStatus hunger;
+    SingleStatus hunger;
 
     public enum StatusType
     {
@@ -29,19 +29,21 @@ public class SnailStatusObject : ScriptableObject
         hunger
     }
     
-    static Dictionary<StatusType, SingleStatus> statusDict = 
-        new Dictionary<StatusType, SingleStatus>{
+    Dictionary<StatusType, SingleStatus> statusDict;
+    Dictionary<StatusType, SingleStatus> GetStatusDict =>
+        statusDict ?? (statusDict = new Dictionary<StatusType, SingleStatus>()
+        {
             {StatusType.dirt, dirt},
             {StatusType.happiness, happiness},
             {StatusType.health, health},
             {StatusType.hunger, hunger}
-        };
-
+        });
+        
     public float GetStatusValue(StatusType type)
-        => statusDict[type].value;
+        => GetStatusDict[type].value;
     
     public void AddStatusValue(StatusType type, float value) 
-        => statusDict[type].AddValue(value);
+        => GetStatusDict[type].AddValue(value);
 
     public void CalculateTickAllStat(float value)
     {
