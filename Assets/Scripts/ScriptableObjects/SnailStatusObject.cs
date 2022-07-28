@@ -13,11 +13,43 @@ using System;
 public class SnailStatusObject : ScriptableObject 
 {
     [SerializeField]
+    static SingleStatus dirt;
+    [SerializeField]
+    static SingleStatus happiness;
+    [SerializeField]
+    static SingleStatus health;
+    [SerializeField]
+    static SingleStatus hunger;
 
-    public SingleStatus dirt;
-    public SingleStatus happiness;
-    public SingleStatus health;
-    public SingleStatus hunger;
+    public enum StatusType
+    {
+        dirt,
+        happiness,
+        health,
+        hunger
+    }
+    
+    static Dictionary<StatusType, SingleStatus> statusDict = 
+        new Dictionary<StatusType, SingleStatus>{
+            {StatusType.dirt, dirt},
+            {StatusType.happiness, happiness},
+            {StatusType.health, health},
+            {StatusType.hunger, hunger}
+        };
+
+    public float GetStatusValue(StatusType type)
+        => statusDict[type].value;
+    
+    public void AddStatusValue(StatusType type, float value) 
+        => statusDict[type].AddValue(value);
+
+    public void CalculateTickAllStat(float value)
+    {
+        dirt.StatCalculateTick(value);
+        happiness.StatCalculateTick(value);
+        health.StatCalculateTick(value);
+        hunger.StatCalculateTick(value);
+    }
 
     public void ClearAllStat()
     {
@@ -51,6 +83,15 @@ public class SnailStatusObject : ScriptableObject
         public void StatInit()
         {
             StatClear();
+        }
+
+        public void AddValue(float value)
+        {
+            this.value += value;
+            if(this.value > valueMax)
+                this.value = valueMax;
+            else if(this.value < valueMin)
+                this.value = valueMin;
         }
 
         public void StatClear(){

@@ -12,30 +12,32 @@ public class DataManager : MonoBehaviour
     }
 
     [SerializeField]
-    private PlayerInfoObject playerInfo;
-    public PlayerInfoObject PlayerInfo { get { return playerInfo; } }
+    private PlayerInfoObject _playerInfo;
+    public PlayerInfoObject PlayerInfo { get { return _playerInfo; } }
 
     [SerializeField]
-    private SnailStatusObject snailStat;
-    public SnailStatusObject SnailStat { get { return snailStat; } }
+    private SnailStatusObject _snailStat;
+    public SnailStatusObject SnailStat { get { return _snailStat; } }
     
     [SerializeField]
-    private CreatureObject creature;
-    public CreatureObject Creature { get { return creature; } }
+    private CreatureObject _creature;
+    public CreatureObject Creature { get { return _creature; } }
 
     void Awake()
     {
         if(PlayerPrefs.HasKey($"{playerPerfOption.IndexNumber}")) 
             LoadDataFromPlayerPerfs();
-        if(playerInfo.playerCreatureIndex < 0)
+        if(_playerInfo.playerCreatureIndex < 0)
             SetCreature();    
         LoadCreatureData();
     }
 
+    // ****** Data *******
+
     void SetCreature()
     {
-        playerInfo.playerCreatureIndex = 0;
-        snailStat.InitAllStat();
+        _playerInfo.playerCreatureIndex = 0;
+        _snailStat.InitAllStat();
     }
 
     void LoadDataFromPlayerPerfs()
@@ -46,35 +48,75 @@ public class DataManager : MonoBehaviour
             PlayerPrefs.GetInt($"{playerPerfOption.isLoaded}") == 1)
             return;
         
-        playerInfo.Init();
-        snailStat.ClearAllStat();
+        _playerInfo.Init();
+        _snailStat.ClearAllStat();
         
     }
 
     void LoadCreatureData()
     {
         //The list may be updated in the future, so initialize it at runtime
-        creature.creatureList.Clear();
-        List<Dictionary<string, object>> CreatureDatas = CSVReader.Read(creature.creatureDataPath);
+        _creature.creatureList.Clear();
+        List<Dictionary<string, object>> CreatureDatas = CSVReader.Read(_creature.creatureDataPath);
         foreach (Dictionary<string, object> data in CreatureDatas)
-            creature.creatureList.Add(new CreatureObject.SingleCreature().Creature_init(data));
+            _creature.creatureList.Add(new CreatureObject.SingleCreature().Creature_init(data));
         PlayerPrefs.SetInt($"{playerPerfOption.isLoaded}", 1);
     }
 
-    readonly float tickCorrection = 0.02f; //= 1 / 900 * 20
+    // ****** Action *******
 
-    void Update()
+    public List<registedAction> actionList = new List<registedAction>();
+    
+    public struct registedAction
+    {
+        public SnailStatusObject.SingleStatus target;
+        public condition condition;
+        public float value;
+        public System.Action action;
+
+        registedAction(SnailStatusObject.SingleStatus target, condition condition, float value, System.Action action)
+        {
+            this.target = target;
+            this.condition = condition;
+            this.value = value;
+            this.action = action;
+        }
+    }
+
+    public enum condition { isBigger, isSmaller,isEqual }
+
+    void DoRegistedAction(registedAction inputAction)
+    {
+        //much more memory but more readable
+        SnailStatusObject.SingleStatus target = inputAction.target;
+        condition condition = inputAction.condition;
+        float value = inputAction.value;
+        System.Action action = inputAction.action;
+
+        if (condition == condition.isBigger)
+            if (target.value > value)
+                action();
+        else if (condition == condition.isSmaller)
+            if (target.value < value)
+                action();
+        else if (condition == condition.isEqual)
+            if (target.value == value)
+                action();
+    }
+
+    readonly float tickCorrection = 0.02f; //= 1 / 900 * 20
+    public void CalcualteData_EveryTick()
     {
         // Action when frameCount % 20 == 0        
         int frameCount = Time.frameCount;
         int frameRemainder = (int)(frameCount * 0.05);
         if (frameCount - frameRemainder * 20 != 0) return;
 
-        Debug.Log(Time.captureFramerate);
+        _snailStat.CalculateTickAllStat(Time.deltaTime * tickCorrection);
 
-        snailStat.dirt.StatCalculateTick(Time.deltaTime * tickCorrection);
-        snailStat.happiness.StatCalculateTick(Time.deltaTime * tickCorrection);
-        snailStat.health.StatCalculateTick(Time.deltaTime * tickCorrection);
-        snailStat.hunger.StatCalculateTick(Time.deltaTime * tickCorrection);
-    }    
+        foreach (registedAction action in actionList)
+            DoRegistedAction(action);
+    }
+
+    void Update() => CalcualteData_EveryTick();
 }
