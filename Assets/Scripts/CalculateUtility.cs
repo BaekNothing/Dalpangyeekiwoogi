@@ -6,7 +6,6 @@ using UnityEngine.UI;
 using Spine;
 using Spine.Unity;
 using Unity.Notifications.Android;
-using GoogleMobileAds.Api;
 using System;
 
 public static class CalculateUtility 

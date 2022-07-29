@@ -6,7 +6,6 @@ using UnityEngine.UI;
 using Spine;
 using Spine.Unity;
 using Unity.Notifications.Android;
-using GoogleMobileAds.Api;
 using System;
 
 [CreateAssetMenu(fileName = "snailStatusObject", menuName = "SCObjects/SnailStatusObject", order = 1)]
