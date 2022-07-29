@@ -32,6 +32,13 @@ public class DataManager : MonoBehaviour
         LoadCreatureData();
     }
 
+    ActionManager actionManager;
+    void Start()
+    {
+        actionManager = this.GetComponent<ActionManager>();
+        actionManager.RegistTickAction(Action_CalcualteData);
+    }
+
     // ****** Data *******
 
     void SetCreature()
@@ -52,7 +59,6 @@ public class DataManager : MonoBehaviour
         _snailStat.ClearAllStat();
         
     }
-
     void LoadCreatureData()
     {
         //The list may be updated in the future, so initialize it at runtime
@@ -62,61 +68,15 @@ public class DataManager : MonoBehaviour
             _creature.creatureList.Add(new CreatureObject.SingleCreature().Creature_init(data));
         PlayerPrefs.SetInt($"{playerPerfOption.isLoaded}", 1);
     }
-
-    // ****** Action *******
-
-    public List<registedAction> actionList = new List<registedAction>();
     
-    public struct registedAction
-    {
-        public SnailStatusObject.SingleStatus target;
-        public condition condition;
-        public float value;
-        public System.Action action;
-
-        registedAction(SnailStatusObject.SingleStatus target, condition condition, float value, System.Action action)
-        {
-            this.target = target;
-            this.condition = condition;
-            this.value = value;
-            this.action = action;
-        }
-    }
-
-    public enum condition { isBigger, isSmaller,isEqual }
-
-    void DoRegistedAction(registedAction inputAction)
-    {
-        //much more memory but more readable
-        SnailStatusObject.SingleStatus target = inputAction.target;
-        condition condition = inputAction.condition;
-        float value = inputAction.value;
-        System.Action action = inputAction.action;
-
-        if (condition == condition.isBigger)
-            if (target.value > value)
-                action();
-        else if (condition == condition.isSmaller)
-            if (target.value < value)
-                action();
-        else if (condition == condition.isEqual)
-            if (target.value == value)
-                action();
-    }
-
     readonly float tickCorrection = 0.02f; //= 1 / 900 * 20
-    public void CalcualteData_EveryTick()
+    public void Action_CalcualteData()
     {
         // Action when frameCount % 20 == 0        
         int frameCount = Time.frameCount;
         int frameRemainder = (int)(frameCount * 0.05);
         if (frameCount - frameRemainder * 20 != 0) return;
 
-        _snailStat.CalculateTickAllStat(Time.deltaTime * tickCorrection);
-
-        foreach (registedAction action in actionList)
-            DoRegistedAction(action);
+        SnailStat.CalculateTickAllStat(Time.deltaTime * tickCorrection);       
     }
-
-    void Update() => CalcualteData_EveryTick();
 }
