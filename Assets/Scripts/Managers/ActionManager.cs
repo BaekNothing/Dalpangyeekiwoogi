@@ -53,6 +53,7 @@ public class ActionManager : MonoBehaviour
             this.isDisposable = isDisposable;
         }
     }
+    
     void DoOptionalAction(OptionalAction inputAction)
     {
         //much more memory but more readable

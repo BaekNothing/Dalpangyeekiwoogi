@@ -26,7 +26,6 @@ public class UIManager : MonoBehaviour
         btnList = ComponentUtility.FindAllT<SelfManageButton>(mainCanvas.transform);
         ComponentUtility.LinkBtnPnl("option", btnDict, uiPanels, btnList);
     }
-
 }
 
 public static class UICentralUnit
