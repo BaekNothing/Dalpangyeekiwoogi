@@ -8,6 +8,8 @@ public class SelfManageButton : Button
     public Sprite enable = null;
     public Sprite disable = null;
 
+    public Image iconImage = null;
+
     public void init(System.Action action)
     {
         onClick.RemoveAllListeners();
@@ -17,12 +19,18 @@ public class SelfManageButton : Button
     protected override void OnEnable()
     {
         base.OnEnable();
-        this.image.sprite = enable;
+        SetSprite(iconImage, enable);
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
-        this.image.sprite = disable;
+        SetSprite(iconImage, disable);
+    }
+
+    protected void SetSprite(Image iconImage, Sprite sprite)
+    {
+        if(!iconImage) return;
+        iconImage.sprite = sprite;
     }
 }

@@ -14,7 +14,9 @@ public class UIManager : MonoBehaviour
     List<UIPanels> uiPanels = null;
     [SerializeField]
     List<SelfManageButton> btnList = null;
-    Dictionary<SelfManageButton, UIPanels> btnDict = new Dictionary<SelfManageButton, UIPanels>();
+
+    [SerializeField]
+    SerializableDictionary<SelfManageButton, UIPanels> btnDict = new SerializableDictionary<SelfManageButton, UIPanels>();
 
     private void Awake()
     {
@@ -22,34 +24,9 @@ public class UIManager : MonoBehaviour
         uiPanels = ComponentUtility.FindAllT<UIPanels>(mainCanvas.transform);
         uiPanels.ForEach(x => x.Regist());
         btnList = ComponentUtility.FindAllT<SelfManageButton>(mainCanvas.transform);
-        LinkBtnPnl();
+        ComponentUtility.LinkBtnPnl("option", btnDict, uiPanels, btnList);
     }
 
-    void LinkBtnPnl(){
-        KeyValuePair<SelfManageButton, UIPanels> pair;
-        if((pair = ExtractBtnPnl("option")).Key != null && pair.Value != null)
-            btnDict.Add(pair.Key, pair.Value);
-    }
-
-    KeyValuePair<SelfManageButton, UIPanels> ExtractBtnPnl(string keyward)
-    {
-        UIPanels pnl = null;
-        foreach (var item in uiPanels)
-            if (item.name.ToLower().Contains(keyward.ToLower()))
-            {
-                pnl = item;
-                break;
-            }
-        SelfManageButton btn = null;
-        foreach (var item in btnList)
-            if (item.name.ToLower().Contains(keyward.ToLower()))
-            {
-                btn = item;
-                break;
-            }
-        btn.init(() => UICentralUnit.ShowPanel(pnl.thisIndex));
-        return new KeyValuePair<SelfManageButton, UIPanels>(null, null);
-    }
 }
 
 public static class UICentralUnit
