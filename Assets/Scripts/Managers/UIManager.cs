@@ -17,53 +17,57 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     SerializableDictionary<SelfManageButton, UIPanels> btnDict = new SerializableDictionary<SelfManageButton, UIPanels>();
-
+    
     private void Awake()
     {
         mainCanvas = GameObject.Find("MainCanvas").GetComponent<Canvas>();
-        uiPanels = ComponentUtility.FindAllT<UIPanels>(mainCanvas.transform);
-        uiPanels.ForEach(x => x.Regist());
+        foreach(UIPanels pnl in ComponentUtility.FindAllT<UIPanels>(mainCanvas.transform))
+            RegistPanel(pnl);
+        uiPanels.ForEach(x => x.LinkManager(this));
         btnList = ComponentUtility.FindAllT<SelfManageButton>(mainCanvas.transform);
+        
         ComponentUtility.LinkBtnPnl("option", btnDict, uiPanels, btnList);
+        ComponentUtility.LinkBtnPnl("credits", btnDict, uiPanels, btnList);
+        ComponentUtility.LinkBtnPnl("developplan", btnDict, uiPanels, btnList);
     }
-}
 
-public static class UICentralUnit
-{
-    [SerializeField]
-    static List<UIPanels> uiPanels = new List<UIPanels>();
-    public static int RegistPanel(UIPanels panel)
+    public void RegistPanel(UIPanels uiPanel)
     {
-        uiPanels.Add(panel);
-        return uiPanels.IndexOf(panel);
+        uiPanels.Add(uiPanel);
+        uiPanel.LinkManager(this);
+        uiPanel.SetIndex(uiPanels.IndexOf(uiPanel));
     }
     
     [SerializeField]
-    static Stack<int> indexStack = new Stack<int>();
+    Stack<int> indexStack = new Stack<int>();
 
-    static public void ShowPanel(int index)
+    public void ShowPanel(int index)
     {
         if (index < 0 || index >= uiPanels.Count)
             return;
-        foreach (UIPanels panel in uiPanels)
-            panel.gameObject.SetActive(false);
+        // foreach (UIPanels panel in uiPanels)
+        //     panel.gameObject.SetActive(false);
+        foreach (UIPanels pnl in ComponentUtility.FindAllT<UIPanels>(uiPanels[index].transform))
+            pnl.gameObject.SetActive(false);
         uiPanels[index].gameObject.SetActive(true);
         uiPanels[index].Init();
         indexStack.Push(index);
     }
 
-    static public void ShowPanel(int index, List<UIPanels.textFactor> factor)
+    public void ShowPanel(int index, List<UIPanels.textFactor> factor)
     {
         if (index < 0 || index >= uiPanels.Count)
             return;
-        foreach (UIPanels panel in uiPanels)
-            panel.gameObject.SetActive(false);
+        // foreach (UIPanels panel in uiPanels)
+        //     panel.gameObject.SetActive(false);
+        foreach (UIPanels pnl in ComponentUtility.FindAllT<UIPanels>(uiPanels[index].transform))
+            pnl.gameObject.SetActive(false);
         uiPanels[index].gameObject.SetActive(true);
         uiPanels[index].Init(factor);
         indexStack.Push(index);
     }
 
-    static public void HidePanel(int index){
+    public void HidePanel(int index){
         if (index < 0 || index >= uiPanels.Count)
             return;
         if (index != indexStack.Peek())
@@ -72,53 +76,9 @@ public static class UICentralUnit
         indexStack.Pop();
     }
 
-    static public void HideAllPanel(){
+    public void HideAllPanel(){
         foreach (UIPanels panel in uiPanels)
             panel.gameObject.SetActive(false);
         indexStack.Clear();
     }
 }
-
-public abstract class UIPanels : MonoBehaviour
-{
-    public struct textFactor
-    {
-        public string targetName;
-        public string value;
-        public textFactor(string targetName, string value)
-        {
-            this.targetName = targetName;
-            this.value = value;
-        }
-    }
-
-    public int thisIndex;
-
-    public void Regist() =>
-        UICentralUnit.RegistPanel(this);
-
-    public virtual void Init(List<textFactor> factors)
-    {
-        SetTextFromFactors(factors);
-        SetExit();
-    }
-
-    void SetTextFromFactors(List<textFactor> factors)
-    {
-        foreach(textFactor factor in factors)
-            ComponentUtility.SetText(
-                ComponentUtility.FindT<Text>(this.transform, factor.targetName),
-                factor.value);
-    }
-        
-    public virtual void Init() =>
-        SetExit();
-
-    void SetExit()=>
-        ComponentUtility.SetButtonAction(
-            ComponentUtility.FindT<Button>(this.transform, "exit"),
-            () => UICentralUnit.HidePanel(thisIndex));
-
-    public void Hide() =>
-        UICentralUnit.HidePanel(thisIndex);
-} 

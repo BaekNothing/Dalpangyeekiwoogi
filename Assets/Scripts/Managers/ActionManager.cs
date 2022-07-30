@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ActionManager : MonoBehaviour
 {
-    
+    UIManager uiManager;
+
     [SerializeField]
     List<System.Action> tickActionList = new List<System.Action>();
     public void RegistTickAction (System.Action action) => tickActionList.Add(action);
@@ -13,6 +14,9 @@ public class ActionManager : MonoBehaviour
     public List<OptionalAction> optionalActionList = new List<OptionalAction>();
     public void RegistAction(OptionalAction action) => optionalActionList.Add(action);
 
+    void Awake(){
+        uiManager = this.GetComponent<UIManager>();
+    }
 
     void Update()
     {
@@ -21,7 +25,7 @@ public class ActionManager : MonoBehaviour
         foreach (OptionalAction action in optionalActionList)
             DoOptionalAction(action);
         if (Input.GetKeyDown(KeyCode.Escape)) {
-            UICentralUnit.HideAllPanel();
+            uiManager.HideAllPanel();
         }
     }
     

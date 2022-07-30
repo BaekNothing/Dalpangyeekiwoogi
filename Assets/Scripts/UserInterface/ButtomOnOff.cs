@@ -25,10 +25,7 @@ public class ButtomOnOff : MonoBehaviour
         }
         else 
         { buttonSkins[indexnumber].SetActive(false);}
-
     }
-
-
 
     public void off() 
     
