@@ -48,36 +48,26 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     Stack<int> indexStack = new Stack<int>();
 
-    public void ShowPanel(int index)
+    public void ShowPanel(int index, List<UIPanels.textFactor> factor = null)
     {
         if (index < 0 || index >= uiPanels.Count)
             return;
         // foreach (UIPanels panel in uiPanels)
         //     panel.gameObject.SetActive(false);
         foreach (UIPanels pnl in ComponentUtility.FindAllT<UIPanels>(uiPanels[index].transform))
-            pnl.gameObject.SetActive(false);
-        uiPanels[index].gameObject.SetActive(true);
-        uiPanels[index].Init();
-        indexStack.Push(index);
-    }
-
-    public void ShowPanel(int index, List<UIPanels.textFactor> factor)
-    {
-        if (index < 0 || index >= uiPanels.Count)
-            return;
-        // foreach (UIPanels panel in uiPanels)
-        //     panel.gameObject.SetActive(false);
-        foreach (UIPanels pnl in ComponentUtility.FindAllT<UIPanels>(uiPanels[index].transform))
-            pnl.gameObject.SetActive(false);
+            HidePanel(pnl);
         uiPanels[index].gameObject.SetActive(true);
         uiPanels[index].Init(factor);
         indexStack.Push(index);
     }
 
+    public void HidePanel(UIPanels pnl)
+        => HidePanel(pnl.thisIndex);
+
     public void HidePanel(int index){
         if (index < 0 || index >= uiPanels.Count)
             return;
-        if (index != indexStack.Peek())
+        if (indexStack.Count <= 0 || index != indexStack.Peek())
             return;
         uiPanels[index].gameObject.SetActive(false);
         indexStack.Pop();
