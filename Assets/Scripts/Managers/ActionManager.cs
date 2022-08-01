@@ -43,7 +43,7 @@ public class ActionManager : MonoBehaviour
 
     public enum Condition { isBigger, isSmaller,isEqual }
     public List<OptionalAction> optionalActionList = new List<OptionalAction>();
-    public void RegistAction(OptionalAction action) => optionalActionList.Add(action);
+    public void RegistOptionalAction(OptionalAction action) => optionalActionList.Add(action);
 
     Dictionary<KeyCode, List<System.Action>> keyActionDict = new Dictionary<KeyCode, List<System.Action>>();
     public void RegistKeyAction(KeyCode key, System.Action action)

@@ -27,6 +27,18 @@ public class CreatureManager : MonoBehaviour
         actionManager.initFlag[nameof(CreatureManager)] = true;
     }
 
+    void RegistStateAction(){
+        actionManager.RegistCreatureAction(CreatureState.Eat, ()=>{
+            creature.AnimationState.SetAnimation(0, CreatureState.Eat.ToString(), true);
+        });
+        actionManager.RegistCreatureAction(CreatureState.Play, ()=>{
+            creature.AnimationState.SetAnimation(0, CreatureState.Play.ToString(), true);
+        });
+        actionManager.RegistCreatureAction(CreatureState.stand, ()=>{
+            creature.AnimationState.SetAnimation(0, CreatureState.stand.ToString(), true);
+        });
+    }
+
     public void LoadCreature()
     {
         int index = dataManager.PlayerInfo.creatureIndex;
