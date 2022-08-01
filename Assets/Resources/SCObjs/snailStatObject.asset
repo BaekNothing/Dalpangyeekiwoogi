@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9b8f76eee3d5274aa1e6ef1d58b724c, type: 3}
-  m_Name: snailStat
+  m_Name: snailStatObject
   m_EditorClassIdentifier: 
   dirt:
     name: dirt

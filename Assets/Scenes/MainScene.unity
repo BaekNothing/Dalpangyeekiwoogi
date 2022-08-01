@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -27570,6 +27570,7 @@ GameObject:
   - component: {fileID: 1931418385}
   - component: {fileID: 1931418384}
   - component: {fileID: 1931418386}
+  - component: {fileID: 1931418387}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -27647,6 +27648,22 @@ MonoBehaviour:
   btnList: []
   btnDict:
     keys: []
+    values: []
+--- !u!114 &1931418387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1931418381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08725632c481d0846b64370655052be6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  creatureRootTransform: {fileID: 336713345}
+  creature: {fileID: 0}
+  creatureData:
     values: []
 --- !u!1 &1936686976
 GameObject:

@@ -25,27 +25,26 @@ public class DataManager : MonoBehaviour
     public SnailStatusObject SnailStat { get { return _snailStat; } }
     
     [SerializeField]
-    private CreatureObject _creature;
-    public CreatureObject Creature { get { return _creature; } }
+    private CreatureDataObject _creature;
+    public CreatureDataObject Creature { get { return _creature; } }
 
     void Awake()
     {
         Creature.LoadCreatureData();
+        Creature.LoadSkeletonData();
         if(!PlayerInfo.isLoaded) 
             PlayerInfo.CheckLegacyPrefs(_creature);
 
         actionManager = this.GetComponent<ActionManager>();
-    }
-
-    void Start() {
         //Calculating data will be start later than init game    
         actionManager.RegistTickAction(Action_CalcualteStat);
         actionManager.RegistTickAction(Action_CalculateStamina);
 
         actionManager.RegistQuitAction(PlayerInfo.SetLastLoginTime);
+        actionManager.initFlag[nameof(DataManager)] = true;
     }
     
-    // ****** Action *******
+    // ****** Stat Action *******
 
     enum frameOrder {
         stat = 0,
@@ -79,4 +78,5 @@ public class DataManager : MonoBehaviour
         if (PlayerInfo.GetPassedStaminaTime() >= 15)
             PlayerInfo.RecoverStamina();
     }
+
 }

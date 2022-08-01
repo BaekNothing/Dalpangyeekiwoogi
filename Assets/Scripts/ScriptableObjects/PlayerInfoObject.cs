@@ -6,10 +6,11 @@ using System;
 [CreateAssetMenu(fileName = "snailStatusObject", menuName = "SCObjects/PlayerInfoObject", order = 1)]
 public class PlayerInfoObject : ScriptableObject 
 {
+     public bool isLoaded;
 
     public DateTime lastLoginTime;
-    public bool isLoaded;
     public int creatureIndex;
+    DateTime creatureInitTime;
     public string creatureName;
     public int coin;
     public int stamina;
@@ -47,6 +48,19 @@ public class PlayerInfoObject : ScriptableObject
         return (DateTime.Now - lastLoginTime).TotalMinutes;
     }
 
+    //****** Creature Init Time *******
+    public void SetCreatureInitTime()
+    {
+        creatureInitTime = DateTime.Now;
+    }
+
+    public double GetPassedCreatureInitTime()
+    {
+        if (creatureInitTime == null)
+            creatureInitTime = DateTime.Now;
+        return (DateTime.Now - creatureInitTime).TotalMinutes;
+    }
+
     //****** Stamina *******
     public int RecoverStamina(){
         stamina = 100;
@@ -74,7 +88,7 @@ public class PlayerInfoObject : ScriptableObject
     }
 
     //****** Load from Legacy *******
-    public void CheckLegacyPrefs(CreatureObject _creature)
+    public void CheckLegacyPrefs(CreatureDataObject _creature)
     {
         isLoaded = true;
         if (!PlayerPrefs.HasKey("IndexNumber"))

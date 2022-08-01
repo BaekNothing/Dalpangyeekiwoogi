@@ -9,14 +9,13 @@ using Unity.Notifications.Android;
 using System;
 using System.Linq;
 
-[CreateAssetMenu(fileName = "snailStatusObject", menuName = "SCObjects/CreatureObject", order = 1)]
-public class CreatureObject : ScriptableObject 
+[CreateAssetMenu(fileName = "snailStatusObject", menuName = "SCObjects/CreatureDataObject", order = 1)]
+public class CreatureDataObject : ScriptableObject 
 {
     public List<SingleCreature> creatureList;    
     string creatureDataPath = "TempCaracter/SkeletonStatus";
     
     public List<SkeletonDataAsset> skeletonDataAssetList = new List<SkeletonDataAsset>();
-    string skeletonDataPath = "Assets/Resources/Snails/0_Basic/skeleton_SkeletonData";
     
     public void LoadCreatureData()
     {
@@ -24,13 +23,15 @@ public class CreatureObject : ScriptableObject
         creatureList.Clear();
         List<Dictionary<string, object>> CreatureDatas = CSVReader.Read(creatureDataPath);
         foreach (Dictionary<string, object> data in CreatureDatas)
-            creatureList.Add(new CreatureObject.SingleCreature().Creature_init(data));
+            creatureList.Add(new CreatureDataObject.SingleCreature().Creature_init(data));
     }
 
-    public void LoadSkeletonData(){
+    public void LoadSkeletonData()
+    {
         skeletonDataAssetList.Clear();
-        //Resources.LoadAll<SkeletonDataAsset>(skeletonDataPath);
-        
+        System.IO.DirectoryInfo dirs = new System.IO.DirectoryInfo(Application.dataPath + "/Resources/Snails");
+        foreach(var dir in dirs.GetDirectories())
+            skeletonDataAssetList.Add(Resources.Load<SkeletonDataAsset>($"Snails/{dir.Name}/skeleton_SkeletonData"));
     }
 
     [Serializable]
@@ -48,7 +49,7 @@ public class CreatureObject : ScriptableObject
             return this;
         }
 
-        public string GetName() => values[0];
-        public string GetDesc() => values[1];
+        public string GetName() => values[1];
+        public string GetDesc() => values[2];
     }
 }

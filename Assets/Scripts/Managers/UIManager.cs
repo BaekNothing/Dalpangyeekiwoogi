@@ -34,6 +34,8 @@ public class UIManager : MonoBehaviour
         ComponentUtility.LinkBtnPnl("option", btnDict, uiPanels, btnList);
         ComponentUtility.LinkBtnPnl("credits", btnDict, uiPanels, btnList);
         ComponentUtility.LinkBtnPnl("developplan", btnDict, uiPanels, btnList);
+
+        actionManager.initFlag[nameof(UIManager)] = true;
     }
 
     public void RegistPanel(UIPanels uiPanel)

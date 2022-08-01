@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69f4fcf97a953eb40938438f0d4c3ad8, type: 3}
   m_Name: playerInfoObject
   m_EditorClassIdentifier: 
-  playerCreatureIndex: 0
+  isLoaded: 1
+  creatureIndex: 0
   creatureName: 
   coin: 0
-  stamina: 0
-  remainStaminaTime: 0
-  remainAdTime: 0
+  stamina: 100
   notiAllow: 0
+  creatureList: 01000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
