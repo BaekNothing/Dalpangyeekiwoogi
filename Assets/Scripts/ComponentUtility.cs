@@ -81,6 +81,19 @@ public static class ComponentUtility
             }
         return target;
     }
+
+    public static void LogError(string message ){
+#if UNITY_EDITOR
+            Debug.LogError($"Error {message}");
+#endif
+    }
+
+    public static void Log(string message)
+    {
+#if UNITY_EDITOR
+            Debug.Log($"{message}");
+#endif
+    }
 }
 
 [System.Serializable]

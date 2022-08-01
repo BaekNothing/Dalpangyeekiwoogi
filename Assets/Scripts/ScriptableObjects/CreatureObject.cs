@@ -12,10 +12,26 @@ using System.Linq;
 [CreateAssetMenu(fileName = "snailStatusObject", menuName = "SCObjects/CreatureObject", order = 1)]
 public class CreatureObject : ScriptableObject 
 {
-    [SerializeField]
-    public List<SingleCreature> creatureList;
+    public List<SingleCreature> creatureList;    
+    string creatureDataPath = "TempCaracter/SkeletonStatus";
+    
+    public List<SkeletonDataAsset> skeletonDataAssetList = new List<SkeletonDataAsset>();
+    string skeletonDataPath = "Assets/Resources/Snails/0_Basic/skeleton_SkeletonData";
+    
+    public void LoadCreatureData()
+    {
+        //The creature list may be scaledUp in the future, so initialize it at runtime
+        creatureList.Clear();
+        List<Dictionary<string, object>> CreatureDatas = CSVReader.Read(creatureDataPath);
+        foreach (Dictionary<string, object> data in CreatureDatas)
+            creatureList.Add(new CreatureObject.SingleCreature().Creature_init(data));
+    }
 
-    public string creatureDataPath = "TempCaracter/SkeletonStatus";
+    public void LoadSkeletonData(){
+        skeletonDataAssetList.Clear();
+        //Resources.LoadAll<SkeletonDataAsset>(skeletonDataPath);
+        
+    }
 
     [Serializable]
     public struct SingleCreature

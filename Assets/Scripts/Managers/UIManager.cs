@@ -8,6 +8,8 @@ using System.Linq;
 
 public class UIManager : MonoBehaviour
 {
+    ActionManager actionManager;
+
     [SerializeField]
     Canvas mainCanvas;
     [SerializeField]
@@ -21,11 +23,14 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         mainCanvas = GameObject.Find("MainCanvas").GetComponent<Canvas>();
+        actionManager = this.GetComponent<ActionManager>();
+        actionManager.RegistKeyAction(KeyCode.Escape, HideAllPanel);
+
         foreach(UIPanels pnl in ComponentUtility.FindAllT<UIPanels>(mainCanvas.transform))
             RegistPanel(pnl);
         uiPanels.ForEach(x => x.LinkManager(this));
         btnList = ComponentUtility.FindAllT<SelfManageButton>(mainCanvas.transform);
-        
+
         ComponentUtility.LinkBtnPnl("option", btnDict, uiPanels, btnList);
         ComponentUtility.LinkBtnPnl("credits", btnDict, uiPanels, btnList);
         ComponentUtility.LinkBtnPnl("developplan", btnDict, uiPanels, btnList);

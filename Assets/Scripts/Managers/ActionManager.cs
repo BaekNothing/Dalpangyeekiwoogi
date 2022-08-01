@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ActionManager : MonoBehaviour
 {
-    UIManager uiManager;
-
     [SerializeField]
     List<System.Action> tickActionList = new List<System.Action>();
     public void RegistTickAction (System.Action action) => tickActionList.Add(action);
@@ -14,9 +12,16 @@ public class ActionManager : MonoBehaviour
     public List<OptionalAction> optionalActionList = new List<OptionalAction>();
     public void RegistAction(OptionalAction action) => optionalActionList.Add(action);
 
-    void Awake(){
-        uiManager = this.GetComponent<UIManager>();
+    Dictionary<KeyCode, List<System.Action>> keyActionDict = new Dictionary<KeyCode, List<System.Action>>();
+    public void RegistKeyAction(KeyCode key, System.Action action)
+    {
+        if(!keyActionDict.ContainsKey(key))
+            keyActionDict.Add(key, new List<System.Action>());
+        keyActionDict[key].Add(action);
     }
+
+    List<System.Action> quitAction = new List<System.Action>();
+    public void RegistQuitAction(System.Action action) => quitAction.Add(action);
 
     void Update()
     {
@@ -24,9 +29,15 @@ public class ActionManager : MonoBehaviour
             action();
         foreach (OptionalAction action in optionalActionList)
             DoOptionalAction(action);
-        if (Input.GetKeyDown(KeyCode.Escape)) {
-            uiManager.HideAllPanel();
-        }
+        foreach (KeyCode key in keyActionDict.Keys)
+            if(Input.GetKeyDown(key))
+                foreach (System.Action action in keyActionDict[key])
+                    action();
+    }
+
+    private void OnApplicationQuit() {
+        foreach (System.Action action in quitAction)
+            action();    
     }
     
     // ****** Action *******
