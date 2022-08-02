@@ -31,9 +31,22 @@ public class UIManager : MonoBehaviour
         uiPanels.ForEach(x => x.LinkManager(this));
         btnList = ComponentUtility.FindAllT<SelfManageButton>(mainCanvas.transform);
 
+
+        //******* Stage *********//
+        ComponentUtility.LinkBtnPnl("talk", btnDict, uiPanels, btnList);
+
+        //******* TopPanel *********//
         ComponentUtility.LinkBtnPnl("option", btnDict, uiPanels, btnList);
-        ComponentUtility.LinkBtnPnl("credits", btnDict, uiPanels, btnList);
-        ComponentUtility.LinkBtnPnl("developplan", btnDict, uiPanels, btnList);
+            ComponentUtility.LinkBtnPnl("credits", btnDict, uiPanels, btnList);
+            ComponentUtility.LinkBtnPnl("developplan", btnDict, uiPanels, btnList);
+
+        ComponentUtility.LinkBtnPnl("book", btnDict, uiPanels, btnList);
+        ComponentUtility.LinkBtnPnl("stamina", btnDict, uiPanels, btnList);
+        ComponentUtility.LinkBtnPnl("shop", btnDict, uiPanels, btnList);
+
+        //******** Bottom *********//
+        ComponentUtility.LinkBtnPnl("food", btnDict, uiPanels, btnList);
+        ComponentUtility.LinkBtnPnl("play", btnDict, uiPanels, btnList);
 
         actionManager.initFlag[nameof(UIManager)] = true;
     }
