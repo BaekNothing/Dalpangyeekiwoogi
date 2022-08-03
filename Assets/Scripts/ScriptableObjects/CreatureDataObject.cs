@@ -1,11 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using UnityEngine;
-using UnityEngine.UI;
-using Spine;
 using Spine.Unity;
-using Unity.Notifications.Android;
 using System;
 using System.Linq;
 
@@ -17,6 +12,7 @@ public class CreatureDataObject : ScriptableObject
     
     public List<SkeletonDataAsset> skeletonDataAssetList = new List<SkeletonDataAsset>();
     
+    public SkeletonDataAsset skeletonData_Dead;
     public void LoadCreatureData()
     {
         //The creature list may be scaledUp in the future, so initialize it at runtime
@@ -29,9 +25,10 @@ public class CreatureDataObject : ScriptableObject
     public void LoadSkeletonData()
     {
         skeletonDataAssetList.Clear();
-        System.IO.DirectoryInfo dirs = new System.IO.DirectoryInfo(Application.dataPath + "/Resources/Snails");
+        System.IO.DirectoryInfo dirs = new System.IO.DirectoryInfo(Application.dataPath + "/Resources/SkeletonData/Snails");
         foreach(var dir in dirs.GetDirectories())
-            skeletonDataAssetList.Add(Resources.Load<SkeletonDataAsset>($"Snails/{dir.Name}/skeleton_SkeletonData"));
+            skeletonDataAssetList.Add(Resources.Load<SkeletonDataAsset>($"SkeletonData/Snails/{dir.Name}/skeleton_SkeletonData"));
+        skeletonData_Dead = Resources.Load<SkeletonDataAsset>("SkeletonData/_DEAD/skeleton_SkeletonData");
     }
 
     [Serializable]

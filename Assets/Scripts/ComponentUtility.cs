@@ -48,7 +48,8 @@ public static class ComponentUtility
                 btn = item;
                 break;
             }
-        SetButtonAction(btn, () => pnl.uiManager.ShowPanel(pnl.thisIndex));
+        if(!(pnl == null || btn == null))
+            SetButtonAction(btn, () => pnl.uiManager.ShowPanel(pnl.thisIndex));
         return new KeyValuePair<SelfManageButton, UIPanels>(btn, pnl);
     }
 

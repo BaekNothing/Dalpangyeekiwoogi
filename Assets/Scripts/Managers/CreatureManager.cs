@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Spine;
 using Spine.Unity;
+using Consts;
 
 public class CreatureManager : MonoBehaviour
 {
@@ -16,15 +17,20 @@ public class CreatureManager : MonoBehaviour
     SkeletonDataAsset skeletonDataAsset;
     [SerializeField]
     CreatureDataObject.SingleCreature creatureData;
-    public enum CreatureState {Eat, Play, stand}
 
     void Awake()
     {
         dataManager = this.GetComponent<DataManager>();
         actionManager = this.GetComponent<ActionManager>();
-        //AnimationState.SetAnimation(0, "stand", true).TimeScale = 1f;
-        actionManager.RegistInitAction(LoadCreature);
+
+        RegistInitAction();
+        RegistStateAction();
+
         actionManager.initFlag[nameof(CreatureManager)] = true;
+
+    }
+    void RegistInitAction(){
+        actionManager.RegistInitAction(LoadCreature);
     }
 
     void RegistStateAction(){
@@ -51,10 +57,33 @@ public class CreatureManager : MonoBehaviour
         creature.AnimationState.SetAnimation(0, CreatureState.stand.ToString(), true).TimeScale = 1f;
         creature.transform.Translate(creatureRootTransform.transform.position);
     }
+
+    
+    public void Action_HungerCheck()
+    {
+        if(dataManager.SnailStat.
+            GetStatusDeadTime(StatusType.hunger)
+            > 900f)
+            CreatureDead();
+    }
+
+    public void Action_HealthCheck(){
+        if(dataManager.SnailStat.
+            GetStatusDeadTime(StatusType.health)
+            > 900f)
+            CreatureDead();
+    }
+
+    public void Action_DirtCheck(){
+        if(dataManager.SnailStat.
+            GetStatusDeadTime(StatusType.dirt)
+            > 900f)
+            CreatureDead();
+    }
     
     public void CreatureDead()
     {
-
+        ComponentUtility.Log("DEAD");
     }
 
     public void SetCreatureAnimation(CreatureState state)

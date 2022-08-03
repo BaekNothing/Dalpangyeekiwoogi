@@ -1,12 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using UnityEngine;
-using UnityEngine.UI;
-using Spine;
-using Spine.Unity;
-using Unity.Notifications.Android;
 using System;
+using Consts;
 
 [CreateAssetMenu(fileName = "snailStatusObject", menuName = "SCObjects/SnailStatusObject", order = 1)]
 public class SnailStatusObject : ScriptableObject 
@@ -20,16 +15,10 @@ public class SnailStatusObject : ScriptableObject
     [SerializeField]
     SingleStatus hunger;
 
-    public enum StatusType
-    {
-        dirt,
-        happiness,
-        health,
-        hunger
-    }
+
     
     Dictionary<StatusType, SingleStatus> statusDict;
-    Dictionary<StatusType, SingleStatus> GetStatusDict =>
+    Dictionary<StatusType, SingleStatus> GetStatusDict() =>
         statusDict ?? (statusDict = new Dictionary<StatusType, SingleStatus>()
         {
             {StatusType.dirt, dirt},
@@ -39,10 +28,12 @@ public class SnailStatusObject : ScriptableObject
         });
         
     public float GetStatusValue(StatusType type)
-        => GetStatusDict[type].value;
-    
+        => GetStatusDict()[type].value;
+    public float GetStatusDeadTime(StatusType type)
+        => GetStatusDict()[type].deadTime;
+
     public void AddStatusValue(StatusType type, float value) 
-        => GetStatusDict[type].AddValue(value);
+        => GetStatusDict()[type].AddValue(value);
 
     public void CalculateTickAllStat(float value)
     {
@@ -60,14 +51,6 @@ public class SnailStatusObject : ScriptableObject
         hunger.StatClear();
     }
 
-    public void InitAllStat()
-    {
-        dirt.StatInit();
-        happiness.StatInit();
-        health.StatInit();
-        hunger.StatInit();
-    }
-
     readonly static float valueMax = 100f;
     readonly static float valueMin = 0f;
 
@@ -81,11 +64,6 @@ public class SnailStatusObject : ScriptableObject
         public float tick;
         public float subtraction;
         
-        public void StatInit()
-        {
-            StatClear();
-        }
-
         public void AddValue(float value)
         {
             this.value += value;
