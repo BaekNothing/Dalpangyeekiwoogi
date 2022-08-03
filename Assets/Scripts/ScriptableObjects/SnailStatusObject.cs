@@ -51,6 +51,14 @@ public class SnailStatusObject : ScriptableObject
         hunger.StatClear();
     }
 
+    public void InitAllStat(float tick, float subtraction)
+    {
+        dirt.StatInit(tick, subtraction);
+        happiness.StatInit(tick, subtraction);
+        health.StatInit(tick, subtraction);
+        hunger.StatInit(tick, subtraction);
+    }
+
     readonly static float valueMax = 100f;
     readonly static float valueMin = 0f;
 
@@ -73,12 +81,18 @@ public class SnailStatusObject : ScriptableObject
                 this.value = valueMin;
         }
 
+        public void StatInit(float tick, float subtraction){
+            this.value = 100;
+            this.deadCount = 0;
+            this.deadTime = 0;
+            this.tick = tick;
+            this.subtraction = subtraction;
+        }
+
         public void StatClear(){
             this.value = 100;
             this.deadCount = 0;
             this.deadTime = 0;
-            this.tick = 900f;
-            this.subtraction = 1;
         }
 
         public void StatCalculateTick(float correction = 1)

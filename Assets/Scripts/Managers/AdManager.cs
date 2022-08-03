@@ -24,7 +24,7 @@ public class AdManager : MonoBehaviour
             PlayerPrefs.SetString("ADTime", System.DateTime.Now.ToString("yyyy-MM-dd-HH-mm"));
             
             float tempStamina = PlayerPrefs.GetFloat("Stamina");
-            status.StatusIncrease(100f, ref tempStamina);
+            status?.StatusIncrease(100f, ref tempStamina);
             PlayerPrefs.SetFloat("Stamina", tempStamina);
         }
     }

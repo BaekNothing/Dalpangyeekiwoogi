@@ -35,6 +35,9 @@ public class DataManager : MonoBehaviour
         if(!PlayerInfo.isLoaded) 
             PlayerInfo.CheckLegacyPrefs(_creature);
 
+        SnailStat.InitAllStat(900f, 1f);
+        SnailStat.ClearAllStat();
+
         actionManager = this.GetComponent<ActionManager>();
         //Calculating data will be start later than init game    
         actionManager.RegistTickAction(Action_CalcualteStat);

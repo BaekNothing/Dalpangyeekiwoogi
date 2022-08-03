@@ -59,6 +59,14 @@ public class CreatureManager : MonoBehaviour
     }
 
     
+    public void Action_HappinessCheck()
+    {
+        if(dataManager.SnailStat.
+            GetStatusDeadTime(StatusType.happiness)
+            > 900f)
+            CreatureDead();
+    }
+
     public void Action_HungerCheck()
     {
         if(dataManager.SnailStat.

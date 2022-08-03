@@ -20,6 +20,9 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     SerializableDictionary<SelfManageButton, UIPanels> btnDict = new SerializableDictionary<SelfManageButton, UIPanels>();
     
+    [SerializeField]
+    Stack<int> indexStack = new Stack<int>();
+
     private void Awake()
     {
         mainCanvas = GameObject.Find("MainCanvas").GetComponent<Canvas>();
@@ -48,6 +51,9 @@ public class UIManager : MonoBehaviour
         ComponentUtility.LinkBtnPnl("food", btnDict, uiPanels, btnList);
         ComponentUtility.LinkBtnPnl("play", btnDict, uiPanels, btnList);
 
+        //********* Other *********//
+        Set_QuitBtnPnl();
+
         actionManager.initFlag[nameof(UIManager)] = true;
     }
 
@@ -57,9 +63,6 @@ public class UIManager : MonoBehaviour
         uiPanel.LinkManager(this);
         uiPanel.SetIndex(uiPanels.IndexOf(uiPanel));
     }
-    
-    [SerializeField]
-    Stack<int> indexStack = new Stack<int>();
 
     public void ShowPanel(int index, List<UIPanels.textFactor> factor = null)
     {
@@ -90,5 +93,32 @@ public class UIManager : MonoBehaviour
         foreach (UIPanels panel in uiPanels)
             panel.gameObject.SetActive(false);
         indexStack.Clear();
+    }
+
+    void Set_QuitBtnPnl(){
+        UIPanels quitPnl = 
+            uiPanels.Find(x => x.name.ToLower().Contains("quit".ToLower()));
+        quitPnl.SetIndex(uiPanels.IndexOf(quitPnl));
+
+        actionManager.RegistKeyAction(
+            KeyCode.Escape,
+            () => {
+                if (indexStack.Count > 0)
+                    HideAllPanel();
+                else
+                    ShowPanel(quitPnl.thisIndex);
+            }
+        );
+
+        SelfManageButton quitBtn = 
+            btnList.Find(x => x.name.ToLower().Contains("quit".ToLower()));
+        ComponentUtility.SetButtonAction(
+            quitBtn,
+#if UNITY_EDITOR
+            () => UnityEditor.EditorApplication.isPlaying = false
+#else
+            () => Application.Quit()
+#endif
+        );
     }
 }

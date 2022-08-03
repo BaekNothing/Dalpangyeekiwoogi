@@ -71,9 +71,11 @@ public class ActionManager : MonoBehaviour
     void Update()
     {
         if(!AllClassReady)
+        {
             // Wait for all class ready
             if(AllClassReady = CheckClassReady())
                 Init();
+        }
         else// AllClassReady == true
         {
             // Central Game Loop
