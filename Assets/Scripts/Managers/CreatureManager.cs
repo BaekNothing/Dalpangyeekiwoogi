@@ -95,8 +95,10 @@ public class CreatureManager : MonoBehaviour
 
     public void CreatureEvolve()
     {
+        if(dataManager.PlayerInfo.isDead) return;
         dataManager.PlayerInfo.SetCreatureInitTime();
-        int newIndex = UnityEngine.Random.Range(0, dataManager.Creature.creatureList.Count);
+        int newIndex = UnityEngine.Random.Range(0, dataManager.Creature.
+            skeletonDataAssetList.Count);
         dataManager.PlayerInfo.creatureIndex = newIndex;
         dataManager.PlayerInfo.SetCreature(newIndex, 1);
         LoadCreature(false, newIndex);
