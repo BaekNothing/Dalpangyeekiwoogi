@@ -35,20 +35,33 @@ public class DataManager : MonoBehaviour
         Creature.LoadSkeletonData();
         if(!PlayerInfo.isLoaded) 
             PlayerInfo.CheckLegacyPrefs(_creature);
-
         SnailStat.InitAllStat(900f, 1f);
         SnailStat.ClearAllStat();
 
-        actionManager = this.GetComponent<ActionManager>();
-        //Calculating data will be start later than init game    
-        actionManager.RegistTickAction(Action_CalcualteStat);
-        actionManager.RegistTickAction(Action_CalculateStamina);
 
-        actionManager.RegistQuitAction(PlayerInfo.SetLastLoginTime);
+
+        actionManager = this.GetComponent<ActionManager>();
+
+        RegistTickAction();
+        RegistStatusAction();
+        RegistQuitAction();
+
         actionManager.initFlag[nameof(DataManager)] = true;
     }
     
-    // ****** Stat Action *******
+
+    void CalculateDealiedStat()
+    {
+        //Calculate stat while logging off
+    }
+
+    // ****** Tick Action *******
+
+    void RegistTickAction()
+    {
+        actionManager.RegistTickAction(Action_CalcualteStat);
+        actionManager.RegistTickAction(Action_CalculateStamina);
+    }
 
     enum frameOrder {
         stat = 0,
@@ -83,15 +96,22 @@ public class DataManager : MonoBehaviour
             PlayerInfo.RecoverStamina();
     }
 
-    // ******* Creature Action *******
+    // ******* Stat Action *******
    
     void RegistStatusAction()
     {
-        
+        actionManager.RegistStatusAction(RecoverStatus);       
     }
 
     void RecoverStatus(StatusType type, float value)
     {
         SnailStat.AddStatusValue(type, value);
+    }
+
+    // ******* Quit Action *******
+
+    void RegistQuitAction()
+    {
+        actionManager.RegistQuitAction(PlayerInfo.SetLastLoginTime);
     }
 }

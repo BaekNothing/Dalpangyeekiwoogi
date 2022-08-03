@@ -56,17 +56,7 @@ public class CreatureManager : MonoBehaviour
     }
 
     void RegistCreatureAction(){
-        actionManager.RegistCreatureAction(CreatureState.Eat, (state)=>{
-            SetCreatureAnimation(state);
-        });
-
-        actionManager.RegistCreatureAction(CreatureState.Play, (state)=>{
-            SetCreatureAnimation(state);
-        });
-
-        actionManager.RegistCreatureAction(CreatureState.Clean, (state)=>{
-            SetCreatureAnimation(state);
-        });
+        actionManager.RegistCreatureAction(SetCreatureAnimation);
     }
 
     float deadLimit = 900f;

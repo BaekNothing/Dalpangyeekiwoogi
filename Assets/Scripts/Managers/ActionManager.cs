@@ -14,46 +14,43 @@ public class ActionManager : MonoBehaviour
     bool AllClassReady = false;
 
     //maybe Can handle list not dictionary
-    Dictionary<CreatureState, List<System.Action<CreatureState>>> creatureActionDict = new Dictionary<CreatureState, List<System.Action<CreatureState>>>();
-    public void RegistCreatureAction(CreatureState state, System.Action<CreatureState> action)
+    List<System.Action<CreatureState>> creatureActionList = new List<System.Action<CreatureState>>();
+    public void RegistCreatureAction(System.Action<CreatureState> action)
     {
-        if(!creatureActionDict.ContainsKey(state))
-            creatureActionDict.Add(state, new List<System.Action<CreatureState>>());
-        creatureActionDict[state].Add(action);
+        if(creatureActionList == null) creatureActionList = new List<System.Action<CreatureState>>();
+        if(creatureActionList.Contains(action))
+            return;
+        creatureActionList.Add(action);
     }
+
     public void DoCreatureAction(CreatureState state)
     {
-        if(creatureActionDict.ContainsKey(state))
-            foreach(var action in creatureActionDict[state])
-                action(state);
+        foreach(var action in creatureActionList)
+            action(state);
     }
     public List<System.Action<CreatureState>> GetCreatureAction(CreatureState state)
     {
-        if(creatureActionDict.ContainsKey(state))
-            return creatureActionDict[state];
-        return null;
+        return creatureActionList;
     }
 
-    Dictionary<StatusType, List<System.Action<StatusType, float>>> statusActionDict = new Dictionary<StatusType, List<System.Action<StatusType, float>>>();
-    public void RegistStatusAction(StatusType statusType, System.Action<StatusType, float> action)
+    List<System.Action<StatusType, float>> statusActionDict = new List<System.Action<StatusType, float>>();
+    public void RegistStatusAction(System.Action<StatusType, float> action)
     {
-        if(!statusActionDict.ContainsKey(statusType))
-            statusActionDict.Add(statusType, new List<System.Action<StatusType, float>>());
-        statusActionDict[statusType].Add(action);
+        if(statusActionDict == null) statusActionDict = new List<System.Action<StatusType, float>>();
+        if(statusActionDict.Contains(action))
+            return;
+        statusActionDict.Add(action);
     }
 
     public void DoStatusAction(StatusType statusType, float value)
     {
-        if(statusActionDict.ContainsKey(statusType))
-            foreach(var action in statusActionDict[statusType])
-                action(statusType, value);
+        foreach(var action in statusActionDict)
+            action(statusType, value);
     }
 
     public List<System.Action<StatusType, float>> GetStatusAction(StatusType statusType)
     {
-        if(statusActionDict.ContainsKey(statusType))
-            return statusActionDict[statusType];
-        return null;
+        return statusActionDict;
     }
 
     [SerializeField]
