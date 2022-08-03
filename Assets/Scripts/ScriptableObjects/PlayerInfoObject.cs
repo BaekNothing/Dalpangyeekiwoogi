@@ -6,12 +6,14 @@ using System;
 [CreateAssetMenu(fileName = "snailStatusObject", menuName = "SCObjects/PlayerInfoObject", order = 1)]
 public class PlayerInfoObject : ScriptableObject 
 {
-     public bool isLoaded;
+    public bool isLoaded;
 
     public DateTime lastLoginTime;
     public int creatureIndex;
     DateTime creatureInitTime;
     public string creatureName;
+    public bool isDead;
+
     public int coin;
     public int stamina;
     DateTime staminaTime;

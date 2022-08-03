@@ -24,78 +24,101 @@ public class CreatureManager : MonoBehaviour
         actionManager = this.GetComponent<ActionManager>();
 
         RegistInitAction();
-        RegistStateAction();
+        RegistCreatureAction();
+        RegistTickAction();
 
         actionManager.initFlag[nameof(CreatureManager)] = true;
-
     }
+
     void RegistInitAction(){
-        actionManager.RegistInitAction(LoadCreature);
+        actionManager.RegistInitAction(()=>LoadCreature(
+            dataManager.PlayerInfo.isDead,
+            dataManager.PlayerInfo.creatureIndex
+        ));
     }
 
-    void RegistStateAction(){
-        actionManager.RegistCreatureAction(CreatureState.Eat, ()=>{
-            creature.AnimationState.SetAnimation(0, CreatureState.Eat.ToString(), true);
-        });
-        actionManager.RegistCreatureAction(CreatureState.Play, ()=>{
-            creature.AnimationState.SetAnimation(0, CreatureState.Play.ToString(), true);
-        });
-        actionManager.RegistCreatureAction(CreatureState.stand, ()=>{
-            creature.AnimationState.SetAnimation(0, CreatureState.stand.ToString(), true);
-        });
-    }
-
-    public void LoadCreature()
+    public void LoadCreature(bool isDead, int index)
     {
-        int index = dataManager.PlayerInfo.creatureIndex;
         if(creature)
-            Destroy(creature);
-        creatureData = dataManager.Creature.creatureList[index];
-        skeletonDataAsset = dataManager.Creature.skeletonDataAssetList[index];
-        creature = SkeletonAnimation.NewSkeletonAnimationGameObject(skeletonDataAsset);
-        creature.name = $"Creature_{index}";
-        creature.AnimationState.SetAnimation(0, CreatureState.stand.ToString(), true).TimeScale = 1f;
-        creature.transform.Translate(creatureRootTransform.transform.position);
+                Destroy(creature);
+        if(!isDead)
+        {
+            creatureData = dataManager.Creature.creatureList[index];
+            skeletonDataAsset = dataManager.Creature.skeletonDataAssetList[index];
+            creature = SkeletonAnimation.NewSkeletonAnimationGameObject(skeletonDataAsset);
+            creature.name = $"Creature_{index}";
+            creature.AnimationState.SetAnimation(0, CreatureState.stand.ToString(), true).TimeScale = 1f;
+            creature.transform.Translate(creatureRootTransform.transform.position);
+        }
+        else 
+            creature = SkeletonAnimation
+                .NewSkeletonAnimationGameObject(dataManager.Creature.skeletonData_Dead);
     }
 
-    
-    public void Action_HappinessCheck()
+    void RegistCreatureAction(){
+        actionManager.RegistCreatureAction(CreatureState.Eat, (state)=>{
+            SetCreatureAnimation(state);
+        });
+
+        actionManager.RegistCreatureAction(CreatureState.Play, (state)=>{
+            SetCreatureAnimation(state);
+        });
+
+        actionManager.RegistCreatureAction(CreatureState.Clean, (state)=>{
+            SetCreatureAnimation(state);
+        });
+    }
+
+    float deadLimit = 900f;
+    float evolveLimit = 4320f;
+    public void RegistTickAction()
     {
-        if(dataManager.SnailStat.
-            GetStatusDeadTime(StatusType.happiness)
-            > 900f)
-            CreatureDead();
-    }
-
-    public void Action_HungerCheck()
-    {
-        if(dataManager.SnailStat.
-            GetStatusDeadTime(StatusType.hunger)
-            > 900f)
-            CreatureDead();
-    }
-
-    public void Action_HealthCheck(){
-        if(dataManager.SnailStat.
-            GetStatusDeadTime(StatusType.health)
-            > 900f)
-            CreatureDead();
-    }
-
-    public void Action_DirtCheck(){
-        if(dataManager.SnailStat.
-            GetStatusDeadTime(StatusType.dirt)
-            > 900f)
-            CreatureDead();
+        actionManager.RegistTickAction(
+            ()=>{
+                // DeadCheck;
+                foreach(StatusType type in StatusType.GetValues(typeof(StatusType)))
+                    if(dataManager.SnailStat.
+                        GetStatusDeadTime(type) > deadLimit)
+                        CreatureDead();
+            }
+        );
+        
+        actionManager.RegistTickAction(
+            ()=>{
+                // EvolveCheck;
+                if (dataManager.PlayerInfo.GetPassedCreatureInitTime() > evolveLimit)
+                    CreatureEvolve();
+            }
+        );
     }
     
     public void CreatureDead()
     {
+        if(dataManager.PlayerInfo.isDead) return;
+        dataManager.PlayerInfo.creatureIndex = 0;
+        dataManager.PlayerInfo.SetCreature(0, 1);
+        LoadCreature(true, 0);
+        dataManager.PlayerInfo.isDead = true;
+
         ComponentUtility.Log("DEAD");
+    }
+
+    public void CreatureEvolve()
+    {
+        dataManager.PlayerInfo.SetCreatureInitTime();
+        int newIndex = UnityEngine.Random.Range(0, dataManager.Creature.creatureList.Count);
+        dataManager.PlayerInfo.creatureIndex = newIndex;
+        dataManager.PlayerInfo.SetCreature(newIndex, 1);
+        LoadCreature(false, newIndex);
+        ComponentUtility.Log("EVOLVE");
     }
 
     public void SetCreatureAnimation(CreatureState state)
     {
+        //NO PLAY Animation
+        if (state == CreatureState.Clean)
+            state = CreatureState.Play;
+
         StopCoroutine(SetAnimation(state));
         StartCoroutine(SetAnimation(state));
     }

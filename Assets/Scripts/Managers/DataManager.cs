@@ -6,6 +6,7 @@ using System.IO;
 using System;
 using Spine;
 using Spine.Unity;
+using Consts;
 
 
 public class DataManager : MonoBehaviour
@@ -82,4 +83,15 @@ public class DataManager : MonoBehaviour
             PlayerInfo.RecoverStamina();
     }
 
+    // ******* Creature Action *******
+   
+    void RegistStatusAction()
+    {
+        
+    }
+
+    void RecoverStatus(StatusType type, float value)
+    {
+        SnailStat.AddStatusValue(type, value);
+    }
 }

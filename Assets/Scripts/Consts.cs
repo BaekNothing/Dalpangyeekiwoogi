@@ -5,7 +5,8 @@ using UnityEngine;
 namespace Consts
 {
     public enum CreatureState 
-    {
+    {   
+        Clean,
         Eat, 
         Play, 
         stand
