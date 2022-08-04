@@ -1,36 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class SelfManageButton : Button
 {
-    public Sprite enable = null;
-    public Sprite disable = null;
-
-    public Image iconImage = null;
-
+    SelfManageButton_ManageOption manageOption;
     public void init(System.Action action)
     {
         onClick.RemoveAllListeners();
         onClick.AddListener(() => action());
     }
 
-    protected override void OnEnable()
+    System.Func<bool> canClick;
+    public void SetButtonOption(System.Func<bool> clickOption)
     {
-        base.OnEnable();
-        SetSprite(iconImage, enable);
+        manageOption = GetComponentInChildren<SelfManageButton_ManageOption>(); 
+        canClick = clickOption;
     }
-
-    protected override void OnDisable()
+    
+    public override void OnPointerClick(PointerEventData eventData)
     {
-        base.OnDisable();
-        SetSprite(iconImage, disable);
-    }
-
-    protected void SetSprite(Image iconImage, Sprite sprite)
-    {
-        if(!iconImage) return;
-        iconImage.sprite = sprite;
+        if(manageOption == null)
+            base.OnPointerClick(eventData);
+        else
+        {
+            // icon ->  canClick() -> cant -> icon
+            //                     -> info -> icon
+            if(canClick != null && !canClick())
+            {
+                if (manageOption.ReturnToIcon())
+                    manageOption.SetState(SelfManageButton_ManageOption.ManageOptionState.icon);
+                else
+                    manageOption.SetState(SelfManageButton_ManageOption.ManageOptionState.cant);
+            }
+            else
+            {
+                if(manageOption.ReadyToClick())
+                {
+                    base.OnPointerClick(eventData);
+                    manageOption.SetState(SelfManageButton_ManageOption.ManageOptionState.icon);
+                }
+                else
+                    manageOption.SetState(SelfManageButton_ManageOption.ManageOptionState.info);
+            }
+        }
     }
 }

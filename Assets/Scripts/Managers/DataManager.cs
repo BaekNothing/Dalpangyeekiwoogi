@@ -38,10 +38,7 @@ public class DataManager : MonoBehaviour
         SnailStat.InitAllStat(900f, 1f);
         SnailStat.ClearAllStat();
 
-
-
         actionManager = this.GetComponent<ActionManager>();
-
         RegistTickAction();
         RegistStatusAction();
         RegistQuitAction();
@@ -103,9 +100,16 @@ public class DataManager : MonoBehaviour
         actionManager.RegistStatusAction(RecoverStatus);       
     }
 
-    void RecoverStatus(StatusType type, float value)
+    void RecoverStatus(StatusType type, float value, float stamina)
     {
         SnailStat.AddStatusValue(type, value);
+        PlayerInfo.UseStamina((int)value);
+    }
+
+    bool CheckStamina(int needValue){
+        if (PlayerInfo.stamina >= needValue)
+            return true;
+        return false;
     }
 
     // ******* Quit Action *******

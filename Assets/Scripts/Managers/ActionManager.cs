@@ -33,24 +33,19 @@ public class ActionManager : MonoBehaviour
         return creatureActionList;
     }
 
-    List<System.Action<StatusType, float>> statusActionDict = new List<System.Action<StatusType, float>>();
-    public void RegistStatusAction(System.Action<StatusType, float> action)
+    List<System.Action<StatusType, float, float>> statusActionDict = new List<System.Action<StatusType, float, float>>();
+    public void RegistStatusAction(System.Action<StatusType, float, float> action)
     {
-        if(statusActionDict == null) statusActionDict = new List<System.Action<StatusType, float>>();
+        if(statusActionDict == null) statusActionDict = new List<System.Action<StatusType, float, float>>();
         if(statusActionDict.Contains(action))
             return;
         statusActionDict.Add(action);
     }
 
-    public void DoStatusAction(StatusType statusType, float value)
+    public void DoStatusAction(StatusType statusType, float value, float stamina)
     {
         foreach(var action in statusActionDict)
-            action(statusType, value);
-    }
-
-    public List<System.Action<StatusType, float>> GetStatusAction(StatusType statusType)
-    {
-        return statusActionDict;
+            action(statusType, value, stamina);
     }
 
     [SerializeField]

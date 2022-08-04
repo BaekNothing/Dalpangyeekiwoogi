@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using Consts;
 
 // OtherClass <==> UIManager <==> UIUtils <==> OtherUIPanels
 
@@ -53,6 +54,7 @@ public class UIManager : MonoBehaviour
 
         //********* Other *********//
         Set_QuitBtnPnl();
+        Set_StatButtons();
 
         actionManager.initFlag[nameof(UIManager)] = true;
     }
@@ -120,5 +122,58 @@ public class UIManager : MonoBehaviour
             () => Application.Quit()
 #endif
         );
+    }
+
+    void Set_StatButtons(){
+        SetDirtButton();
+        SetFoodButton();
+        SetPlayButton();
+    }
+
+    [SerializeField]
+    SelfManageButton btnDirt;
+    [SerializeField]
+    List<SelfManageButton> btnListFood = new List<SelfManageButton>();
+    [SerializeField]
+    List<SelfManageButton> btnListPlay = new List<SelfManageButton>();
+
+    void SetDirtButton(){
+
+        btnDirt.SetButtonOption(()=>{ return true; });
+
+        ComponentUtility.SetButtonAction(btnDirt, ()=>{
+            actionManager.DoStatusAction(StatusType.dirt, 50, 50);
+            actionManager.DoCreatureAction(CreatureState.Clean);
+        });
+    }
+
+    void SetFoodButton(){
+        for (int i = 0; i < btnListFood.Count; i++)
+        {
+            int needStamina = i * 10;
+            int recoverValue = i * 10;
+            btnListFood[i].SetButtonOption(()=>{ return true; });
+
+            ComponentUtility.SetButtonAction(btnListFood[i], ()=>{
+                actionManager.DoStatusAction(StatusType.hunger, recoverValue, needStamina);
+                actionManager.DoCreatureAction(CreatureState.Eat);
+            });
+        }
+            
+    }
+
+    void SetPlayButton(){
+        for (int i = 0; i < btnListPlay.Count; i++)
+        {
+            int needStamina = i * 10;
+            int recoverValue = i * 10;
+            btnListPlay[i].SetButtonOption(()=>{ return true; });
+
+            ComponentUtility.SetButtonAction(btnListPlay[i], ()=>{
+                actionManager.DoStatusAction(StatusType.happiness, recoverValue, needStamina);
+                actionManager.DoStatusAction(StatusType.health, recoverValue, 0);
+                actionManager.DoCreatureAction(CreatureState.Play);
+            });
+        }
     }
 }
