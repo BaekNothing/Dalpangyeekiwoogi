@@ -137,25 +137,41 @@ public class PlayerInfoObject : ScriptableObject
     public void CheckLegacyPrefs(CreatureDataObject _creature)
     {
         isLoaded = true;
-        if (!PlayerPrefs.HasKey("IndexNumber"))
-            return;
-        try
+        if (PlayerPrefs.HasKey("IndexNumber"))
         {
-            // load data from legacy PlayerPerfs       
-            creatureIndex = PlayerPrefs.GetInt("IndexNumber");
+            try
+            {
+                // load data from legacy PlayerPerfs       
+                creatureIndex = PlayerPrefs.GetInt("IndexNumber");
+                creatureName = "";
+                coin = PlayerPrefs.GetInt("Coin");
+                stamina = PlayerPrefs.GetInt("Stamina");
+                staminaTime = DateTime.Now;
+                ADTime = DateTime.Now;
+                notiAllow = PlayerPrefs.GetInt("IsNotificatioAllow") == 1;
+                creatureList = new List<int>();
+                for (int i = 0; i < _creature.creatureList.Count; i++)
+                    if(PlayerPrefs.HasKey($"Creature{i}"))
+                        creatureList.Add(PlayerPrefs.GetInt($"Creature{i}"));
+                    else
+                        creatureList.Add(0);
+            }catch (System.Exception e) {
+                Debug.Log(e.Message);}
+        }
+        else
+        {
+            creatureIndex = 0;
             creatureName = "";
-            coin = PlayerPrefs.GetInt("Coin");
-            stamina = PlayerPrefs.GetInt("Stamina");
+            coin = 0;
+            stamina = 100;
             staminaTime = DateTime.Now;
             ADTime = DateTime.Now;
-            notiAllow = PlayerPrefs.GetInt("IsNotificatioAllow") == 1;
+            notiAllow = true;
+            canEveolve = false;
+            isDead = false;
             creatureList = new List<int>();
             for (int i = 0; i < _creature.creatureList.Count; i++)
-                if(PlayerPrefs.HasKey($"Creature{i}"))
-                    creatureList.Add(PlayerPrefs.GetInt($"Creature{i}"));
-                else
-                    creatureList.Add(0);
-        }catch (System.Exception e) {
-            Debug.Log(e.Message);}
+                creatureList.Add(0);
+        }
     }
 }
