@@ -35,6 +35,8 @@ public class DataManager : MonoBehaviour
         Creature.LoadSkeletonData();
         if(!PlayerInfo.isLoaded) 
             PlayerInfo.CheckLegacyPrefs(_creature);
+        else
+            CalculateDealiedStat();
         SnailStat.InitAllStat(900f, 1f);
         SnailStat.ClearAllStat();
 
@@ -49,7 +51,6 @@ public class DataManager : MonoBehaviour
         actionManager.initFlag[nameof(DataManager)] = true;
     }
     
-
     void CalculateDealiedStat()
     {
         double passedMin = PlayerInfo.GetPassedLoginTime();
@@ -186,16 +187,12 @@ public class DataManager : MonoBehaviour
 
     bool CheckAlive(float dummy)
     {
-        if (PlayerInfo.isDead)
-            return false;
-        return true;
+        return !PlayerInfo.isDead;
     }
 
     bool CheckEvelove(float dummy)
     {
-        if (PlayerInfo.canEveolve)
-            return true;
-        return false;
+        return PlayerInfo.canEveolve;
     }
 
     // ******* Quit Action *******

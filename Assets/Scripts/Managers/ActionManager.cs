@@ -104,7 +104,7 @@ public class ActionManager : MonoBehaviour
         if(!creatureActionList.Contains(action))
             creatureActionList.Add(action);
     }
-    public void DoCreatureAction(CreatureState state, int value = -1)
+    public void DoCreatureAction(CreatureState state, int value = 0)
     {
         foreach(var action in creatureActionList)
             action(state, value);

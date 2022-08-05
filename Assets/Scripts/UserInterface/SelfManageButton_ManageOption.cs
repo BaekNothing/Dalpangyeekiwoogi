@@ -16,12 +16,24 @@ public class SelfManageButton_ManageOption : MonoBehaviour
 
     public ManageOptionState GetState() => state;
 
+    public void SetButtonOption(bool clickAble)
+    {
+        if (clickAble)
+            state = ManageOptionState.icon;
+        else
+            state = ManageOptionState.cant;
+        SetState(state);
+    }
+
     public void SetState(ManageOptionState state)
     {
-        foreach(Transform child in GetComponentsInChildren<Transform>())
-            if(child != this.transform)
-                child.gameObject.SetActive(
-                    child.name.ToLower().Contains(state.ToString().ToLower()));
+        for (int i = 0; i < this.transform.childCount; i++)
+        {
+            GameObject child = this.transform.GetChild(i).gameObject;
+            child.SetActive(
+                child.name.ToLower().Contains(state.ToString().ToLower())
+            );
+        }
         this.state = state;
     }
 

@@ -30,10 +30,12 @@ public class CreatureManager : MonoBehaviour
     }
 
     void RegistInitAction(){
-        actionManager.RegistInitAction(()=>LoadCreature(
-            dataManager.PlayerInfo.isDead,
-            dataManager.PlayerInfo.creatureIndex
-        ));
+        actionManager.RegistInitAction(()=>
+            LoadCreature(
+                dataManager.PlayerInfo.isDead,
+                dataManager.PlayerInfo.creatureIndex
+            )
+        );
     }
 
     void LoadCreature(bool isDead, int index)
@@ -105,9 +107,7 @@ public class CreatureManager : MonoBehaviour
     public void CreatureEvolve(int newIndex = -1)
     {
         if(dataManager.PlayerInfo.isDead) return;
-        
-        if(newIndex == -1)
-            newIndex = GetNewEvolveIndex();
+        if(newIndex == -1) newIndex = GetNewEvolveIndex();
         
         dataManager.PlayerInfo.SetCreatureInitTime();
         dataManager.PlayerInfo.creatureIndex = newIndex;
@@ -116,17 +116,18 @@ public class CreatureManager : MonoBehaviour
         dataManager.PlayerInfo.canEveolve = false;
 
         LoadCreature(false, newIndex);
-        ComponentUtility.Log("EVOLVE");
     }
 
     int GetNewEvolveIndex(){
-        int newIndex = -1;
 
         int whileBreaker = 0;
-        while ((newIndex = UnityEngine.Random
-                .Range(0, dataManager.Creature.skeletonDataAssetList.Count)) 
-                != dataManager.PlayerInfo.creatureIndex)
-            if (whileBreaker++ > 100) break;
-        return newIndex;
+        while (whileBreaker++ < 100)
+        {
+            int newIndex = UnityEngine.Random
+                .Range(0, dataManager.Creature.skeletonDataAssetList.Count);
+            if (dataManager.PlayerInfo.creatureIndex == newIndex) continue;
+            return newIndex;
+        }
+        return 0;
     }
 }

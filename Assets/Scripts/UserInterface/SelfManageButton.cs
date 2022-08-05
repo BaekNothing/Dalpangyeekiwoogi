@@ -26,27 +26,9 @@ public class SelfManageButton : Button
             
         if (GameLoop.SkipFrame(frameOrder.refresh)) return;
         // NOTE: this is not the best way to do this, but it works for now
-        if (canClick())
-            manageOption.SetState(SelfManageButton_ManageOption.ManageOptionState.icon);
-        else
-            manageOption.SetState(SelfManageButton_ManageOption.ManageOptionState.cant);
-        this.interactable = canClick();
+        bool clickAble = canClick();
+        manageOption.SetButtonOption(clickAble);
+        this.interactable = clickAble;
     }
     
-    public override void OnPointerClick(PointerEventData eventData)
-    {
-        if(manageOption == null || canClick == null)
-            base.OnPointerClick(eventData);
-        else
-            switch (manageOption.GetState())
-            {
-                case SelfManageButton_ManageOption.ManageOptionState.icon :
-                    base.OnPointerClick(eventData);
-                    ComponentUtility.Log("icon");
-                    break;
-                case SelfManageButton_ManageOption.ManageOptionState.cant :
-                    ComponentUtility.Log("cant");
-                    break;
-            }
-    }
 }

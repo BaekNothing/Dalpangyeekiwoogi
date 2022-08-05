@@ -8,17 +8,16 @@ public class PlayerInfoObject : ScriptableObject
 {
     public bool isLoaded;
 
-    public DateTime lastLoginTime;
+    public string lastLoginTime;
     public int creatureIndex;
-    DateTime creatureInitTime;
+    public string creatureInitTime;
     public string creatureName;
     public bool isDead;
     public bool canEveolve;
 
     public int coin;
     public int stamina;
-    DateTime staminaTime;
-    DateTime ADTime;
+    public string staminaTime;
     public bool notiAllow;
 
     [SerializeField]
@@ -41,34 +40,34 @@ public class PlayerInfoObject : ScriptableObject
     //****** Last Login *******
     public void SetLastLoginTime()
     {
-        lastLoginTime = DateTime.Now;
+        lastLoginTime = DateTime.Now.ToString();
     }
 
     public double GetPassedLoginTime()
     {   
         if (lastLoginTime == null)
-            lastLoginTime = DateTime.Now;
-        return (DateTime.Now - lastLoginTime).TotalMinutes;
+            lastLoginTime = DateTime.Now.ToString();
+        return (DateTime.Now - DateTime.Parse(lastLoginTime)).TotalMinutes;
     }
 
     //****** Creature Init Time *******
     public void SetCreatureInitTime()
     {
-        creatureInitTime = DateTime.Now;
+        creatureInitTime = DateTime.Now.ToString();
     }
 
     public double GetPassedCreatureInitTime()
     {
         if (creatureInitTime == null)
-            creatureInitTime = DateTime.Now;
-        return (DateTime.Now - creatureInitTime).TotalMinutes;
+            creatureInitTime = DateTime.Now.ToString();
+        return (DateTime.Now - DateTime.Parse(creatureInitTime)).TotalMinutes;
     }
 
     //****** Stamina *******
     public int RecoverStamina()
     {
         stamina = 100;
-        staminaTime = DateTime.Now;
+        staminaTime = DateTime.Now.ToString();
         return stamina;
     }
 
@@ -105,8 +104,8 @@ public class PlayerInfoObject : ScriptableObject
 
     public double GetPassedStaminaTime(){
         if (staminaTime == null)
-            staminaTime = DateTime.Now;
-        return (DateTime.Now - staminaTime).TotalMinutes;
+            staminaTime = DateTime.Now.ToString();
+        return (DateTime.Now - DateTime.Parse(staminaTime)).TotalMinutes;
     }
 
     //****** COIN *******
@@ -141,37 +140,33 @@ public class PlayerInfoObject : ScriptableObject
         {
             try
             {
-                // load data from legacy PlayerPerfs       
-                creatureIndex = PlayerPrefs.GetInt("IndexNumber");
-                creatureName = "";
                 coin = PlayerPrefs.GetInt("Coin");
-                stamina = PlayerPrefs.GetInt("Stamina");
-                staminaTime = DateTime.Now;
-                ADTime = DateTime.Now;
-                notiAllow = PlayerPrefs.GetInt("IsNotificatioAllow") == 1;
                 creatureList = new List<int>();
                 for (int i = 0; i < _creature.creatureList.Count; i++)
-                    if(PlayerPrefs.HasKey($"Creature{i}"))
+                    if (PlayerPrefs.HasKey($"Creature{i}"))
                         creatureList.Add(PlayerPrefs.GetInt($"Creature{i}"));
                     else
                         creatureList.Add(0);
+                // load data from legacy PlayerPerfs       
+                
             }catch (System.Exception e) {
                 Debug.Log(e.Message);}
         }
         else
         {
-            creatureIndex = 0;
-            creatureName = "";
             coin = 0;
-            stamina = 100;
-            staminaTime = DateTime.Now;
-            ADTime = DateTime.Now;
-            notiAllow = true;
-            canEveolve = false;
-            isDead = false;
             creatureList = new List<int>();
             for (int i = 0; i < _creature.creatureList.Count; i++)
                 creatureList.Add(0);
         }
+        
+        creatureIndex = 0;
+        creatureName = "";
+        stamina = 100;
+        creatureInitTime = DateTime.Now.ToString();
+        staminaTime = DateTime.Now.ToString();
+        notiAllow = true;
+        canEveolve = false;
+        isDead = false;
     }
 }

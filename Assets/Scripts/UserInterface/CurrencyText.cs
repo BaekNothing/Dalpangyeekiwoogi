@@ -24,19 +24,14 @@ public class CurrencyText : MonoBehaviour
         currency = GetComponent<Text>();
         if (playerInfo == null)
             ComponentUtility.LogError("playerInfo is null");
-        else
-        {
-            System.Type playerInfoClass = playerInfo.GetType();
-            currencyValue = playerInfoClass?.GetField(currencyName)?.GetValue(playerInfo);
-        }
     }
 
     // Update is called once per frame
     void Update()
     {
         if(GameLoop.SkipFrame(frameOrder.refresh)) return;
+        System.Type playerInfoClass = playerInfo.GetType();
+        currencyValue = playerInfoClass?.GetField(currencyName)?.GetValue(playerInfo);
         currency.text = currencyValue?.ToString();
-    }
-
-    
+    }   
 }

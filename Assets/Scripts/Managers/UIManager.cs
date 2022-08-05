@@ -147,7 +147,7 @@ public class UIManager : MonoBehaviour
     void SetDirtButton(){
 
         int needStamina = 50;
-        int recoverValue = 50;
+        int recoverValue = 100;
         btnDirt.SetButtonOption(()=>{ 
             return (actionManager.CheckActionCondition(ConditionCheckType.stamina, needStamina) &&
                     actionManager.CheckActionCondition(ConditionCheckType.alive, 0));
@@ -164,7 +164,7 @@ public class UIManager : MonoBehaviour
     void SetFoodButton(){
         for (int i = 0; i < btnListFood.Count; i++)
         {
-            int needStamina = i * 10;
+            int needStamina = i * 10 + 10;
             int recoverValue = i * 10;
             btnListFood[i].SetButtonOption(()=>{ 
                 return (actionManager.CheckActionCondition(ConditionCheckType.stamina, needStamina) &&
@@ -174,7 +174,7 @@ public class UIManager : MonoBehaviour
             ComponentUtility.SetButtonAction(btnListFood[i], ()=>{
                 actionManager.DoStatusAction(StatusType.hunger, recoverValue);
                 actionManager.DoConditionConsumeAction(ConditionCheckType.stamina, needStamina);
-                actionManager.DoCreatureAction(CreatureState.Eat, 0);
+                actionManager.DoCreatureAction(CreatureState.Eat, animationTime);
             });
         }
             
@@ -183,7 +183,7 @@ public class UIManager : MonoBehaviour
     void SetPlayButton(){
         for (int i = 0; i < btnListPlay.Count; i++)
         {
-            int needStamina = i * 10;
+            int needStamina = i * 10 + 10;
             int recoverValue = i * 10;
             btnListPlay[i].SetButtonOption(()=>{ 
                 return (actionManager.CheckActionCondition(ConditionCheckType.stamina, needStamina) &&
@@ -207,6 +207,7 @@ public class UIManager : MonoBehaviour
 
         ComponentUtility.SetButtonAction(btnEvolve, ()=>{
             actionManager.DoCreatureAction(CreatureState.evolve, -1);
+            actionManager.DoConditionAddAction(ConditionCheckType.coin, 10);
         });
     }
 
@@ -217,7 +218,7 @@ public class UIManager : MonoBehaviour
             int index = i;
             btnBook[i].SetButtonOption(()=>{
                 return (
-                    //actionManager.CheckActionCondition(ConditionCheckType.creatureList, index) &&
+                    actionManager.CheckActionCondition(ConditionCheckType.creatureList, index) &&
                     actionManager.CheckActionCondition(ConditionCheckType.coin, needCoin)
                 );
             });
