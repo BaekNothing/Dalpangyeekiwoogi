@@ -128,6 +128,7 @@ public class UIManager : MonoBehaviour
         SetDirtButton();
         SetFoodButton();
         SetPlayButton();
+        SetEvolveButton();
     }
     [SerializeField]
     SelfManageButton btnEvolve;
@@ -137,17 +138,25 @@ public class UIManager : MonoBehaviour
     List<SelfManageButton> btnListFood = new List<SelfManageButton>();
     [SerializeField]
     List<SelfManageButton> btnListPlay = new List<SelfManageButton>();
+    [SerializeField]
+    List<SelfManageButton> btnBook = new List<SelfManageButton>();
+
+    public readonly int animationTime = 2;
 
     void SetDirtButton(){
 
+        int needStamina = 50;
+        int recoverValue = 50;
         btnDirt.SetButtonOption(()=>{ 
-            return (actionManager.CheckActionCondition(ConditionCheckType.stamina, 50) &&
+            return (actionManager.CheckActionCondition(ConditionCheckType.stamina, needStamina) &&
                     actionManager.CheckActionCondition(ConditionCheckType.alive, 0));
         });
 
         ComponentUtility.SetButtonAction(btnDirt, ()=>{
-            actionManager.DoStatusAction(StatusType.dirt, 50, 50);
-            actionManager.DoCreatureAction(CreatureState.Clean);
+            
+            actionManager.DoStatusAction(StatusType.dirt, recoverValue);
+            actionManager.DoConditionConsumeAction(ConditionCheckType.stamina, needStamina);
+            actionManager.DoCreatureAction(CreatureState.Clean, animationTime);
         });
     }
 
@@ -162,8 +171,9 @@ public class UIManager : MonoBehaviour
             });
 
             ComponentUtility.SetButtonAction(btnListFood[i], ()=>{
-                actionManager.DoStatusAction(StatusType.hunger, recoverValue, needStamina);
-                actionManager.DoCreatureAction(CreatureState.Eat);
+                actionManager.DoStatusAction(StatusType.hunger, recoverValue);
+                actionManager.DoConditionConsumeAction(ConditionCheckType.stamina, needStamina);
+                actionManager.DoCreatureAction(CreatureState.Eat, 0);
             });
         }
             
@@ -180,9 +190,10 @@ public class UIManager : MonoBehaviour
              });
 
             ComponentUtility.SetButtonAction(btnListPlay[i], ()=>{
-                actionManager.DoStatusAction(StatusType.happiness, recoverValue, needStamina);
-                actionManager.DoStatusAction(StatusType.health, recoverValue, 0);
-                actionManager.DoCreatureAction(CreatureState.Play);
+                actionManager.DoStatusAction(StatusType.happiness, recoverValue);
+                actionManager.DoStatusAction(StatusType.health, recoverValue);
+                actionManager.DoConditionConsumeAction(ConditionCheckType.stamina, needStamina);
+                actionManager.DoCreatureAction(CreatureState.Play, animationTime);
             });
         }
     }
@@ -194,7 +205,23 @@ public class UIManager : MonoBehaviour
         });
 
         ComponentUtility.SetButtonAction(btnEvolve, ()=>{
-            actionManager.DoCreatureAction(CreatureState.evolve);
+            actionManager.DoCreatureAction(CreatureState.evolve, -1);
         });
+    }
+
+    void SetBookButton(){
+        for (int i = 0; i < btnBook.Count; i++)
+        {
+            int needCoin = 10;
+            btnBook[i].SetButtonOption(()=>{ 
+                return (actionManager.CheckActionCondition(ConditionCheckType.coin, needCoin));
+            });
+
+            ComponentUtility.SetButtonAction(btnBook[i], ()=>{
+                int bookIndex = i;
+                actionManager.DoConditionConsumeAction(ConditionCheckType.coin, needCoin);
+                actionManager.DoCreatureAction(CreatureState.evolve, bookIndex);
+            });
+        }            
     }
 }

@@ -8,7 +8,8 @@ namespace Consts
     {
         stamina,
         alive,
-        evolve
+        evolve,
+        coin
     }
 
     public enum CreatureState 

@@ -25,7 +25,6 @@ public class CreatureManager : MonoBehaviour
 
         RegistInitAction();
         RegistCreatureAction();
-        RegistTickAction();
 
         actionManager.initFlag[nameof(CreatureManager)] = true;
     }
@@ -59,47 +58,42 @@ public class CreatureManager : MonoBehaviour
         actionManager.RegistCreatureAction(SetCreatureState);
     }
 
-    void SetCreatureState(CreatureState state)
+    void SetCreatureState(CreatureState state, int value)
     {
         if(dataManager.PlayerInfo.isDead) return;
 
         switch(state)
         {
             case CreatureState.stand:
-                StopCoroutine(SetAnimation(state));
-                StartCoroutine(SetAnimation(state));
+                StopCoroutine(SetAnimation(state, value));
+                StartCoroutine(SetAnimation(state, value));
                 break;
             case CreatureState.Play:
-                StopCoroutine(SetAnimation(state));
-                StartCoroutine(SetAnimation(state));
+                StopCoroutine(SetAnimation(state, value));
+                StartCoroutine(SetAnimation(state, value));
                 break;
             case CreatureState.Clean:
                 state = CreatureState.Play;
-                StopCoroutine(SetAnimation(state));
-                StartCoroutine(SetAnimation(state));
+                StopCoroutine(SetAnimation(state, value));
+                StartCoroutine(SetAnimation(state, value));
                 break;
             case CreatureState.Eat:
-                StopCoroutine(SetAnimation(state));
-                StartCoroutine(SetAnimation(state));
+                StopCoroutine(SetAnimation(state, value));
+                StartCoroutine(SetAnimation(state, value));
                 break;
             case CreatureState.dead:
                 CreatureDead();
                 break;
             case CreatureState.evolve:
-                CreatureEvolve();
+                CreatureEvolve(value);
                 break;
         }
     }
 
-    WaitForSeconds wait = new WaitForSeconds(2f);
-    IEnumerator SetAnimation(CreatureState state){
+    IEnumerator SetAnimation(CreatureState state, int animationTime = 0){
         creature.AnimationState.SetAnimation(0, state.ToString(), true).TimeScale = 1f;
-        yield return wait;
+        yield return new WaitForSeconds(animationTime);
         creature.AnimationState.SetAnimation(0, CreatureState.stand.ToString(), true).TimeScale = 1f;
-    }
-    void RegistTickAction()
-    {
-        
     }
     
     void CreatureDead()
@@ -107,7 +101,7 @@ public class CreatureManager : MonoBehaviour
         LoadCreature(true, 0);
         ComponentUtility.Log("DEAD");
     }
-
+    
     public void CreatureEvolve(int newIndex = -1)
     {
         if(dataManager.PlayerInfo.isDead) return;

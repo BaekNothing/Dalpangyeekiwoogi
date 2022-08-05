@@ -14,7 +14,7 @@ public class PlayerInfoObject : ScriptableObject
     public string creatureName;
     public bool isDead;
     public bool canEveolve;
-    
+
     public int coin;
     public int stamina;
     DateTime staminaTime;
@@ -65,22 +65,41 @@ public class PlayerInfoObject : ScriptableObject
     }
 
     //****** Stamina *******
-    public int RecoverStamina(){
+    public int RecoverStamina()
+    {
         stamina = 100;
         staminaTime = DateTime.Now;
         return stamina;
     }
-    public int SetStamina(int value){
+
+    public int SetStamina(int value)
+    {
         stamina = value;
+        if (stamina < 0)
+            stamina = 0;
+        if (stamina > 100)
+            stamina = 100;
         return stamina;
     }
-    public int UseStamina(int value){
+
+    public int AddStamina(int value)
+    {
+        stamina += value;
+        if (stamina > 100)
+            stamina = 100;
+        return stamina;
+    }
+
+    public int UseStamina(int value)
+    {
         stamina -= value;
         if (stamina < 0)
             stamina = 0;
         return stamina;
     }
-    public int GetStamina(){
+
+    public int GetStamina()
+    {
         return stamina;
     }
 
@@ -88,6 +107,30 @@ public class PlayerInfoObject : ScriptableObject
         if (staminaTime == null)
             staminaTime = DateTime.Now;
         return (DateTime.Now - staminaTime).TotalMinutes;
+    }
+
+    //****** COIN *******
+    public int SetCoin(int value){
+        coin = value;
+        if (coin < 0)
+            coin = 0;
+        return coin;
+    }
+
+    public int AddCoin(int value){
+        coin += value;
+        return coin;
+    }
+
+    public int GetCoin(){
+        return coin;
+    }
+
+    public int UseCoin(int value){
+        coin -= value;
+        if (coin < 0)
+            coin = 0;
+        return coin;
     }
 
     //****** Load from Legacy *******

@@ -86,41 +86,47 @@ public class ActionManager : MonoBehaviour
     
     // ****** ActiveAble Action (ex.Button) *******
 
-    List<System.Action<CreatureState>> creatureActionList = new List<System.Action<CreatureState>>();
-    public void RegistCreatureAction(System.Action<CreatureState> action)
+    List<System.Action<int>> evolveActionList = new List<System.Action<int>>();
+    public void RegistEvolveAction(System.Action<int> action){
+        if(action != null && !evolveActionList.Contains(action))
+            evolveActionList.Add(action);
+    } 
+    public void DoEvolve(int index)
     {
-        if(creatureActionList == null) creatureActionList = new List<System.Action<CreatureState>>();
+        foreach (System.Action<int> action in evolveActionList)
+            action(index);
+    }
+
+    List<System.Action<CreatureState, int>> creatureActionList = new List<System.Action<CreatureState, int>>();
+    public void RegistCreatureAction(System.Action<CreatureState, int> action)
+    {
+        if(creatureActionList == null) creatureActionList = new List<System.Action<CreatureState, int>>();
         if(!creatureActionList.Contains(action))
             creatureActionList.Add(action);
     }
-    public void DoCreatureAction(CreatureState state)
+    public void DoCreatureAction(CreatureState state, int value = -1)
     {
         foreach(var action in creatureActionList)
-            action(state);
-    }
-    public List<System.Action<CreatureState>> GetCreatureAction(CreatureState state)
-    {
-        return creatureActionList;
+            action(state, value);
     }
 
-    List<System.Action<StatusType, float, float>> statusActionDict = new List<System.Action<StatusType, float, float>>();
-    public void RegistStatusAction(System.Action<StatusType, float, float> action)
+    List<System.Action<StatusType, float>> statusActionDict = new List<System.Action<StatusType, float>>();
+    public void RegistStatusAction(System.Action<StatusType, float> action)
     {
-        if(statusActionDict == null) statusActionDict = new List<System.Action<StatusType, float, float>>();
+        if(statusActionDict == null) statusActionDict = new List<System.Action<StatusType, float>>();
         if(!statusActionDict.Contains(action))
             statusActionDict.Add(action);
     }
 
-    public void DoStatusAction(StatusType statusType, float value, float stamina)
+    public void DoStatusAction(StatusType statusType, float value)
     {
         foreach(var action in statusActionDict)
-            action(statusType, value, stamina);
+            action(statusType, value);
     }
 
     // ****** List Condition of Actionable *******
     Dictionary<ConditionCheckType, List<System.Func<float, bool>>> conditionCheckDict = new Dictionary<ConditionCheckType, List<System.Func<float, bool>>>();
     
-
     public void RegistConditionalAction(ConditionCheckType actionCheckType, System.Func<float, bool> action)
     {
         if(!conditionCheckDict.ContainsKey(actionCheckType))
@@ -135,5 +141,35 @@ public class ActionManager : MonoBehaviour
             if(!action(value)) // if any action return false, return false
                 return false;
         return true;
+    }
+
+    Dictionary<ConditionCheckType, List<System.Action<ConditionCheckType, int>>> conditionConsumeActionDict = new Dictionary<ConditionCheckType, List<System.Action<ConditionCheckType, int>>>();
+    public void RegistConditionConsumeAction(ConditionCheckType conditionCheckType, System.Action<ConditionCheckType, int> action)
+    {
+        if(!conditionConsumeActionDict.ContainsKey(conditionCheckType))
+            conditionConsumeActionDict.Add(conditionCheckType, new List<System.Action<ConditionCheckType, int>>());
+        if(!conditionConsumeActionDict[conditionCheckType].Contains(action))
+            conditionConsumeActionDict[conditionCheckType].Add(action);
+    }
+    public void DoConditionConsumeAction(ConditionCheckType conditionCheckType, int value)
+    {
+        if(conditionConsumeActionDict.ContainsKey(conditionCheckType))
+            foreach(var action in conditionConsumeActionDict[conditionCheckType])
+                action(conditionCheckType, value);
+    }
+
+    Dictionary<ConditionCheckType, List<System.Action<ConditionCheckType, int>>> conditionAddActionDict = new Dictionary<ConditionCheckType, List<System.Action<ConditionCheckType, int>>>();
+    public void RegistConditionAddAction(ConditionCheckType conditionCheckType, System.Action<ConditionCheckType, int> action)
+    {
+        if(!conditionAddActionDict.ContainsKey(conditionCheckType))
+            conditionAddActionDict.Add(conditionCheckType, new List<System.Action<ConditionCheckType, int>>());
+        if(!conditionAddActionDict[conditionCheckType].Contains(action))
+            conditionAddActionDict[conditionCheckType].Add(action);
+    }
+    public void DoConditionAddAction(ConditionCheckType conditionCheckType, int value)
+    {
+        if(conditionAddActionDict.ContainsKey(conditionCheckType))
+            foreach(var action in conditionAddActionDict[conditionCheckType])
+                action(conditionCheckType, value);
     }
 }

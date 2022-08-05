@@ -43,6 +43,8 @@ public class DataManager : MonoBehaviour
         RegistStatusAction();
         RegistQuitAction();
         RegistConditionalAction();
+        RegistConditionConsumeAction();
+        RegistConditionAddAction();
 
         actionManager.initFlag[nameof(DataManager)] = true;
     }
@@ -120,24 +122,59 @@ public class DataManager : MonoBehaviour
         actionManager.RegistStatusAction(RecoverStatus);       
     }
 
-    void RecoverStatus(StatusType type, float value, float stamina)
+    void RecoverStatus(StatusType type, float value)
     {
         SnailStat.AddStatusValue(type, value);
-        PlayerInfo.UseStamina((int)value);
     }
 
     // ******* Conditional Action *******
 
+    void RegistConditionConsumeAction()
+    {
+        actionManager.RegistConditionConsumeAction(ConditionCheckType.coin, UseCondition);
+        actionManager.RegistConditionConsumeAction(ConditionCheckType.stamina, UseCondition);
+    }
+    
+    void UseCondition(ConditionCheckType type, int value)
+    {
+        if (type == ConditionCheckType.coin)
+            PlayerInfo.UseCoin(value);
+        else if (type == ConditionCheckType.stamina)
+            PlayerInfo.UseStamina(value);
+    }
+
+    void RegistConditionAddAction()
+    {
+        actionManager.RegistConditionAddAction(ConditionCheckType.coin, AddCondition);
+        actionManager.RegistConditionAddAction(ConditionCheckType.stamina, AddCondition);
+    }
+
+    void AddCondition(ConditionCheckType type, int value)
+    {
+        if (type == ConditionCheckType.coin)
+            PlayerInfo.AddCoin(value);
+        else if (type == ConditionCheckType.stamina)
+            PlayerInfo.AddStamina(value);
+    }
+
     void RegistConditionalAction()
     {
+        actionManager.RegistConditionalAction(ConditionCheckType.coin, CheckCoin);
         actionManager.RegistConditionalAction(ConditionCheckType.stamina, CheckStamina);
         actionManager.RegistConditionalAction(ConditionCheckType.alive, CheckAlive);
-        actionManager.RegistConditionalAction(ConditionCheckType.evolve, CheckAlive);
+        actionManager.RegistConditionalAction(ConditionCheckType.evolve, CheckEvelove);
     }
 
     bool CheckStamina(float needValue)
     {
         if (PlayerInfo.stamina >= (int)needValue)
+            return true;
+        return false;
+    }
+    
+    bool CheckCoin(float needValue)
+    {
+        if (PlayerInfo.coin >= (int)needValue)
             return true;
         return false;
     }
