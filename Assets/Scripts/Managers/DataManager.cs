@@ -159,10 +159,15 @@ public class DataManager : MonoBehaviour
 
     void RegistConditionalAction()
     {
+        actionManager.RegistConditionalAction(ConditionCheckType.creatureList, CheckCreatureList);
         actionManager.RegistConditionalAction(ConditionCheckType.coin, CheckCoin);
         actionManager.RegistConditionalAction(ConditionCheckType.stamina, CheckStamina);
         actionManager.RegistConditionalAction(ConditionCheckType.alive, CheckAlive);
         actionManager.RegistConditionalAction(ConditionCheckType.evolve, CheckEvelove);
+    }
+
+    bool CheckCreatureList(float index){
+        return PlayerInfo.GetCreature((int)index) > 0;
     }
 
     bool CheckStamina(float needValue)

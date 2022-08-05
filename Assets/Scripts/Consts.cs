@@ -9,7 +9,8 @@ namespace Consts
         stamina,
         alive,
         evolve,
-        coin
+        coin,
+        creatureList
     }
 
     public enum CreatureState 

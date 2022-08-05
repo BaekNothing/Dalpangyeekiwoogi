@@ -129,6 +129,7 @@ public class UIManager : MonoBehaviour
         SetFoodButton();
         SetPlayButton();
         SetEvolveButton();
+        SetBookButton();
     }
     [SerializeField]
     SelfManageButton btnEvolve;
@@ -213,8 +214,12 @@ public class UIManager : MonoBehaviour
         for (int i = 0; i < btnBook.Count; i++)
         {
             int needCoin = 10;
-            btnBook[i].SetButtonOption(()=>{ 
-                return (actionManager.CheckActionCondition(ConditionCheckType.coin, needCoin));
+            int index = i;
+            btnBook[i].SetButtonOption(()=>{
+                return (
+                    //actionManager.CheckActionCondition(ConditionCheckType.creatureList, index) &&
+                    actionManager.CheckActionCondition(ConditionCheckType.coin, needCoin)
+                );
             });
 
             ComponentUtility.SetButtonAction(btnBook[i], ()=>{
