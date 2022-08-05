@@ -42,6 +42,7 @@ public class DataManager : MonoBehaviour
         RegistTickAction();
         RegistStatusAction();
         RegistQuitAction();
+        RegistConditionalAction();
 
         actionManager.initFlag[nameof(DataManager)] = true;
     }
@@ -49,7 +50,15 @@ public class DataManager : MonoBehaviour
 
     void CalculateDealiedStat()
     {
-        //Calculate stat while logging off
+        double passedMin = PlayerInfo.GetPassedLoginTime();
+        for (int i = 0; i < passedMin * 60; i++)
+        {
+            //decrease stat 0.02f per second
+            SnailStat.CalculateTickAllStat(0.02f);
+            Action_CheckEvolve();
+            Action_CheckDead();
+        }
+        
     }
 
     // ****** Tick Action *******
@@ -58,40 +67,51 @@ public class DataManager : MonoBehaviour
     {
         actionManager.RegistTickAction(Action_CalcualteStat);
         actionManager.RegistTickAction(Action_CalculateStamina);
-    }
-
-    enum frameOrder {
-        stat = 0,
-        stamina
-    }
-
-    bool SkipFrame(frameOrder order)
-    {
-        int frameCount = Time.frameCount;
-        int frameRemainder = (int)(frameCount * 0.05);
-        if (frameCount - frameRemainder * 20 != (int)order)
-            return false;
-        return true;
+        actionManager.RegistTickAction(Action_CheckDead);
+        actionManager.RegistTickAction(Action_CheckEvolve);
     }
 
     readonly float tickCorrection = 0.02f; //= 1 / 900 * 20
-    public void Action_CalcualteStat()
+    void Action_CalcualteStat()
     {
         // Action when frameCount % 20 == 0        
-        if (SkipFrame(frameOrder.stat))
+        if (GameLoop.SkipFrame(frameOrder.stat))
             return;
         SnailStat.CalculateTickAllStat(Time.deltaTime * tickCorrection);
     }
 
-    public void Action_CalculateStamina()
+    void Action_CalculateStamina()
     {
         // Action when frameCount % 20 == 0        
-        if (SkipFrame(frameOrder.stamina))
+        if (GameLoop.SkipFrame(frameOrder.stamina))
             return;
 
         if (PlayerInfo.GetPassedStaminaTime() >= 15)
             PlayerInfo.RecoverStamina();
     }
+    
+    float deadLimit = 900f;
+    void Action_CheckDead(){
+        if (GameLoop.SkipFrame(frameOrder.dead))
+            return;
+        
+        if (SnailStat.CheckDead(deadLimit))
+        {
+            actionManager.DoCreatureAction(CreatureState.dead);
+            PlayerInfo.isDead = true;
+        }
+    }
+
+    float evolveLimit = 4320f;
+    void Action_CheckEvolve(){
+        if (GameLoop.SkipFrame(frameOrder.evolve))
+            return;
+        
+        if (!PlayerInfo.canEveolve &&
+            PlayerInfo.GetPassedCreatureInitTime() > evolveLimit)
+            PlayerInfo.canEveolve = true;
+    }
+
 
     // ******* Stat Action *******
    
@@ -106,8 +126,32 @@ public class DataManager : MonoBehaviour
         PlayerInfo.UseStamina((int)value);
     }
 
-    bool CheckStamina(int needValue){
-        if (PlayerInfo.stamina >= needValue)
+    // ******* Conditional Action *******
+
+    void RegistConditionalAction()
+    {
+        actionManager.RegistConditionalAction(ConditionCheckType.stamina, CheckStamina);
+        actionManager.RegistConditionalAction(ConditionCheckType.alive, CheckAlive);
+        actionManager.RegistConditionalAction(ConditionCheckType.evolve, CheckAlive);
+    }
+
+    bool CheckStamina(float needValue)
+    {
+        if (PlayerInfo.stamina >= (int)needValue)
+            return true;
+        return false;
+    }
+
+    bool CheckAlive(float dummy)
+    {
+        if (PlayerInfo.isDead)
+            return false;
+        return true;
+    }
+
+    bool CheckEvelove(float dummy)
+    {
+        if (PlayerInfo.canEveolve)
             return true;
         return false;
     }

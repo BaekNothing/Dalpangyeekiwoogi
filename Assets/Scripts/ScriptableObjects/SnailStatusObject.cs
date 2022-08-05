@@ -51,6 +51,14 @@ public class SnailStatusObject : ScriptableObject
         hunger.StatClear();
     }
 
+    public bool CheckDead(float deadLimit)
+    {
+        if (dirt.deadTime > deadLimit || happiness.deadTime > deadLimit ||
+            health.deadTime > deadLimit || hunger.deadTime > deadLimit)
+            return true;
+        return false;
+    }
+
     public void InitAllStat(float tick, float subtraction)
     {
         dirt.StatInit(tick, subtraction);
@@ -103,7 +111,11 @@ public class SnailStatusObject : ScriptableObject
                 deadTime += correction;
                 value = valueMin;
             }
-            if (deadTime >= 15) deadCount++;
+            if (deadTime >= 15) 
+            {
+                deadCount++;
+                deadTime = 0;
+            }
         }        
     }
 }

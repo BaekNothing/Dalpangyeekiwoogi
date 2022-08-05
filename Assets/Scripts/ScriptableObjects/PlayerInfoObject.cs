@@ -13,7 +13,8 @@ public class PlayerInfoObject : ScriptableObject
     DateTime creatureInitTime;
     public string creatureName;
     public bool isDead;
-
+    public bool canEveolve;
+    
     public int coin;
     public int stamina;
     DateTime staminaTime;

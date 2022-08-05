@@ -14,11 +14,14 @@ public class SelfManageButton_ManageOption : MonoBehaviour
         info
     }
 
+    public ManageOptionState GetState() => state;
+
     public void SetState(ManageOptionState state)
     {
         foreach(Transform child in GetComponentsInChildren<Transform>())
-            child.gameObject.SetActive(
-                child.name.ToLower().Contains(state.ToString().ToLower()));
+            if(child != this.transform)
+                child.gameObject.SetActive(
+                    child.name.ToLower().Contains(state.ToString().ToLower()));
         this.state = state;
     }
 

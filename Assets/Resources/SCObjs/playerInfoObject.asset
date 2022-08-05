@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: playerInfoObject
   m_EditorClassIdentifier: 
   isLoaded: 1
-  creatureIndex: 6
+  creatureIndex: 0
   creatureName: 
-  isDead: 1
+  isDead: 0
   coin: 0
   stamina: 100
   notiAllow: 0

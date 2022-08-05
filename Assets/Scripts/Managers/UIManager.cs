@@ -129,7 +129,8 @@ public class UIManager : MonoBehaviour
         SetFoodButton();
         SetPlayButton();
     }
-
+    [SerializeField]
+    SelfManageButton btnEvolve;
     [SerializeField]
     SelfManageButton btnDirt;
     [SerializeField]
@@ -139,7 +140,10 @@ public class UIManager : MonoBehaviour
 
     void SetDirtButton(){
 
-        btnDirt.SetButtonOption(()=>{ return true; });
+        btnDirt.SetButtonOption(()=>{ 
+            return (actionManager.CheckActionCondition(ConditionCheckType.stamina, 50) &&
+                    actionManager.CheckActionCondition(ConditionCheckType.alive, 0));
+        });
 
         ComponentUtility.SetButtonAction(btnDirt, ()=>{
             actionManager.DoStatusAction(StatusType.dirt, 50, 50);
@@ -152,7 +156,10 @@ public class UIManager : MonoBehaviour
         {
             int needStamina = i * 10;
             int recoverValue = i * 10;
-            btnListFood[i].SetButtonOption(()=>{ return true; });
+            btnListFood[i].SetButtonOption(()=>{ 
+                return (actionManager.CheckActionCondition(ConditionCheckType.stamina, needStamina) &&
+                        actionManager.CheckActionCondition(ConditionCheckType.alive, 0));
+            });
 
             ComponentUtility.SetButtonAction(btnListFood[i], ()=>{
                 actionManager.DoStatusAction(StatusType.hunger, recoverValue, needStamina);
@@ -167,7 +174,10 @@ public class UIManager : MonoBehaviour
         {
             int needStamina = i * 10;
             int recoverValue = i * 10;
-            btnListPlay[i].SetButtonOption(()=>{ return true; });
+            btnListPlay[i].SetButtonOption(()=>{ 
+                return (actionManager.CheckActionCondition(ConditionCheckType.stamina, needStamina) &&
+                        actionManager.CheckActionCondition(ConditionCheckType.alive, 0));
+             });
 
             ComponentUtility.SetButtonAction(btnListPlay[i], ()=>{
                 actionManager.DoStatusAction(StatusType.happiness, recoverValue, needStamina);
@@ -175,5 +185,16 @@ public class UIManager : MonoBehaviour
                 actionManager.DoCreatureAction(CreatureState.Play);
             });
         }
+    }
+
+    void SetEvolveButton(){
+        btnEvolve.SetButtonOption(()=>{
+            return (actionManager.CheckActionCondition(ConditionCheckType.evolve, 0) &&
+                    actionManager.CheckActionCondition(ConditionCheckType.alive, 0));
+        });
+
+        ComponentUtility.SetButtonAction(btnEvolve, ()=>{
+            actionManager.DoCreatureAction(CreatureState.evolve);
+        });
     }
 }

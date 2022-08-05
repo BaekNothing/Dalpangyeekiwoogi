@@ -13403,8 +13403,9 @@ GameObject:
   - component: {fileID: 945069134}
   - component: {fileID: 945069136}
   - component: {fileID: 945069135}
+  - component: {fileID: 945069137}
   m_Layer: 5
-  m_Name: Text
+  m_Name: lblCoin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13471,6 +13472,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 945069133}
   m_CullTransparentMesh: 0
+--- !u!114 &945069137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 945069133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1776ca45e336af408e0dc54ca4694a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInfo: {fileID: 11400000, guid: 70733f687753e004f9177e2335dd57ea, type: 2}
+  currencyName: coin
 --- !u!1 &957663545
 GameObject:
   m_ObjectHideFlags: 0
@@ -19591,8 +19606,9 @@ GameObject:
   - component: {fileID: 1517277111}
   - component: {fileID: 1517277113}
   - component: {fileID: 1517277112}
+  - component: {fileID: 1517277114}
   m_Layer: 5
-  m_Name: lblTitle
+  m_Name: lblStamina
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19660,6 +19676,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1517277110}
   m_CullTransparentMesh: 0
+--- !u!114 &1517277114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1517277110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1776ca45e336af408e0dc54ca4694a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInfo: {fileID: 11400000, guid: 70733f687753e004f9177e2335dd57ea, type: 2}
+  currencyName: stamina
 --- !u!1 &1546031660
 GameObject:
   m_ObjectHideFlags: 0
@@ -22817,8 +22847,9 @@ GameObject:
   - component: {fileID: 1773064970}
   - component: {fileID: 1773064971}
   - component: {fileID: 1773064972}
+  - component: {fileID: 1773064973}
   m_Layer: 5
-  m_Name: lblRemainTime
+  m_Name: lblStaminaTime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22885,6 +22916,20 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\uCDA9\uC804\uAE4C\uC9C0 \uC55E\uC73C\uB85C 00\uBD84"
+--- !u!114 &1773064973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1773064969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1776ca45e336af408e0dc54ca4694a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInfo: {fileID: 11400000, guid: 70733f687753e004f9177e2335dd57ea, type: 2}
+  currencyName: staminaTime
 --- !u!1 &1780162898
 GameObject:
   m_ObjectHideFlags: 0
@@ -24783,13 +24828,14 @@ GameObject:
   - component: {fileID: 1910837163}
   - component: {fileID: 1910837162}
   - component: {fileID: 1910837161}
+  - component: {fileID: 1910837165}
   m_Layer: 5
   m_Name: EvolutionButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1910837161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24809,7 +24855,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 2
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -24822,7 +24868,7 @@ MonoBehaviour:
     m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: 0}
     m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -24892,6 +24938,18 @@ RectTransform:
   m_AnchoredPosition: {x: 388.9, y: 636.1}
   m_SizeDelta: {x: 180, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1910837165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1910837160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0849f6f714c6a242874a16f243832a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1915122816
 GameObject:
   m_ObjectHideFlags: 0
@@ -25122,6 +25180,7 @@ MonoBehaviour:
   btnDict:
     keys: []
     values: []
+  btnEvolve: {fileID: 0}
   btnDirt: {fileID: 898062334}
   btnListFood:
   - {fileID: 1805523353}
