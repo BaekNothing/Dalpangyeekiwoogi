@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: playerInfoObject
   m_EditorClassIdentifier: 
   isLoaded: 1
-  lastLoginTime: 2022-08-05 PM 11:20:42
-  creatureIndex: 1
-  creatureInitTime: 2022-08-05 PM 10:41:17
+  lastLoginTime: 2022-08-06 AM 8:56:38
+  creatureIndex: 0
+  creatureInitTime: 2022-08-06 AM 8:56:37
   creatureName: 
   isDead: 0
   canEveolve: 0
   coin: 130
-  stamina: 20
-  staminaTime: 2022-08-05 PM 11:20:22
+  stamina: 100
+  staminaTime: 2022-08-06 AM 8:56:37
   notiAllow: 1
   creatureList: 01000000010000000100000000000000010000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000

@@ -25,6 +25,7 @@ public class CreatureManager : MonoBehaviour
 
         RegistInitAction();
         RegistCreatureAction();
+        RegistEvolveAction();
 
         actionManager.initFlag[nameof(CreatureManager)] = true;
     }
@@ -129,5 +130,9 @@ public class CreatureManager : MonoBehaviour
             return newIndex;
         }
         return 0;
+    }
+
+    void RegistEvolveAction(){
+        actionManager.RegistEvolveAction(CreatureEvolve);
     }
 }

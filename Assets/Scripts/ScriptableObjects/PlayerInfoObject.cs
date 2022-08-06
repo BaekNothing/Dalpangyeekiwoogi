@@ -159,7 +159,10 @@ public class PlayerInfoObject : ScriptableObject
             for (int i = 0; i < _creature.creatureList.Count; i++)
                 creatureList.Add(0);
         }
-        
+        ClearAllData();
+    }
+
+    public void ClearAllData(){
         creatureIndex = 0;
         creatureName = "";
         stamina = 100;

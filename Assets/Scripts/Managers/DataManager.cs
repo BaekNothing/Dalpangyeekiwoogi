@@ -29,16 +29,19 @@ public class DataManager : MonoBehaviour
     private CreatureDataObject _creature;
     public CreatureDataObject Creature { get { return _creature; } }
 
+    readonly float tickCorrection = 0.01f; //= 1 / 900 * 40
     void Awake()
     {
         Creature.LoadCreatureData();
         Creature.LoadSkeletonData();
         if(!PlayerInfo.isLoaded) 
+        {
             PlayerInfo.CheckLegacyPrefs(_creature);
+            SnailStat.InitAllStat(900f, 1f);
+            SnailStat.ClearAllStat();
+        }
         else
             CalculateDealiedStat();
-        SnailStat.InitAllStat(900f, 1f);
-        SnailStat.ClearAllStat();
 
         actionManager = this.GetComponent<ActionManager>();
         RegistTickAction();
@@ -50,14 +53,14 @@ public class DataManager : MonoBehaviour
 
         actionManager.initFlag[nameof(DataManager)] = true;
     }
-    
+
     void CalculateDealiedStat()
     {
         double passedMin = PlayerInfo.GetPassedLoginTime();
         for (int i = 0; i < passedMin * 60; i++)
         {
-            //decrease stat 0.02f per second
-            SnailStat.CalculateTickAllStat(0.02f);
+            //decrease stat 0.01f per second
+            SnailStat.CalculateTickAllStat(0.01f);
             Action_CheckEvolve();
             Action_CheckDead();
         }
@@ -74,7 +77,6 @@ public class DataManager : MonoBehaviour
         actionManager.RegistTickAction(Action_CheckEvolve);
     }
 
-    readonly float tickCorrection = 0.02f; //= 1 / 900 * 20
     void Action_CalcualteStat()
     {
         // Action when frameCount % 20 == 0        
@@ -200,5 +202,14 @@ public class DataManager : MonoBehaviour
     void RegistQuitAction()
     {
         actionManager.RegistQuitAction(PlayerInfo.SetLastLoginTime);
+    }
+
+    // ******* Debug Action *******
+
+    public void ClearAllData()
+    {
+        PlayerInfo.ClearAllData();
+        SnailStat.ClearAllStat();
+        actionManager.DoEvolve(0);
     }
 }

@@ -14,26 +14,61 @@ public class SnailStatusObject : ScriptableObject
     SingleStatus health;
     [SerializeField]
     SingleStatus hunger;
-
-
-    
-    Dictionary<StatusType, SingleStatus> statusDict;
-    Dictionary<StatusType, SingleStatus> GetStatusDict() =>
-        statusDict ?? (statusDict = new Dictionary<StatusType, SingleStatus>()
-        {
-            {StatusType.dirt, dirt},
-            {StatusType.happiness, happiness},
-            {StatusType.health, health},
-            {StatusType.hunger, hunger}
-        });
         
     public float GetStatusValue(StatusType type)
-        => GetStatusDict()[type].value;
-    public float GetStatusDeadTime(StatusType type)
-        => GetStatusDict()[type].deadTime;
+    {
+        switch (type)
+        {
+            case StatusType.dirt:
+                return dirt.value;
+            case StatusType.happiness:
+                return happiness.value;
+            case StatusType.health:
+                return health.value;
+            case StatusType.hunger:
+                return hunger.value;
+            default:
+                return 0;
+        }
+    }
 
-    public void AddStatusValue(StatusType type, float value) 
-        => GetStatusDict()[type].AddValue(value);
+    public float GetStatusDeadTime(StatusType type)
+    {    
+        switch (type)
+        {
+            case StatusType.dirt:
+                return dirt.deadTime;
+            case StatusType.happiness:
+                return happiness.deadTime;
+            case StatusType.health:
+                return health.deadTime;
+            case StatusType.hunger:
+                return hunger.deadTime;
+            default:
+                return 0;
+        }
+    }
+
+    public void AddStatusValue(StatusType type, float value)
+    {
+        switch (type)
+        {
+            case StatusType.dirt:
+                dirt.AddValue(value);
+                break;
+            case StatusType.happiness:
+                happiness.AddValue(value);
+                break;
+            case StatusType.health:
+                health.AddValue(value);
+                break;
+            case StatusType.hunger:
+                hunger.AddValue(value);
+                break;
+            default:
+                break;
+        }
+    }
 
     public void CalculateTickAllStat(float value)
     {
@@ -67,7 +102,7 @@ public class SnailStatusObject : ScriptableObject
         hunger.StatInit(tick, subtraction);
     }
 
-    readonly static float valueMax = 100f;
+    readonly static float valueMax = 130f;
     readonly static float valueMin = 0f;
 
     [Serializable]
@@ -80,9 +115,9 @@ public class SnailStatusObject : ScriptableObject
         public float tick;
         public float subtraction;
         
-        public void AddValue(float value)
+        public void AddValue(float inputValue)
         {
-            this.value += value;
+            this.value += inputValue;
             if(this.value > valueMax)
                 this.value = valueMax;
             else if(this.value < valueMin)
@@ -105,11 +140,11 @@ public class SnailStatusObject : ScriptableObject
 
         public void StatCalculateTick(float correction = 1)
         {
-            value -= subtraction * correction;
-            if (value <= valueMin)
+            this.value -= subtraction * correction;
+            if (this.value <= valueMin)
             { 
                 deadTime += correction;
-                value = valueMin;
+                this.value = valueMin;
             }
             if (deadTime >= 15) 
             {
