@@ -22,17 +22,27 @@ public class SelfManageButton_ManageOption : MonoBehaviour
             state = ManageOptionState.icon;
         else
             state = ManageOptionState.cant;
-        SetState(state);
+        SetState(state, clickAble);
     }
 
-    public void SetState(ManageOptionState state)
+    void SetState(ManageOptionState state, bool clickAble)
     {
         for (int i = 0; i < this.transform.childCount; i++)
         {
             GameObject child = this.transform.GetChild(i).gameObject;
-            child.SetActive(
-                child.name.ToLower().Contains(state.ToString().ToLower())
-            );
+            if(!clickAble) 
+                child.SetActive(false);
+            else 
+            {
+                if (child.name.Contains("_"))
+                    child.SetActive(true);
+                else
+                {
+                    bool isStatConnectedObject 
+                        = child.name.ToLower().Contains(state.ToString().ToLower());
+                    child.SetActive(isStatConnectedObject);
+                }
+            }
         }
         this.state = state;
     }

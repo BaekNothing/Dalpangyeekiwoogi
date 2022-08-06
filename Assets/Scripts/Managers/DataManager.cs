@@ -7,6 +7,7 @@ using System;
 using Spine;
 using Spine.Unity;
 using Consts;
+using System.Linq;
 
 
 public class DataManager : MonoBehaviour
@@ -29,21 +30,19 @@ public class DataManager : MonoBehaviour
     private CreatureDataObject _creature;
     public CreatureDataObject Creature { get { return _creature; } }
 
-    readonly float tickCorrection = 0.01f; //= 1 / 900 * 40
     void Awake()
     {
-        Creature.LoadCreatureData();
-        Creature.LoadSkeletonData();
+        //Creature.LoadCreatureData();
+        //Creature.LoadSkeletonData();
         if(!PlayerInfo.isLoaded) 
         {
             PlayerInfo.CheckLegacyPrefs(_creature);
             SnailStat.InitAllStat(900f, 1f);
             SnailStat.ClearAllStat();
         }
-        else
-            CalculateDealiedStat();
 
         actionManager = this.GetComponent<ActionManager>();
+        RegistInitAction();
         RegistTickAction();
         RegistStatusAction();
         RegistQuitAction();
@@ -54,9 +53,36 @@ public class DataManager : MonoBehaviour
         actionManager.initFlag[nameof(DataManager)] = true;
     }
 
-    void CalculateDealiedStat()
+    void RegistInitAction()
+    {
+        actionManager.RegistInitAction(CheckDealiedStat);
+    }
+
+    void CheckDealiedStat()
     {
         double passedMin = PlayerInfo.GetPassedLoginTime();
+        if (passedMin > 5)
+        {
+            Dictionary<string, float> prevStat = SnailStat.GetAllStat();
+            CalculateDelaiedStat(passedMin);
+            Dictionary<string, float> curStat = SnailStat.GetAllStat();
+            string resultStr = MakeResultStr(prevStat, curStat);
+
+            actionManager.DoUIPnlShowAction("revisit",  new List<UIPanels.textFactor>{
+                new UIPanels.textFactor(
+                    "title",
+                    $"{(int)passedMin}분 만에 다시 오셨군요!"
+                ),
+                new UIPanels.textFactor(
+                    "desc",
+                    resultStr
+                )
+            });
+        }
+    }
+
+    void CalculateDelaiedStat(double passedMin)
+    {
         for (int i = 0; i < passedMin * 60; i++)
         {
             //decrease stat 0.01f per second
@@ -64,7 +90,30 @@ public class DataManager : MonoBehaviour
             Action_CheckEvolve();
             Action_CheckDead();
         }
-        
+    }
+
+    string MakeResultStr(Dictionary<string, float> prev, Dictionary<string, float> cur)
+    {
+        string resultStr = "당신의 달팽이는\n";
+        var keys = prev.Keys.ToArray();
+        int ManyOrLess = 70;
+        int LessOrNone = 20;
+
+        foreach(string key in keys)
+        {
+            int diff = (int)(prev[key] - cur[key]);
+            if (cur[key] == 0)
+                resultStr += $"심각하게 {key}\n";
+            else if(diff > ManyOrLess)
+                resultStr += $"많이 {key}\n";
+            else if (diff > LessOrNone)
+                resultStr += $"조금 {key}\n";
+            else
+                resultStr += $"별로 안 {key}\n";
+        }
+
+        return resultStr;
+    
     }
 
     // ****** Tick Action *******
@@ -82,7 +131,7 @@ public class DataManager : MonoBehaviour
         // Action when frameCount % 20 == 0        
         if (GameLoop.SkipFrame(frameOrder.stat))
             return;
-        SnailStat.CalculateTickAllStat(Time.deltaTime * tickCorrection);
+        SnailStat.CalculateTickAllStat(Time.deltaTime * GameLoop.tickCorrection);
     }
 
     void Action_CalculateStamina()
@@ -91,29 +140,27 @@ public class DataManager : MonoBehaviour
         if (GameLoop.SkipFrame(frameOrder.stamina))
             return;
 
-        if (PlayerInfo.GetPassedStaminaTime() >= 15)
+        if (PlayerInfo.GetPassedStaminaTime() >= GameLoop.staminaLimitTime)
             PlayerInfo.RecoverStamina();
     }
     
-    float deadLimit = 900f;
     void Action_CheckDead(){
         if (GameLoop.SkipFrame(frameOrder.dead))
             return;
         
-        if (SnailStat.CheckDead(deadLimit))
+        if (SnailStat.CheckDead(GameLoop.deadLimit))
         {
             actionManager.DoCreatureAction(CreatureState.dead);
             PlayerInfo.isDead = true;
         }
     }
 
-    float evolveLimit = 4320f;
     void Action_CheckEvolve(){
         if (GameLoop.SkipFrame(frameOrder.evolve))
             return;
         
         if (!PlayerInfo.canEveolve &&
-            PlayerInfo.GetPassedCreatureInitTime() > evolveLimit)
+            PlayerInfo.GetPassedCreatureInitTime() > GameLoop.evolveLimit)
             PlayerInfo.canEveolve = true;
     }
 
@@ -211,5 +258,6 @@ public class DataManager : MonoBehaviour
         PlayerInfo.ClearAllData();
         SnailStat.ClearAllStat();
         actionManager.DoEvolve(0);
+        PlayerInfo.AddCoin(30);
     }
 }

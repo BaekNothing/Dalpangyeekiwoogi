@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class UINoti : UIPanels
 {
-    public override void Init(List<textFactor> factors = null)
+    public override void Show(List<textFactor> factors = null)
     {
-        base.Init(factors);
+        base.Show(factors);
     }
     
 }

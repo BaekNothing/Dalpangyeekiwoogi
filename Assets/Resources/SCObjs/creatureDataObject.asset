@@ -564,7 +564,6 @@ MonoBehaviour:
     - 1200
     - 70
     - 30
-  creatureDataPath: TempCaracter/SkeletonStatus
   skeletonDataAssetList:
   - {fileID: 11400000, guid: c9a13d6c7e9c3374380fc03822a57d05, type: 2}
   - {fileID: 11400000, guid: d40bf8c246b735a41a24fff976b1b7c1, type: 2}
@@ -573,4 +572,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 34632efb26cff5d47a9a38b07ca40a2e, type: 2}
   - {fileID: 11400000, guid: 31e70a5f812267d47a4d8b11d6086c72, type: 2}
   - {fileID: 11400000, guid: 0beb14d010691e8438ce3922a83fd718, type: 2}
-  - {fileID: 11400000, guid: 449950186e6875c4e85fb4f5ff66417e, type: 2}
+  skeletonData_Dead: {fileID: 11400000, guid: 449950186e6875c4e85fb4f5ff66417e, type: 2}

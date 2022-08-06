@@ -18,6 +18,11 @@ public static class ComponentUtility
         btn.onClick.AddListener(() => action());
     }
 
+    public static void AddButtonAction(Button btn, System.Action action)
+    {
+        btn.onClick.AddListener(() => action());
+    }
+
     public static void LinkBtnPnl(
         string keyward,
         SerializableDictionary<SelfManageButton, UIPanels> btnDict,

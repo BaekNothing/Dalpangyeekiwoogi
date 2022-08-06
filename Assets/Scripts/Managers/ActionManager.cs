@@ -84,7 +84,19 @@ public class ActionManager : MonoBehaviour
             action();    
     }
     
-    // ****** ActiveAble Action (ex.Button) *******
+    //****** ActiveAble Action (ex.Button) *******
+
+    List<System.Action<string, List<UIPanels.textFactor>>> UIPnlShowActionList = new List<System.Action<string, List<UIPanels.textFactor>>>();
+    public void RegistUIPnlShowAction(System.Action<string, List<UIPanels.textFactor>> action)
+    {
+        if (action != null && !UIPnlShowActionList.Contains(action))
+            UIPnlShowActionList.Add(action);
+    }
+    public void DoUIPnlShowAction(string name, List<UIPanels.textFactor> factor = null)
+    {
+        foreach (System.Action<string, List<UIPanels.textFactor>> action in UIPnlShowActionList)
+            action(name, factor);
+    }
 
     List<System.Action<int>> evolveActionList = new List<System.Action<int>>();
     public void RegistEvolveAction(System.Action<int> action){
@@ -106,6 +118,7 @@ public class ActionManager : MonoBehaviour
     }
     public void DoCreatureAction(CreatureState state, int value = 0)
     {
+        ComponentUtility.Log($"DoCreatureAction {state} {value}");
         foreach(var action in creatureActionList)
             action(state, value);
     }

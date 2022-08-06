@@ -29,13 +29,14 @@ public class UIManager : MonoBehaviour
         mainCanvas = GameObject.Find("MainCanvas").GetComponent<Canvas>();
         actionManager = this.GetComponent<ActionManager>();
         actionManager.RegistKeyAction(KeyCode.Escape, HideAllPanel);
+        RegistUIPnlShowAction(actionManager);
 
         foreach(UIPanels pnl in ComponentUtility.FindAllT<UIPanels>(mainCanvas.transform))
             RegistPanel(pnl);
         uiPanels.ForEach(x => x.LinkManager(this));
+        uiPanels.ForEach(x => x.Init(actionManager));
         btnList = ComponentUtility.FindAllT<SelfManageButton>(mainCanvas.transform);
-
-
+        
         //******* Stage *********//
         ComponentUtility.LinkBtnPnl("talk", btnDict, uiPanels, btnList);
 
@@ -54,7 +55,6 @@ public class UIManager : MonoBehaviour
 
         //********* Other *********//
         Set_QuitBtnPnl();
-        Set_StatButtons();
 
         actionManager.initFlag[nameof(UIManager)] = true;
     }
@@ -66,6 +66,15 @@ public class UIManager : MonoBehaviour
         uiPanel.SetIndex(uiPanels.IndexOf(uiPanel));
     }
 
+    public void RegistUIPnlShowAction(ActionManager actionManager)
+    {
+        actionManager.RegistUIPnlShowAction((name, factors) => {
+            var target = uiPanels.Find(x => x.name.ToLower().Contains(name.ToLower()));
+            if (target)
+                ShowPanel(target.thisIndex, factors);
+        });
+    }
+
     public void ShowPanel(int index, List<UIPanels.textFactor> factor = null)
     {
         if (index < 0 || index >= uiPanels.Count)
@@ -75,7 +84,7 @@ public class UIManager : MonoBehaviour
         foreach (UIPanels pnl in ComponentUtility.FindAllT<UIPanels>(uiPanels[index].transform))
             HidePanel(pnl);
         uiPanels[index].gameObject.SetActive(true);
-        uiPanels[index].Init(factor);
+        uiPanels[index].Show(factor);
         indexStack.Push(index);
     }
 
@@ -97,10 +106,11 @@ public class UIManager : MonoBehaviour
         indexStack.Clear();
     }
 
+    //****** individual panel ******//
+
     void Set_QuitBtnPnl(){
         UIPanels quitPnl = 
             uiPanels.Find(x => x.name.ToLower().Contains("quit".ToLower()));
-        quitPnl.SetIndex(uiPanels.IndexOf(quitPnl));
 
         actionManager.RegistKeyAction(
             KeyCode.Escape,
@@ -124,110 +134,4 @@ public class UIManager : MonoBehaviour
         );
     }
 
-    void Set_StatButtons(){
-        SetDirtButton();
-        SetFoodButton();
-        SetPlayButton();
-        SetEvolveButton();
-        SetBookButton();
-    }
-    [SerializeField]
-    SelfManageButton btnEvolve;
-    [SerializeField]
-    SelfManageButton btnDirt;
-    [SerializeField]
-    List<SelfManageButton> btnListFood = new List<SelfManageButton>();
-    [SerializeField]
-    List<SelfManageButton> btnListPlay = new List<SelfManageButton>();
-    [SerializeField]
-    List<SelfManageButton> btnBook = new List<SelfManageButton>();
-
-    public readonly int animationTime = 2;
-
-    void SetDirtButton(){
-
-        int needStamina = 50;
-        int recoverValue = 100;
-        btnDirt.SetButtonOption(()=>{ 
-            return (actionManager.CheckActionCondition(ConditionCheckType.stamina, needStamina) &&
-                    actionManager.CheckActionCondition(ConditionCheckType.alive, 0));
-        });
-
-        ComponentUtility.SetButtonAction(btnDirt, ()=>{
-            
-            actionManager.DoStatusAction(StatusType.dirt, recoverValue);
-            actionManager.DoConditionConsumeAction(ConditionCheckType.stamina, needStamina);
-            actionManager.DoCreatureAction(CreatureState.Clean, animationTime);
-        });
-    }
-
-    void SetFoodButton(){
-        for (int i = 0; i < btnListFood.Count; i++)
-        {
-            int needStamina = i * 10 + 10;
-            int recoverValue = i * 10;
-            btnListFood[i].SetButtonOption(()=>{ 
-                return (actionManager.CheckActionCondition(ConditionCheckType.stamina, needStamina) &&
-                        actionManager.CheckActionCondition(ConditionCheckType.alive, 0));
-            });
-
-            ComponentUtility.SetButtonAction(btnListFood[i], ()=>{
-                actionManager.DoStatusAction(StatusType.hunger, recoverValue);
-                actionManager.DoConditionConsumeAction(ConditionCheckType.stamina, needStamina);
-                actionManager.DoCreatureAction(CreatureState.Eat, animationTime);
-            });
-        }
-            
-    }
-
-    void SetPlayButton(){
-        for (int i = 0; i < btnListPlay.Count; i++)
-        {
-            int needStamina = i * 10 + 10;
-            int recoverValue = i * 10;
-            btnListPlay[i].SetButtonOption(()=>{ 
-                return (actionManager.CheckActionCondition(ConditionCheckType.stamina, needStamina) &&
-                        actionManager.CheckActionCondition(ConditionCheckType.alive, 0));
-             });
-
-            ComponentUtility.SetButtonAction(btnListPlay[i], ()=>{
-                actionManager.DoStatusAction(StatusType.happiness, recoverValue);
-                actionManager.DoStatusAction(StatusType.health, recoverValue);
-                actionManager.DoConditionConsumeAction(ConditionCheckType.stamina, needStamina);
-                actionManager.DoCreatureAction(CreatureState.Play, animationTime);
-            });
-        }
-    }
-
-    void SetEvolveButton(){
-        btnEvolve.SetButtonOption(()=>{
-            return (actionManager.CheckActionCondition(ConditionCheckType.evolve, 0) &&
-                    actionManager.CheckActionCondition(ConditionCheckType.alive, 0));
-        });
-
-        ComponentUtility.SetButtonAction(btnEvolve, ()=>{
-            actionManager.DoCreatureAction(CreatureState.evolve, -1);
-            actionManager.DoConditionAddAction(ConditionCheckType.coin, 10);
-        });
-    }
-
-    void SetBookButton(){
-        for (int i = 0; i < btnBook.Count; i++)
-        {
-            int needCoin = 10;
-            int index = i;
-            btnBook[i].SetButtonOption(()=>{
-                return (
-                    actionManager.CheckActionCondition(ConditionCheckType.creatureList, index) &&
-                    actionManager.CheckActionCondition(ConditionCheckType.coin, needCoin)
-                );
-            });
-
-            ComponentUtility.SetButtonAction(btnBook[i], ()=>{
-                int bookIndex = i;
-                actionManager.DoConditionConsumeAction(ConditionCheckType.coin, needCoin);
-                actionManager.DoCreatureAction(CreatureState.evolve, bookIndex);
-            });
-        }            
-    }
 }

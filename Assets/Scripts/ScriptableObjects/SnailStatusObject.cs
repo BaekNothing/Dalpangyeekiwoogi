@@ -88,8 +88,8 @@ public class SnailStatusObject : ScriptableObject
 
     public bool CheckDead(float deadLimit)
     {
-        if (dirt.deadTime > deadLimit || happiness.deadTime > deadLimit ||
-            health.deadTime > deadLimit || hunger.deadTime > deadLimit)
+        if (dirt.deadCount > deadLimit || happiness.deadCount > deadLimit ||
+            health.deadCount > deadLimit || hunger.deadCount > deadLimit)
             return true;
         return false;
     }
@@ -100,6 +100,16 @@ public class SnailStatusObject : ScriptableObject
         happiness.StatInit(tick, subtraction);
         health.StatInit(tick, subtraction);
         hunger.StatInit(tick, subtraction);
+    }
+
+    public Dictionary<string, float> GetAllStat()
+    {
+        Dictionary<string, float> stat = new Dictionary<string, float>();
+        stat.Add("더러워졌어요", dirt.value);
+        stat.Add("슬퍼졌어요", happiness.value);
+        stat.Add("아파졌어요", health.value);
+        stat.Add("배고파졌어요", hunger.value);
+        return stat;
     }
 
     readonly static float valueMax = 130f;

@@ -23,10 +23,15 @@ public class UIPanels : MonoBehaviour
     public void LinkManager(UIManager uiManager) =>
         this.uiManager = uiManager;
 
-    public virtual void Init(List<textFactor> factors = null)
+    public virtual void Init(ActionManager actionManager)
+    {
+        SetExit();
+        // Do nothing
+    }
+    
+    public virtual void Show(List<textFactor> factors = null)
     {
         SetTextFromFactors(factors);
-        SetExit();
     }
 
     void SetTextFromFactors(List<textFactor> factors)
