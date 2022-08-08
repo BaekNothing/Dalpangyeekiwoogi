@@ -18,18 +18,19 @@ public class ObjectManager : MonoBehaviour
 
         actionManager.initFlag[nameof(ObjectManager)] = true;
     }
-
     
     void ShowProp(int index ) {
         foreach(GameObject prop in objectPropList) 
                 prop.SetActive(false);
-        StopCoroutine(ShowPropCoroutine(objectPropList[index]));
-        StartCoroutine(ShowPropCoroutine(objectPropList[index]));
+        if(coroutine != null)
+            StopCoroutine(coroutine);
+        coroutine = StartCoroutine(ShowPropCoroutine(objectPropList[index]));
     }
     IEnumerator ShowPropCoroutine(GameObject prop) {
         prop.SetActive(true);
         yield return new WaitForSeconds(GameLoop.animationTime);
         prop.SetActive(false);
+        coroutine = null;
     }
 
 }
