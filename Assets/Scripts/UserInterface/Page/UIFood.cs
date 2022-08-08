@@ -32,7 +32,7 @@ public class UIFood : UIPanels
             {
                 actionManager.DoStatusAction(StatusType.hunger, recoverValue);
                 actionManager.DoConditionConsumeAction(ConditionCheckType.stamina, needStamina);
-                actionManager.DoCreatureAction(CreatureState.Eat, GameLoop.animationTime);
+                actionManager.DoCreatureAction(CreatureActionType.Eat, GameLoop.animationTime);
             });
         }
 

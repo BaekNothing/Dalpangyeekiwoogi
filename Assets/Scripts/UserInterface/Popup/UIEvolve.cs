@@ -23,7 +23,7 @@ public class UIEvolve : UIPanels
     void SetReviveButton(ActionManager actionManager)
     {
         ComponentUtility.AddButtonAction(evolveButton, () => {
-            actionManager.DoCreatureAction(CreatureState.evolve, -1);
+            actionManager.DoCreatureAction(CreatureActionType.evolve, -1);
             actionManager.DoConditionAddAction(ConditionCheckType.coin, 10);
         });
     }

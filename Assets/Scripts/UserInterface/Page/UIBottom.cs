@@ -39,7 +39,7 @@ public class UIBottom : UIPanels
 
             actionManager.DoStatusAction(StatusType.dirt, recoverValue);
             actionManager.DoConditionConsumeAction(ConditionCheckType.stamina, needStamina);
-            actionManager.DoCreatureAction(CreatureState.Clean, GameLoop.animationTime);
+            actionManager.DoCreatureAction(CreatureActionType.Clean, GameLoop.animationTime);
         });
     }
 
@@ -57,7 +57,7 @@ public class UIBottom : UIPanels
             {
 
             });
-            // actionManager.DoCreatureAction(CreatureState.evolve, -1);
+            // actionManager.DoCreatureAction(CreatureActionType.evolve, -1);
             // actionManager.DoConditionAddAction(ConditionCheckType.coin, 10);
         });
     }

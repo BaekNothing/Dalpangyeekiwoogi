@@ -71,7 +71,7 @@ public class DataManager : MonoBehaviour
             actionManager.DoUIPnlShowAction("revisit",  new List<UIPanels.textFactor>{
                 new UIPanels.textFactor(
                     "title",
-                    $"{(int)passedMin}ºÐ ¸¸¿¡ ´Ù½Ã ¿À¼Ì±º¿ä!"
+                    $"{(int)passedMin}ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½Ì±ï¿½ï¿½ï¿½!"
                 ),
                 new UIPanels.textFactor(
                     "desc",
@@ -94,7 +94,7 @@ public class DataManager : MonoBehaviour
 
     string MakeResultStr(Dictionary<string, float> prev, Dictionary<string, float> cur)
     {
-        string resultStr = "´ç½ÅÀÇ ´ÞÆØÀÌ´Â\n";
+        string resultStr = "ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½\n";
         var keys = prev.Keys.ToArray();
         int ManyOrLess = 70;
         int LessOrNone = 20;
@@ -103,13 +103,13 @@ public class DataManager : MonoBehaviour
         {
             int diff = (int)(prev[key] - cur[key]);
             if (cur[key] == 0)
-                resultStr += $"½É°¢ÇÏ°Ô {key}\n";
+                resultStr += $"ï¿½É°ï¿½ï¿½Ï°ï¿½ {key}\n";
             else if(diff > ManyOrLess)
-                resultStr += $"¸¹ÀÌ {key}\n";
+                resultStr += $"ï¿½ï¿½ï¿½ï¿½ {key}\n";
             else if (diff > LessOrNone)
-                resultStr += $"Á¶±Ý {key}\n";
+                resultStr += $"ï¿½ï¿½ï¿½ï¿½ {key}\n";
             else
-                resultStr += $"º°·Î ¾È {key}\n";
+                resultStr += $"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ {key}\n";
         }
 
         return resultStr;
@@ -150,7 +150,7 @@ public class DataManager : MonoBehaviour
         
         if (SnailStat.CheckDead(GameLoop.deadLimit))
         {
-            actionManager.DoCreatureAction(CreatureState.dead);
+            actionManager.DoCreatureAction(CreatureActionType.dead);
             PlayerInfo.isDead = true;
         }
     }

@@ -13,7 +13,7 @@ namespace Consts
         creatureList
     }
 
-    public enum CreatureState 
+    public enum CreatureActionType 
     {   
         Clean,
         Eat, 

@@ -43,7 +43,7 @@ public class UIBook : UIPanels
             ComponentUtility.SetButtonAction(btnBook[i], () =>
             {
                 actionManager.DoConditionConsumeAction(ConditionCheckType.coin, needCoin);
-                actionManager.DoCreatureAction(CreatureState.evolve, bookIndex);
+                actionManager.DoCreatureAction(CreatureActionType.evolve, bookIndex);
             });
         }
     }

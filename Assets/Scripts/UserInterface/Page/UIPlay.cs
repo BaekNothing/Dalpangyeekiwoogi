@@ -34,7 +34,7 @@ public class UIPlay : UIPanels
                 actionManager.DoStatusAction(StatusType.happiness, recoverValue);
                 actionManager.DoStatusAction(StatusType.health, recoverValue);
                 actionManager.DoConditionConsumeAction(ConditionCheckType.stamina, needStamina);
-                actionManager.DoCreatureAction(CreatureState.Play, GameLoop.animationTime);
+                actionManager.DoCreatureAction(CreatureActionType.Play, GameLoop.animationTime);
             });
         }
     }

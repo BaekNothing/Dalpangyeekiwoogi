@@ -109,14 +109,14 @@ public class ActionManager : MonoBehaviour
             action(index);
     }
 
-    List<System.Action<CreatureState, int>> creatureActionList = new List<System.Action<CreatureState, int>>();
-    public void RegistCreatureAction(System.Action<CreatureState, int> action)
+    List<System.Action<CreatureActionType, int>> creatureActionList = new List<System.Action<CreatureActionType, int>>();
+    public void RegistCreatureAction(System.Action<CreatureActionType, int> action)
     {
-        if(creatureActionList == null) creatureActionList = new List<System.Action<CreatureState, int>>();
+        if(creatureActionList == null) creatureActionList = new List<System.Action<CreatureActionType, int>>();
         if(!creatureActionList.Contains(action))
             creatureActionList.Add(action);
     }
-    public void DoCreatureAction(CreatureState state, int value = 0)
+    public void DoCreatureAction(CreatureActionType state, int value = 0)
     {
         ComponentUtility.Log($"DoCreatureAction {state} {value}");
         foreach(var action in creatureActionList)

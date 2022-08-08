@@ -52,7 +52,7 @@ public class CreatureManager : MonoBehaviour
             skeletonDataAsset = dataManager.Creature.skeletonDataAssetList[index];
             creature = SkeletonAnimation.NewSkeletonAnimationGameObject(skeletonDataAsset);
             creature.name = $"Creature_{index}";
-            creature.AnimationState.SetAnimation(0, CreatureState.stand.ToString(), true).TimeScale = 1f;
+            creature.AnimationState.SetAnimation(0, CreatureActionType.stand.ToString(), true).TimeScale = 1f;
             creature.transform.Translate(creatureRootTransform.transform.position);
         }
         else 
@@ -61,45 +61,45 @@ public class CreatureManager : MonoBehaviour
     }
 
     void RegistCreatureAction(){
-        actionManager.RegistCreatureAction(SetCreatureState);
+        actionManager.RegistCreatureAction(SetCreatureActionType);
     }
 
-    void SetCreatureState(CreatureState state, int value)
+    void SetCreatureActionType(CreatureActionType actionType, int value)
     {
         if(dataManager.PlayerInfo.isDead) return;
 
-        switch(state)
+        switch(actionType)
         {
-            case CreatureState.stand:
-                StopCoroutine(SetAnimation(state, value));
-                StartCoroutine(SetAnimation(state, value));
+            case CreatureActionType.stand:
+                StopCoroutine(SetAnimation(actionType, value));
+                StartCoroutine(SetAnimation(actionType, value));
                 break;
-            case CreatureState.Play:
-                StopCoroutine(SetAnimation(state, value));
-                StartCoroutine(SetAnimation(state, value));
+            case CreatureActionType.Play:
+                StopCoroutine(SetAnimation(actionType, value));
+                StartCoroutine(SetAnimation(actionType, value));
                 break;
-            case CreatureState.Clean:
-                state = CreatureState.Play;
-                StopCoroutine(SetAnimation(state, value));
-                StartCoroutine(SetAnimation(state, value));
+            case CreatureActionType.Clean:
+                actionType = CreatureActionType.Play;
+                StopCoroutine(SetAnimation(actionType, value));
+                StartCoroutine(SetAnimation(actionType, value));
                 break;
-            case CreatureState.Eat:
-                StopCoroutine(SetAnimation(state, value));
-                StartCoroutine(SetAnimation(state, value));
+            case CreatureActionType.Eat:
+                StopCoroutine(SetAnimation(actionType, value));
+                StartCoroutine(SetAnimation(actionType, value));
                 break;
-            case CreatureState.dead:
+            case CreatureActionType.dead:
                 CreatureDead();
                 break;
-            case CreatureState.evolve:
+            case CreatureActionType.evolve:
                 CreatureEvolve(value);
                 break;
         }
     }
 
-    IEnumerator SetAnimation(CreatureState state, int animationTime = 0){
-        creature.AnimationState.SetAnimation(0, state.ToString(), true).TimeScale = 1f;
+    IEnumerator SetAnimation(CreatureActionType actionType, int animationTime = 0){
+        creature.AnimationState.SetAnimation(0, actionType.ToString(), true).TimeScale = 1f;
         yield return new WaitForSeconds(animationTime);
-        creature.AnimationState.SetAnimation(0, CreatureState.stand.ToString(), true).TimeScale = 1f;
+        creature.AnimationState.SetAnimation(0, CreatureActionType.stand.ToString(), true).TimeScale = 1f;
     }
     
     void CreatureDead()
