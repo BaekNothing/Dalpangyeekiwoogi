@@ -17,10 +17,10 @@ public class UIEvolve : UIPanels
     public override void Init(ActionManager actionManager)
     {
         base.Init(actionManager);
-        SetReviveButton(actionManager);
+        SetEvolveButton(actionManager);
     }
 
-    void SetReviveButton(ActionManager actionManager)
+    void SetEvolveButton(ActionManager actionManager)
     {
         ComponentUtility.AddButtonAction(evolveButton, () => {
             actionManager.DoCreatureAction(CreatureActionType.evolve, -1);

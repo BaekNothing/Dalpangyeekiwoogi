@@ -29,21 +29,32 @@ public class UIBook : UIPanels
     {
         for (int i = 0; i < btnBook.Count; i++)
         {
-            int needCoin = 10;
             int index = i;
             btnBook[i].SetButtonOption(() =>
             {
                 return (
                     actionManager.CheckActionCondition(ConditionCheckType.creatureList, index) &&
-                    actionManager.CheckActionCondition(ConditionCheckType.coin, needCoin)
+                    actionManager.CheckActionCondition(ConditionCheckType.coin, GameLoop.needCoin)
                 );
             });
 
             int bookIndex = i;
             ComponentUtility.SetButtonAction(btnBook[i], () =>
             {
-                actionManager.DoConditionConsumeAction(ConditionCheckType.coin, needCoin);
-                actionManager.DoCreatureAction(CreatureActionType.evolve, bookIndex);
+                // actionManager.DoConditionConsumeAction(ConditionCheckType.coin, needCoin);
+                // actionManager.DoCreatureAction(CreatureActionType.evolve, bookIndex);
+                actionManager.DoUIPnlShowAction("evolve_force", new List<UIPanels.textFactor>
+                {     
+                    new UIPanels.textFactor(
+                        "title",
+                        "xxx로 달팽이를 진화시켜볼까요?"
+                    ),
+                    
+                    new UIPanels.textFactor(
+                        "index",
+                        index.ToString()
+                    )
+                });
             });
         }
     }

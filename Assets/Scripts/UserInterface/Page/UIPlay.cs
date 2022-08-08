@@ -6,36 +6,82 @@ using UnityEngine.UI;
 
 public class UIPlay : UIPanels
 {
-
     [SerializeField]
-    List<SelfManageButton> btnListPlay = new List<SelfManageButton>();
-
+    SelfManageButton btnExercise;
+    [SerializeField]
+    SelfManageButton btnTv;
+    [SerializeField]
+    SelfManageButton btnRead;
 
     public override void Init(ActionManager actionManager)
     {
         base.Init(actionManager);
-        SetPlayButton(actionManager);
+        SetExerciseButton(actionManager);
+        SetTvButton(actionManager);
+        SetReadButton(actionManager);
     }
 
-    void SetPlayButton(ActionManager actionManager)
+    void SetExerciseButton(ActionManager actionManager)
     {
-        for (int i = 0; i < btnListPlay.Count; i++)
-        {
-            int needStamina = i * 10 + 5;
-            int recoverValue = i * 15 + 20;
-            btnListPlay[i].SetButtonOption(() =>
-            {
-                return (actionManager.CheckActionCondition(ConditionCheckType.stamina, needStamina) &&
-                        actionManager.CheckActionCondition(ConditionCheckType.alive, 0));
-            });
+        float needStamina = 10f;
+        float recoverHappiness = 20f;
+        float recoverHealth = 40f;
 
-            ComponentUtility.SetButtonAction(btnListPlay[i], () =>
-            {
-                actionManager.DoStatusAction(StatusType.happiness, recoverValue);
-                actionManager.DoStatusAction(StatusType.health, recoverValue);
-                actionManager.DoConditionConsumeAction(ConditionCheckType.stamina, needStamina);
-                actionManager.DoCreatureAction(CreatureActionType.Play, GameLoop.animationTime);
-            });
-        }
+
+        btnExercise.SetButtonOption(() =>
+        {
+            return (actionManager.CheckActionCondition(ConditionCheckType.stamina, needStamina) &&
+                    actionManager.CheckActionCondition(ConditionCheckType.alive, 0));
+        });
+        ComponentUtility.SetButtonAction(btnExercise, () =>
+        {
+            actionManager.DoPropAction("exercise");
+            actionManager.DoStatusAction(StatusType.happiness, recoverHappiness);
+            actionManager.DoStatusAction(StatusType.health, recoverHealth);
+            actionManager.DoConditionConsumeAction(ConditionCheckType.stamina, (int)needStamina);
+            actionManager.DoCreatureAction(CreatureActionType.Eat, GameLoop.animationTime);
+        });
+    }
+
+    void SetTvButton(ActionManager actionManager)
+    {
+        float needStamina = 10f;
+        float recoverHappiness = 20f;
+        float recoverHealth = 10f;
+
+        btnTv.SetButtonOption(() =>
+        {
+            return (actionManager.CheckActionCondition(ConditionCheckType.stamina, needStamina) &&
+                    actionManager.CheckActionCondition(ConditionCheckType.alive, 0));
+        });
+        ComponentUtility.SetButtonAction(btnTv, () =>
+        {
+            actionManager.DoPropAction("tv");
+            actionManager.DoStatusAction(StatusType.happiness, recoverHappiness);
+            actionManager.DoStatusAction(StatusType.health, recoverHealth);
+            actionManager.DoConditionConsumeAction(ConditionCheckType.stamina, (int)needStamina);
+            actionManager.DoCreatureAction(CreatureActionType.Eat, GameLoop.animationTime);
+        });
+    }
+
+    void SetReadButton(ActionManager actionManager)
+    {
+        float needStamina = 10f;
+        float recoverHappiness = 40f;
+        float recoverHealth = 20f;
+
+        btnRead.SetButtonOption(() =>
+        {
+            return (actionManager.CheckActionCondition(ConditionCheckType.stamina, needStamina) &&
+                    actionManager.CheckActionCondition(ConditionCheckType.alive, 0));
+        });
+        ComponentUtility.SetButtonAction(btnRead, () =>
+        {
+            actionManager.DoPropAction("read");
+            actionManager.DoStatusAction(StatusType.happiness, recoverHappiness);
+            actionManager.DoStatusAction(StatusType.health, recoverHealth);
+            actionManager.DoConditionConsumeAction(ConditionCheckType.stamina, (int)needStamina);
+            actionManager.DoCreatureAction(CreatureActionType.Eat, GameLoop.animationTime);
+        });
     }
 }
