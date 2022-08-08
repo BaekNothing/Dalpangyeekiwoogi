@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -71,7 +71,7 @@ public class DataManager : MonoBehaviour
             actionManager.DoUIPnlShowAction("revisit",  new List<UIPanels.textFactor>{
                 new UIPanels.textFactor(
                     "title",
-                    $"{(int)passedMin}�� ���� �ٽ� ���̱���!"
+                    $"{(int)passedMin}분 만에 돌아오셨군요!"
                 ),
                 new UIPanels.textFactor(
                     "desc",
@@ -94,7 +94,7 @@ public class DataManager : MonoBehaviour
 
     string MakeResultStr(Dictionary<string, float> prev, Dictionary<string, float> cur)
     {
-        string resultStr = "����� �����̴�\n";
+        string resultStr = "당신의 달팽이는\n";
         var keys = prev.Keys.ToArray();
         int ManyOrLess = 70;
         int LessOrNone = 20;
@@ -103,13 +103,13 @@ public class DataManager : MonoBehaviour
         {
             int diff = (int)(prev[key] - cur[key]);
             if (cur[key] == 0)
-                resultStr += $"�ɰ��ϰ� {key}\n";
+                resultStr += $"심각하게 {key}\n";
             else if(diff > ManyOrLess)
-                resultStr += $"���� {key}\n";
+                resultStr += $"매우 {key}\n";
             else if (diff > LessOrNone)
-                resultStr += $"���� {key}\n";
+                resultStr += $"{key}\n";
             else
-                resultStr += $"���� �� {key}\n";
+                resultStr += $"별로 안 {key}\n";
         }
 
         return resultStr;
@@ -214,6 +214,7 @@ public class DataManager : MonoBehaviour
         actionManager.RegistConditionalAction(ConditionCheckType.stamina, CheckStamina);
         actionManager.RegistConditionalAction(ConditionCheckType.alive, CheckAlive);
         actionManager.RegistConditionalAction(ConditionCheckType.evolve, CheckEvelove);
+        actionManager.RegistConditionalAction(ConditionCheckType.dirt, CheckDirt);
     }
 
     bool CheckCreatureList(float index){
@@ -243,6 +244,12 @@ public class DataManager : MonoBehaviour
     {
         return PlayerInfo.canEveolve;
     }
+    
+    bool CheckDirt(float compareValue)
+    {
+        return SnailStat.GetStatusValue(StatusType.dirt) >= compareValue;
+    }
+
 
     // ******* Quit Action *******
 

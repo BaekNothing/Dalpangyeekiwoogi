@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Consts;
@@ -105,10 +105,10 @@ public class SnailStatusObject : ScriptableObject
     public Dictionary<string, float> GetAllStat()
     {
         Dictionary<string, float> stat = new Dictionary<string, float>();
-        stat.Add("´õ·¯¿öÁ³¾î¿ä", dirt.value);
-        stat.Add("½½ÆÛÁ³¾î¿ä", happiness.value);
-        stat.Add("¾ÆÆÄÁ³¾î¿ä", health.value);
-        stat.Add("¹è°íÆÄÁ³¾î¿ä", hunger.value);
+        stat.Add("ë”ëŸ¬ì›Œì¡Œì–´ìš”", dirt.value);
+        stat.Add("ìŠ¬í¼ì¡Œì–´ìš”", happiness.value);
+        stat.Add("ì•„íŒŒì¡Œì–´ìš”", health.value);
+        stat.Add("ë°°ê³ íŒŒì¡Œì–´ìš”", hunger.value);
         return stat;
     }
 
