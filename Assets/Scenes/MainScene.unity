@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1162,7 +1162,7 @@ Transform:
   m_LocalScale: {x: 0.57036, y: 0.57036, z: 0.57036}
   m_Children: []
   m_Father: {fileID: 2117487215}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &53700139
 MonoBehaviour:
@@ -2467,7 +2467,7 @@ GameObject:
   - component: {fileID: 154895487}
   - component: {fileID: 154895484}
   m_Layer: 5
-  m_Name: Button2
+  m_Name: Exercise
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3158,7 +3158,7 @@ GameObject:
   - component: {fileID: 173113463}
   - component: {fileID: 173113460}
   m_Layer: 5
-  m_Name: Button3
+  m_Name: Snak
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5701,7 +5701,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &411929991
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5773,7 +5773,7 @@ GameObject:
   - component: {fileID: 412260359}
   - component: {fileID: 412260358}
   m_Layer: 0
-  m_Name: Book
+  m_Name: Read
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5791,7 +5791,7 @@ Transform:
   m_LocalScale: {x: 0.57036, y: 0.57036, z: 0.57036}
   m_Children: []
   m_Father: {fileID: 2117487215}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &412260358
 MonoBehaviour:
@@ -9097,7 +9097,7 @@ GameObject:
   - component: {fileID: 603398887}
   - component: {fileID: 603398884}
   m_Layer: 5
-  m_Name: Button1
+  m_Name: Read
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12329,7 +12329,7 @@ Transform:
   m_LocalScale: {x: 0.43575504, y: 0.43575504, z: 0.43575504}
   m_Children: []
   m_Father: {fileID: 2117487215}
-  m_RootOrder: 1
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &848593999
 MonoBehaviour:
@@ -15655,7 +15655,7 @@ GameObject:
   - component: {fileID: 1070177256}
   - component: {fileID: 1070177253}
   m_Layer: 5
-  m_Name: Button3
+  m_Name: TV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17628,7 +17628,7 @@ GameObject:
   - component: {fileID: 1267540679}
   - component: {fileID: 1267540676}
   m_Layer: 5
-  m_Name: Button2
+  m_Name: Food
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17648,7 +17648,7 @@ RectTransform:
   - {fileID: 789895943}
   - {fileID: 2064198735}
   m_Father: {fileID: 2098021765}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.20400001}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -19375,7 +19375,7 @@ Transform:
   m_LocalScale: {x: 0.84, y: 0.84, z: 0.84}
   m_Children: []
   m_Father: {fileID: 2117487215}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1412179110
 MonoBehaviour:
@@ -20410,7 +20410,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1585111589
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21874,7 +21874,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1681735284
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23956,7 +23956,7 @@ GameObject:
   - component: {fileID: 1805523353}
   - component: {fileID: 1805523350}
   m_Layer: 5
-  m_Name: Button1
+  m_Name: Meat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23976,7 +23976,7 @@ RectTransform:
   - {fileID: 1870037397}
   - {fileID: 2088303710}
   m_Father: {fileID: 2098021765}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.74300003}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -25171,7 +25171,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1888230532
 RectTransform:
   m_ObjectHideFlags: 0
@@ -25815,6 +25815,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44228e9d6d76ede4bbaff4d3937b5e0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectDirtList:
+  - {fileID: 938068182}
+  - {fileID: 1480217167}
+  - {fileID: 226531257}
+  objectPropList:
+  - {fileID: 35840785}
+  - {fileID: 848593997}
+  - {fileID: 1412179108}
+  - {fileID: 412260356}
+  - {fileID: 53700137}
+  - {fileID: 686653412}
+  - {fileID: 1071061472}
 --- !u!4 &1931418383
 Transform:
   m_ObjectHideFlags: 0
@@ -26894,7 +26906,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2009009875
 RectTransform:
   m_ObjectHideFlags: 0
@@ -28108,8 +28120,8 @@ RectTransform:
   - {fileID: 1928994064}
   - {fileID: 310610}
   - {fileID: 610886831}
-  - {fileID: 1805523349}
   - {fileID: 1267540675}
+  - {fileID: 1805523349}
   - {fileID: 173113459}
   - {fileID: 684431626}
   m_Father: {fileID: 2138619251}
@@ -28171,10 +28183,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisIndex: 0
-  btnListFood:
-  - {fileID: 173113463}
-  - {fileID: 1267540679}
-  - {fileID: 1805523353}
+  btnFood: {fileID: 1267540679}
+  btnMeat: {fileID: 1805523353}
+  btnSnak: {fileID: 173113463}
 --- !u!1 &2112623771
 GameObject:
   m_ObjectHideFlags: 0
@@ -28436,10 +28447,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 35840786}
-  - {fileID: 848593998}
   - {fileID: 1412179109}
   - {fileID: 412260357}
   - {fileID: 53700138}
+  - {fileID: 848593998}
   - {fileID: 686653413}
   - {fileID: 1071061473}
   m_Father: {fileID: 0}
@@ -28812,7 +28823,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2132352676
 RectTransform:
   m_ObjectHideFlags: 0

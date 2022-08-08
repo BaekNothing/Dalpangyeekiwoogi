@@ -10,7 +10,8 @@ namespace Consts
         alive,
         evolve,
         coin,
-        creatureList
+        creatureList,
+        dirt
     }
 
     public enum CreatureActionType 
@@ -41,6 +42,8 @@ namespace Consts
 
     static class GameLoop
     {
+        static public readonly float[] dirtDegree = {45f, 65f, 90f};
+
         static public readonly float tickCorrection = 0.005f; //= 1 / 900 * 40
         static public readonly int animationTime = 2;
         static public readonly float deadTimeLimit = 3f; // 1f => 1sec * 100 = 1.4Min

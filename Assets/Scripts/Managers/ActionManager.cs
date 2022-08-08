@@ -186,4 +186,16 @@ public class ActionManager : MonoBehaviour
             foreach(var action in conditionAddActionDict[conditionCheckType])
                 action(conditionCheckType, value);
     }
+
+    List<System.Action<string>> propActionList = new List<System.Action<string>>();
+    public void RegistPropAction(System.Action<string> action)
+    {
+        if(action != null && !propActionList.Contains(action))
+            propActionList.Add(action);
+    }
+    public void DoPropAction(string name)
+    {
+        foreach(var action in propActionList)
+            action(name);
+    }
 }

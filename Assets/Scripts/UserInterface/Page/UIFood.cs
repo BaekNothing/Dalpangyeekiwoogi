@@ -7,35 +7,79 @@ using UnityEngine.UI;
 public class UIFood : UIPanels
 {
     [SerializeField]
-    List<SelfManageButton> btnListFood = new List<SelfManageButton>();
+    SelfManageButton btnFood;
+    [SerializeField]
+    SelfManageButton btnMeat;
+    [SerializeField]
+    SelfManageButton btnSnak;
 
     public override void Init(ActionManager actionManager)
     {
         base.Init(actionManager);
         SetFoodButton(actionManager);
+        SetMeatButton(actionManager);
+        SetSnakButton(actionManager);
     }
 
 
     void SetFoodButton(ActionManager actionManager)
     {
-        for (int i = 0; i < btnListFood.Count; i++)
+        float needStamina = 10f;
+        float recoverHunger = 20f;
+
+
+        btnFood.SetButtonOption(() =>
         {
-            int needStamina = i * 10 + 5;
-            int recoverValue = i * 15 + 20;
-            btnListFood[i].SetButtonOption(() =>
-            {
-                return (actionManager.CheckActionCondition(ConditionCheckType.stamina, needStamina) &&
-                        actionManager.CheckActionCondition(ConditionCheckType.alive, 0));
-            });
+            return (actionManager.CheckActionCondition(ConditionCheckType.stamina, needStamina) &&
+                    actionManager.CheckActionCondition(ConditionCheckType.alive, 0));
+        });
+        ComponentUtility.SetButtonAction(btnFood, () =>
+        {
+            actionManager.DoPropAction("food");
+            actionManager.DoStatusAction(StatusType.hunger, recoverHunger);
+            actionManager.DoConditionConsumeAction(ConditionCheckType.stamina, (int)needStamina);
+            actionManager.DoCreatureAction(CreatureActionType.Eat, GameLoop.animationTime);
+        });
+    }
 
-            ComponentUtility.SetButtonAction(btnListFood[i], () =>
-            {
-                actionManager.DoStatusAction(StatusType.hunger, recoverValue);
-                actionManager.DoConditionConsumeAction(ConditionCheckType.stamina, needStamina);
-                actionManager.DoCreatureAction(CreatureActionType.Eat, GameLoop.animationTime);
-            });
-        }
+    void SetSnakButton(ActionManager actionManager)
+    {
+        float needStamina = 10f;
+        float recoverHunger = 20f;
 
+
+        btnSnak.SetButtonOption(() =>
+        {
+            return (actionManager.CheckActionCondition(ConditionCheckType.stamina, needStamina) &&
+                    actionManager.CheckActionCondition(ConditionCheckType.alive, 0));
+        });
+        ComponentUtility.SetButtonAction(btnSnak, () =>
+        {
+            actionManager.DoPropAction("snak");
+            actionManager.DoStatusAction(StatusType.hunger, recoverHunger);
+            actionManager.DoConditionConsumeAction(ConditionCheckType.stamina, (int)needStamina);
+            actionManager.DoCreatureAction(CreatureActionType.Eat, GameLoop.animationTime);
+        });
+    }
+
+    void SetMeatButton(ActionManager actionManager)
+    {
+        float needStamina = 10f;
+        float recoverHunger = 20f;
+
+
+        btnMeat.SetButtonOption(() =>
+        {
+            return (actionManager.CheckActionCondition(ConditionCheckType.stamina, needStamina) &&
+                    actionManager.CheckActionCondition(ConditionCheckType.alive, 0));
+        });
+        ComponentUtility.SetButtonAction(btnMeat, () =>
+        {
+            actionManager.DoPropAction("meat");
+            actionManager.DoStatusAction(StatusType.hunger, recoverHunger);
+            actionManager.DoConditionConsumeAction(ConditionCheckType.stamina, (int)needStamina);
+            actionManager.DoCreatureAction(CreatureActionType.Eat, GameLoop.animationTime);
+        });
     }
 
 }
