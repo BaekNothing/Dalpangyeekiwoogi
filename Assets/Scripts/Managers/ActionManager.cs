@@ -10,6 +10,7 @@ public class ActionManager : MonoBehaviour
             {nameof(UIManager), false},
             {nameof(DataManager), false},
             {nameof(CreatureManager), false},
+            {nameof(ObjectManager), false},
         };
     
     bool AllClassReady = false;
@@ -116,11 +117,11 @@ public class ActionManager : MonoBehaviour
         if(!creatureActionList.Contains(action))
             creatureActionList.Add(action);
     }
-    public void DoCreatureAction(CreatureActionType state, int value = 0)
+    public void DoCreatureAction(CreatureActionType actionType, int value = 0)
     {
-        ComponentUtility.Log($"DoCreatureAction {state} {value}");
+        ComponentUtility.Log($"DoCreatureAction {actionType} {value}");
         foreach(var action in creatureActionList)
-            action(state, value);
+            action(actionType, value);
     }
 
     List<System.Action<StatusType, float>> statusActionDict = new List<System.Action<StatusType, float>>();
