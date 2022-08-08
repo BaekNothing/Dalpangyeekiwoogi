@@ -30,18 +30,14 @@ public class SelfManageButton_ManageOption : MonoBehaviour
         for (int i = 0; i < this.transform.childCount; i++)
         {
             GameObject child = this.transform.GetChild(i).gameObject;
-            if(!clickAble) 
-                child.SetActive(false);
-            else 
+            
+            if (child.name.Contains("_"))
+                child.SetActive(clickAble);
+            else
             {
-                if (child.name.Contains("_"))
-                    child.SetActive(true);
-                else
-                {
-                    bool isStatConnectedObject 
-                        = child.name.ToLower().Contains(state.ToString().ToLower());
-                    child.SetActive(isStatConnectedObject);
-                }
+                bool isStatConnectedObject 
+                    = child.name.ToLower().Contains(state.ToString().ToLower());
+                child.SetActive(isStatConnectedObject);
             }
         }
         this.state = state;

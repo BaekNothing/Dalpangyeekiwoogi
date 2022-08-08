@@ -16,15 +16,20 @@ public class ObjectManager : MonoBehaviour
     private void Awake() 
     {
         actionManager = this.GetComponent<ActionManager>();
-        actionManager.RegistTickAction(Action_ShowDirt);
+        RegistTickAction();
+        RegistPropAction();
         actionManager.initFlag[nameof(ObjectManager)] = true;
+    }
+
+    void RegistTickAction(){
+        actionManager.RegistTickAction(Action_ShowDirt);
     }
 
     void Action_ShowDirt()
     {
         for (int i = 0; i < 3; i++)
             objectDirtList[i].gameObject.SetActive(
-                actionManager.CheckActionCondition(ConditionCheckType.dirt, GameLoop.dirtDegree[0]));
+                !actionManager.CheckActionCondition(ConditionCheckType.dirt, GameLoop.dirtDegree[i]));
     }
     
     void RegistPropAction(){
@@ -44,6 +49,7 @@ public class ObjectManager : MonoBehaviour
 
     IEnumerator ShowPropCoroutine(GameObject prop) 
     {
+        Debug.Log(prop.name);
         prop.SetActive(true);
         yield return new WaitForSeconds(GameLoop.animationTime);
         prop.SetActive(false);

@@ -8,5 +8,4 @@ public class UIRevisit : UIPanels
     {
         base.Show(factors);
     }
-
 }

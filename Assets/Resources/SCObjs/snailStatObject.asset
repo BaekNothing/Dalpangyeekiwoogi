@@ -14,29 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dirt:
     name: dirt
-    value: 0
-    deadCount: 51
-    deadTime: 0.22490418
+    value: 129.53911
+    deadCount: 171
+    deadTime: 9.933457
     tick: 900
     subtraction: 1
   happiness:
     name: happy
-    value: 57.340755
-    deadCount: 50
-    deadTime: 14.353006
+    value: 0
+    deadCount: 167
+    deadTime: 12.90907
     tick: 900
     subtraction: 1
   health:
     name: health
-    value: 57.340755
-    deadCount: 50
-    deadTime: 14.353006
+    value: 0
+    deadCount: 167
+    deadTime: 12.90907
     tick: 900
     subtraction: 1
   hunger:
     name: hunger
-    value: 127.29136
-    deadCount: 50
-    deadTime: 14.221424
+    value: 94.250244
+    deadCount: 162
+    deadTime: 12.0889635
     tick: 900
     subtraction: 1

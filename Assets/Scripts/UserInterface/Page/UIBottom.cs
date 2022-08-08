@@ -26,8 +26,8 @@ public class UIBottom : UIPanels
     void SetDirtButton(ActionManager actionManager)
     {
 
-        int needStamina = 50;
-        int recoverValue = 100;
+        float needStamina = 15;
+        float recoverValue = 50;
         btnDirt.SetButtonOption(() =>
         {
             return (actionManager.CheckActionCondition(ConditionCheckType.stamina, needStamina) &&
@@ -36,9 +36,9 @@ public class UIBottom : UIPanels
 
         ComponentUtility.SetButtonAction(btnDirt, () =>
         {
-
+            actionManager.DoPropAction("broom");
             actionManager.DoStatusAction(StatusType.dirt, recoverValue);
-            actionManager.DoConditionConsumeAction(ConditionCheckType.stamina, needStamina);
+            actionManager.DoConditionConsumeAction(ConditionCheckType.stamina, (int)needStamina);
             actionManager.DoCreatureAction(CreatureActionType.Clean, GameLoop.animationTime);
         });
     }

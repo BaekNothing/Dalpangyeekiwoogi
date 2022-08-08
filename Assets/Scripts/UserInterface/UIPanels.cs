@@ -47,7 +47,10 @@ public class UIPanels : MonoBehaviour
     void SetExit() =>
         ComponentUtility.SetButtonAction(
             ComponentUtility.FindT<Button>(this.transform, "exit"),
-            () => uiManager.HidePanel(thisIndex));
+            () => {
+                ComponentUtility.Log($"Exit : {this.name} {thisIndex}");
+                uiManager.HidePanel(thisIndex);
+            });
 
     public void Hide() =>
         uiManager.HidePanel(thisIndex);

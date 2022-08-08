@@ -42,7 +42,7 @@ namespace Consts
 
     static class GameLoop
     {
-        static public readonly float[] dirtDegree = {45f, 65f, 90f};
+        static public readonly float[] dirtDegree = {55f, 35f, 10f};
 
         static public readonly float tickCorrection = 0.005f; //= 1 / 900 * 40
         static public readonly int animationTime = 2;
