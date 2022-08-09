@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,14 +19,15 @@ public class UITop : UIPanels
     public override void Init(ActionManager actionManager)
     {
         base.Init(actionManager);
-        Action_TickAction(actionManager);
+        actionManager.RegistTickAction(()=>{
+            Action_TickAction(actionManager);
+        });
     }
 
     void Action_TickAction(ActionManager actionManager)
     {
         if (GameLoop.SkipFrame(frameOrder.refresh)) return;
-        lblRamainStamina.text = MakeListStringToString(
-            actionManager.DoPlayerInfoAction(PlayerInfoActionType.getStaminaRemainTime, ""));
+        lblRamainStamina.text = $"충전까지 앞으로 {MakeListStringToString(actionManager.DoPlayerInfoAction(PlayerInfoActionType.getStaminaRemainTime, ""))}분";
 
         lblStamina.text = MakeListStringToString(
             actionManager.DoPlayerInfoAction(PlayerInfoActionType.getStamina, ""));

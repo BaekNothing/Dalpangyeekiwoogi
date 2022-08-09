@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public static class ComponentUtility
 {
@@ -105,14 +106,22 @@ public static class ComponentUtility
     {
 #if UNITY_EDITOR
         Debug.Log($"{message}");
-#else
-        if(!errLogger)
+#endif
+        if (!errLogger)
             errLogger = FindT<Text>(
                 GameObject.Find("MainCanvas").
                 transform, "err"
             );
-        errLogger.text = message;
-#endif
+        string[] text = errLogger.text.Split('\n');
+        if (text.Length > 10)
+        {
+            for (int i = 1; i < text.Length; i++)
+                text[i - 1] = text[i];
+            text[text.Length - 1] = message;
+            errLogger.text = string.Join("\n", text);
+        }
+        else
+            errLogger.text += $"\n{message}";
     }
 }
 

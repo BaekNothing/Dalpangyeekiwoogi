@@ -46,7 +46,7 @@ public class PlayerInfoObject : ScriptableObject
     {   
         if (lastLoginTime == null)
             lastLoginTime = DateTime.Now.ToString();
-        return (DateTime.Now - DateTime.Parse(lastLoginTime)).TotalMinutes;
+        return (DateTime.Now - DateTime.Parse(lastLoginTime)).Minutes;
     }
 
     //****** Creature Init Time *******
@@ -59,7 +59,7 @@ public class PlayerInfoObject : ScriptableObject
     {
         if (creatureInitTime == null)
             creatureInitTime = DateTime.Now.ToString();
-        return (DateTime.Now - DateTime.Parse(creatureInitTime)).TotalMinutes;
+        return (DateTime.Now - DateTime.Parse(creatureInitTime)).Minutes;
     }
 
     //****** Stamina *******
@@ -104,7 +104,15 @@ public class PlayerInfoObject : ScriptableObject
     public double GetPassedStaminaTime(){
         if (staminaTime == null)
             staminaTime = DateTime.Now.ToString();
-        return (DateTime.Now - DateTime.Parse(staminaTime)).TotalMinutes;
+        
+        double time = (DateTime.Now - DateTime.Parse(staminaTime)).Minutes;
+        //ComponentUtility.Log($"{time} : {staminaTime} : {DateTime.Now}");
+        if(time < 0)
+        {
+            staminaTime = DateTime.Now.ToString();
+            time = 0;
+        }
+        return time;
     }
 
     //****** COIN *******

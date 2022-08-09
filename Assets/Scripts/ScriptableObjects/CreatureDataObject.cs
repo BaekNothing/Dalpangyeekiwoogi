@@ -11,8 +11,8 @@ public class CreatureDataObject : ScriptableObject
     string creatureDataPath = "TempCaracter/SkeletonStatus";
     
     public List<SkeletonDataAsset> skeletonDataAssetList = new List<SkeletonDataAsset>();
-    
     public SkeletonDataAsset skeletonData_Dead;
+
     public void LoadCreatureData()
     {
         //The creature list may be scaledUp in the future, so initialize it at runtime
@@ -47,6 +47,6 @@ public class CreatureDataObject : ScriptableObject
         }
 
         public string GetName() => values[1];
-        public string GetDesc() => values[2];
+        public string GetDesc() => values[0];
     }
 }

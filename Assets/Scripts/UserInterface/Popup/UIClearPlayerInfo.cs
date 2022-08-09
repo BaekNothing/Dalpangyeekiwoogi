@@ -4,12 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using Consts;
 
-public class UIEvolve_Force : UIPanels
+public class UIClearPlayerInfo : UIPanels
 {
     [SerializeField]
     private Button exitButton;
     [SerializeField]
-    private Button evolveButton;
+    private Button clearButton;
     [SerializeField]
     private Text lblEvolve;
 
@@ -26,11 +26,12 @@ public class UIEvolve_Force : UIPanels
 
     void SetEvolveForceButton(ActionManager actionManager)
     {
-        ComponentUtility.AddButtonAction(evolveButton, () => {
-            actionManager.DoCreatureAction(CreatureActionType.evolve, int.Parse(lblEvolve.text));
-            actionManager.DoConditionConsumeAction(ConditionCheckType.coin, GameLoop.needCoin);
-            // actionManager.DoCreatureAction(CreatureActionType.evolve, bookIndex);
+        ComponentUtility.AddButtonAction(clearButton, () =>
+        {
+            actionManager.DoPlayerInfoAction(PlayerInfoActionType.initPlayerInfo, "0");
+            actionManager.DoCreatureAction(CreatureActionType.evolve, 0);
             actionManager.DoKeyAction(KeyCode.Escape);
+            exitButton.onClick.Invoke();
         });
     }
 }

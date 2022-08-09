@@ -55,7 +55,7 @@ public class UIFood : UIPanels
         });
         ComponentUtility.SetButtonAction(btnSnak, () =>
         {
-            actionManager.DoPropAction("snak");
+            actionManager.DoPropAction("snack");
             actionManager.DoStatusAction(StatusType.hunger, recoverHunger);
             actionManager.DoConditionConsumeAction(ConditionCheckType.stamina, (int)needStamina);
             actionManager.DoCreatureAction(CreatureActionType.Eat, GameLoop.animationTime);

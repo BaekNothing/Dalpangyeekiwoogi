@@ -28,7 +28,6 @@ public class UIManager : MonoBehaviour
     {
         mainCanvas = GameObject.Find("MainCanvas").GetComponent<Canvas>();
         actionManager = this.GetComponent<ActionManager>();
-        actionManager.RegistKeyAction(KeyCode.Escape, HideAllPanel);
         RegistUIPnlShowAction(actionManager);
 
         foreach(UIPanels pnl in ComponentUtility.FindAllT<UIPanels>(mainCanvas.transform))
@@ -52,7 +51,8 @@ public class UIManager : MonoBehaviour
         //******** Bottom *********//
         ComponentUtility.LinkBtnPnl("food", btnDict, uiPanels, btnList);
         ComponentUtility.LinkBtnPnl("play", btnDict, uiPanels, btnList);
-
+        ComponentUtility.LinkBtnPnl("rename", btnDict, uiPanels, btnList);
+        
         //********* Other *********//
         Set_QuitBtnPnl();
 

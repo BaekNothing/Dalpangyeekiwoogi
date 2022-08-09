@@ -4,8 +4,6 @@ using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System;
-using Spine;
-using Spine.Unity;
 using Consts;
 using System.Linq;
 
@@ -64,6 +62,7 @@ public class DataManager : MonoBehaviour
         double passedMin = PlayerInfo.GetPassedLoginTime();
         if (passedMin > 5)
         {
+            ComponentUtility.Log($"CheckDealiedStat : {PlayerInfo.GetPassedLoginTime()} : {PlayerInfo.lastLoginTime} : {DateTime.Now}");
             Dictionary<string, float> prevStat = SnailStat.GetAllStat();
             CalculateDelaiedStat(passedMin);
             Dictionary<string, float> curStat = SnailStat.GetAllStat();
@@ -125,6 +124,7 @@ public class DataManager : MonoBehaviour
         actionManager.RegistTickAction(Action_CalculateStamina);
         actionManager.RegistTickAction(Action_CheckDead);
         actionManager.RegistTickAction(Action_CheckEvolve);
+        actionManager.RegistTickAction(Action_SetLastlogin);
     }
 
     void Action_CalcualteStat()
@@ -165,12 +165,22 @@ public class DataManager : MonoBehaviour
             PlayerInfo.canEveolve = true;
     }
 
+    void Action_SetLastlogin()
+    {
+        if (GameLoop.SkipFrame(frameOrder.refresh))
+            return;    
+        PlayerInfo.SetLastLoginTime();
+    }
+
     // ****** PlayerInfo Action *******
     void RegistPlayerInfoAction(){
         actionManager.RegistPlayerInfoAction(PlayerInfoActionType.initPlayerInfo, InitPlayerInfo);
         actionManager.RegistPlayerInfoAction(PlayerInfoActionType.getStaminaRemainTime, GetStaminaRemainTime);
         actionManager.RegistPlayerInfoAction(PlayerInfoActionType.getStamina, GetStamina);
         actionManager.RegistPlayerInfoAction(PlayerInfoActionType.getCoin, GetCoin);
+        actionManager.RegistPlayerInfoAction(PlayerInfoActionType.getCreatureData, GetCreatureData);
+        actionManager.RegistPlayerInfoAction(PlayerInfoActionType.getPlayerName, GetPlayerName);
+        actionManager.RegistPlayerInfoAction(PlayerInfoActionType.setPlayerName, SetPlayerName);
     }
 
     string InitPlayerInfo(string newIndex){       
@@ -185,8 +195,8 @@ public class DataManager : MonoBehaviour
     }
 
     string GetStaminaRemainTime(string value){
-        return (GameLoop.staminaLimitTime - 
-                PlayerInfo.GetPassedStaminaTime()).ToString();
+        return ((int)(GameLoop.staminaLimitTime - 
+                PlayerInfo.GetPassedStaminaTime())).ToString();
     }
 
     string GetStamina(string value){
@@ -197,6 +207,24 @@ public class DataManager : MonoBehaviour
         return (PlayerInfo.GetCoin()).ToString();
     }
 
+    string GetCreatureData(string value){
+        int index = int.Parse(value ?? "0");
+        var creatureList = Creature.creatureList;
+        if (index < 0 || index >= creatureList.Count)
+            return $"no Creature Data {index}";
+
+        CreatureDataObject.SingleCreature creature = creatureList[index];
+        return $"{creature.GetName()} ^ {creature.GetDesc()}";
+    }
+
+    string GetPlayerName(string value){
+        return PlayerInfo.creatureName;
+    }
+
+    string SetPlayerName(string value){
+        PlayerInfo.creatureName = value;
+        return $"{PlayerInfoActionType.setPlayerName} : {value}";
+    }
 
 
     // ******* Stat Action *******
@@ -299,6 +327,6 @@ public class DataManager : MonoBehaviour
         PlayerInfo.ClearAllData();
         SnailStat.ClearAllStat();
         actionManager.DoEvolve(0);
-        PlayerInfo.AddCoin(30);
+        //PlayerInfo.AddCoin(30);
     }
 }

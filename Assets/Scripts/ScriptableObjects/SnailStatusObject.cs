@@ -49,6 +49,23 @@ public class SnailStatusObject : ScriptableObject
         }
     }
 
+    public int GetDeadCount(StatusType type)
+    {
+        switch (type)
+        {
+            case StatusType.dirt:
+                return dirt.deadCount;
+            case StatusType.happiness:
+                return happiness.deadCount;
+            case StatusType.health:
+                return health.deadCount;
+            case StatusType.hunger:
+                return hunger.deadCount;
+            default:
+                return 0;
+        }
+    }
+
     public void AddStatusValue(StatusType type, float value)
     {
         switch (type)

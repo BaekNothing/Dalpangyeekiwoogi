@@ -9,7 +9,10 @@ namespace Consts
         initPlayerInfo,
         getStaminaRemainTime,
         getStamina,
-        getCoin
+        getCoin,
+        getCreatureData,
+        getPlayerName,
+        setPlayerName
     }
 
     public enum ConditionCheckType

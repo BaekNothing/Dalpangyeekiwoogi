@@ -42,6 +42,17 @@ public class ActionManager : MonoBehaviour
         if(action != null && !keyActionDict[key].Contains(action))
             keyActionDict[key].Add(action);
     }
+    public void DoKeyAction(KeyCode key)
+    {
+        if(keyActionDict.ContainsKey(key))
+        {
+            foreach(var action in keyActionDict[key])
+            {
+                action();
+            }
+        }
+    }
+
 
     List<System.Action> quitActionList = new List<System.Action>();
     public void RegistQuitAction(System.Action action) => quitActionList.Add(action);
@@ -56,6 +67,7 @@ public class ActionManager : MonoBehaviour
         }
         else// AllClassReady == true
         {
+            if(GameLoop.SkipFrame(frameOrder.refresh)) return;
             // Central Game Loop
             foreach (System.Action action in tickActionList)
                 action();

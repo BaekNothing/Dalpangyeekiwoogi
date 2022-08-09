@@ -9,20 +9,39 @@ public class UIBook : UIPanels
 
     [SerializeField]
     List<SelfManageButton> btnBook = new List<SelfManageButton>();
+    List<string> bookData = new List<string>();
     
     public override void Init(ActionManager actionManager)
     {
         base.Init(actionManager);
-        SetBtnBookList();
+        SetBtnBookList(actionManager);
         SetBookButton(actionManager);
     }
 
-    public void SetBtnBookList(){
+    public void SetBtnBookList(ActionManager actionManager){
         btnBook.Clear();
         ScrollRect scroll = ComponentUtility.FindT<ScrollRect>(this.transform, "scroll");
         if (scroll)
             for (int i = 0; i < scroll.content.childCount; i++)
-                btnBook.Add(ComponentUtility.FindT<SelfManageButton>(scroll.content.GetChild(i), "button"));
+            {
+                SelfManageButton btn = ComponentUtility.FindT<SelfManageButton>(scroll.content.GetChild(i), "button");
+                if (btn)
+                    btnBook.Add(btn);
+                
+                Text name = ComponentUtility.FindT<Text>(scroll.content.GetChild(i), "name");
+                bookData.Add(MakeListStringToString(
+                    actionManager.DoPlayerInfoAction(PlayerInfoActionType.getCreatureData, i.ToString())));
+                if (name)
+                    name.text = $"{bookData[i].Split('^')[0]}";
+            } 
+    }
+
+    string MakeListStringToString(List<string> listString)
+    {
+        string result = "";
+        for (int i = 0; i < listString.Count; i++)
+            result += listString[i];
+        return result;
     }
 
     void SetBookButton(ActionManager actionManager)
@@ -47,7 +66,12 @@ public class UIBook : UIPanels
                 {     
                     new UIPanels.textFactor(
                         "title",
-                        "xxx로 달팽이를 진화시켜볼까요?"
+                        $"{bookData[bookIndex].Split('^')[0]}로 달팽이를 진화시켜볼까요?"
+                    ),
+
+                    new UIPanels.textFactor(
+                        "desc",
+                        $"{bookData[bookIndex].Split('^')[1]}"
                     ),
                     
                     new UIPanels.textFactor(

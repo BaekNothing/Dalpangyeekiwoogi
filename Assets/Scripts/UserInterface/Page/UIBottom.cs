@@ -13,14 +13,25 @@ public class UIBottom : UIPanels
     SelfManageButton btnDirt;
     [SerializeField]
     SelfManageButton btnRevive;
+    [SerializeField]
+    Text lblName;
    
     public override void Init(ActionManager actionManager)
     {
         base.Init(actionManager);
-
+        SetTickAction(actionManager);
         SetDirtButton(actionManager);
         SetEvolveButton(actionManager);
         SetReviveButton(actionManager);
+    }
+
+    void SetTickAction(ActionManager actionManager)
+    {
+        actionManager.RegistTickAction(() => {
+            lblName.text =
+                string.Join(" ", 
+                actionManager.DoPlayerInfoAction(PlayerInfoActionType.getPlayerName, ""));
+        });
     }
 
     void SetDirtButton(ActionManager actionManager)
