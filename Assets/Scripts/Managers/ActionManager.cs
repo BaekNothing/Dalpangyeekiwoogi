@@ -138,6 +138,24 @@ public class ActionManager : MonoBehaviour
             action(statusType, value);
     }
 
+    Dictionary<PlayerInfoActionType, List<System.Func<string, string>>> playerInfoActionDict = new Dictionary<PlayerInfoActionType, List<System.Func<string, string>>>();
+    public void RegistPlayerInfoAction(PlayerInfoActionType actionType, System.Func<string, string> action)
+    {
+        if(!playerInfoActionDict.ContainsKey(actionType))
+            playerInfoActionDict.Add(actionType, new List<System.Func<string, string>>());
+        if(!playerInfoActionDict[actionType].Contains(action))
+            playerInfoActionDict[actionType].Add(action);
+    }
+    public List<string> DoPlayerInfoAction(PlayerInfoActionType actionType, string value)
+    {
+        List<string> result = new List<string>();
+        if(playerInfoActionDict.ContainsKey(actionType))
+            foreach(var action in playerInfoActionDict[actionType])
+                result.Add(action(value));
+        return result;
+    }
+
+
     // ****** List Condition of Actionable *******
     Dictionary<ConditionCheckType, List<System.Func<float, bool>>> conditionCheckDict = new Dictionary<ConditionCheckType, List<System.Func<float, bool>>>();
     

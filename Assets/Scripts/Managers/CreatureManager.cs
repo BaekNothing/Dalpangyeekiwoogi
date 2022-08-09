@@ -4,6 +4,7 @@ using UnityEngine;
 using Spine;
 using Spine.Unity;
 using Consts;
+using System;
 
 public class CreatureManager : MonoBehaviour
 {
@@ -113,11 +114,8 @@ public class CreatureManager : MonoBehaviour
         if(dataManager.PlayerInfo.isDead) return;
         if(newIndex == -1) newIndex = GetNewEvolveIndex();
         ComponentUtility.Log($"EVOLVE {newIndex}");
-        dataManager.PlayerInfo.SetCreatureInitTime();
-        dataManager.PlayerInfo.creatureIndex = newIndex;
-        dataManager.PlayerInfo.SetCreature(newIndex, 1);
-        dataManager.PlayerInfo.isDead = false;
-        dataManager.PlayerInfo.canEveolve = false;
+        actionManager.DoPlayerInfoAction
+            (PlayerInfoActionType.initPlayerInfo, newIndex.ToString());
 
         LoadCreature(false, newIndex);
     }
@@ -143,12 +141,10 @@ public class CreatureManager : MonoBehaviour
     {
         if (newIndex == -1) newIndex = GetNewEvolveIndex();
         ComponentUtility.Log($"EVOLVE {newIndex}");
-        dataManager.PlayerInfo.SetCreatureInitTime();
-        dataManager.PlayerInfo.creatureIndex = newIndex;
-        dataManager.PlayerInfo.SetCreature(newIndex, 1);
-        dataManager.PlayerInfo.isDead = false;
-        dataManager.PlayerInfo.canEveolve = false;
+        actionManager.DoPlayerInfoAction
+            (PlayerInfoActionType.initPlayerInfo, newIndex.ToString());
 
         LoadCreature(false, newIndex);
     }
+
 }

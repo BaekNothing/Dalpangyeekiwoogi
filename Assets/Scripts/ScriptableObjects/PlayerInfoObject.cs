@@ -18,7 +18,6 @@ public class PlayerInfoObject : ScriptableObject
     public int coin;
     public int stamina;
     public string staminaTime;
-    public bool notiAllow;
 
     [SerializeField]
     List<int> creatureList = new List<int>();
@@ -159,16 +158,14 @@ public class PlayerInfoObject : ScriptableObject
             for (int i = 0; i < _creature.creatureList.Count; i++)
                 creatureList.Add(0);
         }
+        creatureName = "";
         ClearAllData();
     }
 
     public void ClearAllData(){
         creatureIndex = 0;
-        creatureName = "";
-        stamina = 100;
-        creatureInitTime = DateTime.Now.ToString();
-        staminaTime = DateTime.Now.ToString();
-        notiAllow = true;
+        SetCreatureInitTime();
+        RecoverStamina();
         canEveolve = false;
         isDead = false;
     }

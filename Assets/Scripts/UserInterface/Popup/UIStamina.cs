@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Consts;
 
 public class UIStamina : UIPanels
 {
-    public override void Show(List<textFactor> factors = null)
+    [SerializeField]
+    Text usedStamina;
+    
+    public override void Init(ActionManager actionManager)
     {
-        base.Show(factors);
+        base.Init(actionManager);
     }
-
 }

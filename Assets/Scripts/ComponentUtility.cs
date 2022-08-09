@@ -87,17 +87,31 @@ public static class ComponentUtility
             }
         return target;
     }
-
+    static Text errLogger;
     public static void LogError(string message ){
 #if UNITY_EDITOR
-            Debug.LogError($"Error {message}");
+        Debug.LogError($"Error {message}");
+#else
+        if(!errLogger)
+            errLogger = FindT<Text>(
+                GameObject.Find("MainCanvas").
+                transform, "err"
+            );
+        errLogger.text = message;
 #endif
     }
 
     public static void Log(string message)
     {
 #if UNITY_EDITOR
-            Debug.Log($"{message}");
+        Debug.Log($"{message}");
+#else
+        if(!errLogger)
+            errLogger = FindT<Text>(
+                GameObject.Find("MainCanvas").
+                transform, "err"
+            );
+        errLogger.text = message;
 #endif
     }
 }

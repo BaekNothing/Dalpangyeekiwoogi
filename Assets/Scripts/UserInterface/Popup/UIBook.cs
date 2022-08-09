@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Consts;
@@ -47,7 +47,7 @@ public class UIBook : UIPanels
                 {     
                     new UIPanels.textFactor(
                         "title",
-                        "xxx·Î ´ŞÆØÀÌ¸¦ ÁøÈ­½ÃÄÑº¼±î¿ä?"
+                        "xxxë¡œ ë‹¬íŒ½ì´ë¥¼ ì§„í™”ì‹œì¼œë³¼ê¹Œìš”?"
                     ),
                     
                     new UIPanels.textFactor(

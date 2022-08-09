@@ -5,9 +5,22 @@ using UnityEngine.UI;
 
 public class UIOption : UIPanels
 {
-    public override void Show(List<textFactor> factors = null)
+    [SerializeField]
+    SelfManageButton btnBuyCoffe;
+
+    public override void Init(ActionManager actionManager)
     {
-        base.Show(factors);
+        base.Init(actionManager);
+        SetBuyCoffeButton();
     }
     
+    void SetBuyCoffeButton()
+    {
+        ComponentUtility.SetButtonAction(
+            btnBuyCoffe.GetComponent<Button>(),
+            () => {
+                ComponentUtility.Log("BuyCoffe");
+                Application.OpenURL("https://www.buymeacoffee.com/baeknothing");
+            });
+    }
 }

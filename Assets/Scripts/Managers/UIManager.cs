@@ -102,7 +102,12 @@ public class UIManager : MonoBehaviour
 
     public void HideAllPanel(){
         foreach (UIPanels panel in uiPanels)
+        {
+            if(!(panel.gameObject.name.ToLower().Contains("top".ToLower()) || 
+                 panel.gameObject.name.ToLower().Contains("bottom".ToLower())))
             panel.gameObject.SetActive(false);
+        }
+            
         indexStack.Clear();
     }
 

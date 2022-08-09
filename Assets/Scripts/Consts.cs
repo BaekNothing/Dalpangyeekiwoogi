@@ -4,6 +4,14 @@ using UnityEngine;
 
 namespace Consts
 {
+    public enum PlayerInfoActionType
+    {
+        initPlayerInfo,
+        getStaminaRemainTime,
+        getStamina,
+        getCoin
+    }
+
     public enum ConditionCheckType
     {
         stamina,
@@ -49,7 +57,7 @@ namespace Consts
         static public readonly float deadTimeLimit = 3f; // 1f => 1sec * 100 = 1.4Min
         static public readonly float deadLimit = 192f; // 192f => 960min(=16hour * 60min) / 5 
         static public readonly float evolveLimit = 8460f; // 8460 min = 2 day
-        static public readonly float staminaLimitTime = 15f;
+        static public readonly double staminaLimitTime = 15f;
 
         static public bool SkipFrame(frameOrder order)
         {

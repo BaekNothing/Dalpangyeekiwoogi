@@ -44,6 +44,7 @@ public class DataManager : MonoBehaviour
         actionManager = this.GetComponent<ActionManager>();
         RegistInitAction();
         RegistTickAction();
+        RegistPlayerInfoAction();
         RegistStatusAction();
         RegistQuitAction();
         RegistConditionalAction();
@@ -163,6 +164,39 @@ public class DataManager : MonoBehaviour
             PlayerInfo.GetPassedCreatureInitTime() > GameLoop.evolveLimit)
             PlayerInfo.canEveolve = true;
     }
+
+    // ****** PlayerInfo Action *******
+    void RegistPlayerInfoAction(){
+        actionManager.RegistPlayerInfoAction(PlayerInfoActionType.initPlayerInfo, InitPlayerInfo);
+        actionManager.RegistPlayerInfoAction(PlayerInfoActionType.getStaminaRemainTime, GetStaminaRemainTime);
+        actionManager.RegistPlayerInfoAction(PlayerInfoActionType.getStamina, GetStamina);
+        actionManager.RegistPlayerInfoAction(PlayerInfoActionType.getCoin, GetCoin);
+    }
+
+    string InitPlayerInfo(string newIndex){       
+        PlayerInfo.ClearAllData();
+        PlayerInfo.creatureIndex = int.Parse(newIndex ?? "0");
+        PlayerInfo.SetCreature(int.Parse(newIndex ?? "0"), 1);
+        PlayerInfo.RecoverStamina();
+
+        SnailStat.ClearAllStat();
+        SnailStat.InitAllStat(900f, 1f);
+        return $"{PlayerInfoActionType.initPlayerInfo} : {newIndex}";
+    }
+
+    string GetStaminaRemainTime(string value){
+        return (GameLoop.staminaLimitTime - 
+                PlayerInfo.GetPassedStaminaTime()).ToString();
+    }
+
+    string GetStamina(string value){
+        return (PlayerInfo.GetStamina()).ToString();
+    }
+
+    string GetCoin(string value){
+        return (PlayerInfo.GetCoin()).ToString();
+    }
+
 
 
     // ******* Stat Action *******
