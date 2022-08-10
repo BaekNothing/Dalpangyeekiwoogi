@@ -85,8 +85,8 @@ public class DataManager : MonoBehaviour
     {
         for (int i = 0; i < passedMin * 60; i++)
         {
-            //decrease stat 0.01f per second
-            SnailStat.CalculateTickAllStat(0.01f);
+            //decrease stat 0.001f per second
+            SnailStat.CalculateTickAllStat(0.001f);
             Action_CheckEvolve();
             Action_CheckDead();
         }
