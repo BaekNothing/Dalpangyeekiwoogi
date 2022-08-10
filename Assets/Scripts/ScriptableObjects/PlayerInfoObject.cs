@@ -46,7 +46,7 @@ public class PlayerInfoObject : ScriptableObject
     {   
         if (lastLoginTime == null)
             lastLoginTime = DateTime.Now.ToString();
-        return (DateTime.Now - DateTime.Parse(lastLoginTime)).Minutes;
+        return (DateTime.Now - DateTime.Parse(lastLoginTime)).TotalMinutes;
     }
 
     //****** Creature Init Time *******
@@ -59,7 +59,7 @@ public class PlayerInfoObject : ScriptableObject
     {
         if (creatureInitTime == null)
             creatureInitTime = DateTime.Now.ToString();
-        return (DateTime.Now - DateTime.Parse(creatureInitTime)).Minutes;
+        return (DateTime.Now - DateTime.Parse(creatureInitTime)).TotalMinutes;
     }
 
     //****** Stamina *******
@@ -105,7 +105,7 @@ public class PlayerInfoObject : ScriptableObject
         if (staminaTime == null)
             staminaTime = DateTime.Now.ToString();
         
-        double time = (DateTime.Now - DateTime.Parse(staminaTime)).Minutes;
+        double time = (DateTime.Now - DateTime.Parse(staminaTime)).TotalMinutes;
         //ComponentUtility.Log($"{time} : {staminaTime} : {DateTime.Now}");
         if(time < 0)
         {
