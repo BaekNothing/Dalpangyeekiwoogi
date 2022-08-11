@@ -24,8 +24,8 @@ public class UIFood : UIPanels
 
     void SetFoodButton(ActionManager actionManager)
     {
-        float needStamina = 10f;
-        float recoverHunger = 20f;
+        float needStamina = 20f;
+        float recoverHunger = 40f;
 
 
         btnFood.SetButtonOption(() =>
@@ -44,7 +44,7 @@ public class UIFood : UIPanels
 
     void SetSnakButton(ActionManager actionManager)
     {
-        float needStamina = 10f;
+        float needStamina = 15f;
         float recoverHunger = 20f;
 
 
@@ -65,7 +65,7 @@ public class UIFood : UIPanels
     void SetMeatButton(ActionManager actionManager)
     {
         float needStamina = 10f;
-        float recoverHunger = 20f;
+        float recoverHunger = 10f;
 
 
         btnMeat.SetButtonOption(() =>

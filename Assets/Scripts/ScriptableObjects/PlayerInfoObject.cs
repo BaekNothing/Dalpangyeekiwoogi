@@ -148,6 +148,8 @@ public class PlayerInfoObject : ScriptableObject
             try
             {
                 coin = PlayerPrefs.GetInt("Coin");
+                if (coin < 30)
+                    coin = 30;
                 creatureList = new List<int>();
                 for (int i = 0; i < _creature.creatureList.Count; i++)
                     if (PlayerPrefs.HasKey($"Creature{i}"))
@@ -161,12 +163,12 @@ public class PlayerInfoObject : ScriptableObject
         }
         else
         {
-            coin = 0;
+            coin = 30;
             creatureList = new List<int>();
             for (int i = 0; i < _creature.creatureList.Count; i++)
                 creatureList.Add(0);
         }
-        creatureName = "";
+        creatureName = "±×³É ´ÞÆØÀÌ";
         ClearAllData();
     }
 
