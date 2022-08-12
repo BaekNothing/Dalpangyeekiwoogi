@@ -168,6 +168,7 @@ public class PlayerInfoObject : ScriptableObject
             for (int i = 0; i < _creature.creatureList.Count; i++)
                 creatureList.Add(0);
         }
+        creatureList[0] = 1;
         creatureName = "±×³É ´ÞÆØÀÌ";
         ClearAllData();
     }
@@ -175,8 +176,46 @@ public class PlayerInfoObject : ScriptableObject
     public void ClearAllData(){
         creatureIndex = 0;
         SetCreatureInitTime();
+        SetLastLoginTime();
         RecoverStamina();
         canEveolve = false;
         isDead = false;
+        SavetoJson();
     }
+
+    //string filePath = "/Resources/SCObjs/PlayerInfoObject.json";
+    public void SavetoJson()
+    {
+        string json = JsonUtility.ToJson(this);
+        PlayerPrefs.SetString("PlayerInfoObject", json);
+        //System.IO.File.WriteAllText(Application.dataPath + "/Resources/SCObjs/PlayerInfoObject.json", json);
+    }
+
+    public void LoadfromJson()
+    {
+        //string json = System.IO.File.ReadAllText(Application.dataPath + "/Resources/SCObjs/PlayerInfoObject.json");
+        string json = PlayerPrefs.GetString("PlayerInfoObject");
+        JsonUtility.FromJsonOverwrite(json, this);
+    }
+
+    // public void SavetoJson(){
+    //     string json = JsonUtility.ToJson(this);
+    //     PlayerPrefs.SetString("PlayerInfo", json);
+    // }
+
+    // public void LoadFromJson(){
+    //     string json = PlayerPrefs.GetString("PlayerInfo");
+    //     PlayerInfoObject playerInfo = JsonUtility.FromJson<PlayerInfoObject>(json);
+    //     isLoaded = true;
+    //     coin = playerInfo.coin;
+    //     creatureList = playerInfo.creatureList;
+    //     creatureIndex = playerInfo.creatureIndex;
+    //     creatureInitTime = playerInfo.creatureInitTime;
+    //     stamina = playerInfo.stamina;
+    //     staminaTime = playerInfo.staminaTime;
+    //     lastLoginTime = playerInfo.lastLoginTime;
+    //     creatureName = playerInfo.creatureName;
+    //     canEveolve = playerInfo.canEveolve;
+    //     isDead = playerInfo.isDead;
+    // }
 }

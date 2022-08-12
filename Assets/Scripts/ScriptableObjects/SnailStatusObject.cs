@@ -101,6 +101,7 @@ public class SnailStatusObject : ScriptableObject
         happiness.StatClear();
         health.StatClear();
         hunger.StatClear();
+        SavetoJson();
     }
 
     public bool CheckDead(float deadLimit)
@@ -179,5 +180,20 @@ public class SnailStatusObject : ScriptableObject
                 deadTime = 0;
             }
         }        
+    }
+
+    //string filePath = "/Resources/SCObjs/SnailStatusObject.json";
+    public void SavetoJson()
+    {
+        string json = JsonUtility.ToJson(this);
+        PlayerPrefs.SetString("SnailStatusObject", json);
+        //System.IO.File.WriteAllText(Application.dataPath + "/Resources/SCObjs/SnailStatusObject.json", json);
+    }
+
+    public void LoadfromJson()
+    {
+        //string json = System.IO.File.ReadAllText(Application.dataPath + "/Resources/SCObjs/SnailStatusObject.json");
+        string json = PlayerPrefs.GetString("SnailStatusObject");
+        JsonUtility.FromJsonOverwrite(json, this);
     }
 }

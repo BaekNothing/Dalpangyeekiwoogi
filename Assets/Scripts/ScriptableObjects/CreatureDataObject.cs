@@ -49,4 +49,15 @@ public class CreatureDataObject : ScriptableObject
         public string GetName() => values[1];
         public string GetDesc() => values[0];
     }
+
+    //string filePath = "/Resources/SCObjs/CreatureDataObject.json";
+    public void SavetoJson(){
+        string json = JsonUtility.ToJson(this);
+        System.IO.File.WriteAllText(Application.dataPath + "/Resources/SCObjs/CreatureDataObject.json", json);
+    }
+
+    public void LoadfromJson(){
+        string json = System.IO.File.ReadAllText(Application.dataPath + "/Resources/SCObjs/CreatureDataObject.json");
+        JsonUtility.FromJsonOverwrite(json, this);
+    }
 }

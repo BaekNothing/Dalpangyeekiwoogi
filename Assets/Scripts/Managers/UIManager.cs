@@ -36,9 +36,6 @@ public class UIManager : MonoBehaviour
         uiPanels.ForEach(x => x.Init(actionManager));
         btnList = ComponentUtility.FindAllT<SelfManageButton>(mainCanvas.transform);
         
-        //******* Stage *********//
-        ComponentUtility.LinkBtnPnl("talk", btnDict, uiPanels, btnList);
-
         //******* TopPanel *********//
         ComponentUtility.LinkBtnPnl("option", btnDict, uiPanels, btnList);
             ComponentUtility.LinkBtnPnl("credits", btnDict, uiPanels, btnList);

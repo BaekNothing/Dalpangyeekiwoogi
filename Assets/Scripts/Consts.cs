@@ -51,6 +51,23 @@ namespace Consts
         refresh
     }
 
+    enum playerPerfOption
+    {
+        isLoaded,
+        IndexNumber,
+        lastLoginTime,
+        creatureInitTime,
+        creatureName,
+        coin,
+        stamina,
+        staminaTime,
+
+        dirt,
+        hunger,
+        happiness,
+        health
+    }
+
     static class GameLoop
     {
         static public readonly float[] dirtDegree = {55f, 35f, 10f};

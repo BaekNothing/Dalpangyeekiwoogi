@@ -23,7 +23,7 @@ public class UIPlay : UIPanels
 
     void SetExerciseButton(ActionManager actionManager)
     {
-        float needStamina = 10f;
+        float needStamina = 20f;
         float recoverHappiness = 20f;
         float recoverHealth = 40f;
 
@@ -45,7 +45,7 @@ public class UIPlay : UIPanels
 
     void SetTvButton(ActionManager actionManager)
     {
-        float needStamina = 10f;
+        float needStamina = 20f;
         float recoverHappiness = 20f;
         float recoverHealth = 10f;
 
@@ -66,7 +66,7 @@ public class UIPlay : UIPanels
 
     void SetReadButton(ActionManager actionManager)
     {
-        float needStamina = 10f;
+        float needStamina = 20f;
         float recoverHappiness = 40f;
         float recoverHealth = 20f;
 

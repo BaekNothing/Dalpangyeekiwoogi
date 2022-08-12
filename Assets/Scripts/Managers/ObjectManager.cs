@@ -55,5 +55,4 @@ public class ObjectManager : MonoBehaviour
         prop.SetActive(false);
         coroutine = null;
     }
-
 }

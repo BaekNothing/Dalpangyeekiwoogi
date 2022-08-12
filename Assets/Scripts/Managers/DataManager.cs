@@ -12,10 +12,6 @@ public class DataManager : MonoBehaviour
 {
     ActionManager actionManager;
 
-    enum playerPerfOption
-    {
-        IndexNumber,
-    }
     [SerializeField]
     private PlayerInfoObject _playerInfo;
     public PlayerInfoObject PlayerInfo { get { return _playerInfo; } }
@@ -37,6 +33,11 @@ public class DataManager : MonoBehaviour
             PlayerInfo.CheckLegacyPrefs(_creature);
             SnailStat.InitAllStat(900f, 1f);
             SnailStat.ClearAllStat();
+        }
+        else 
+        {
+            PlayerInfo.LoadfromJson();
+            SnailStat.LoadfromJson();
         }
 
         actionManager = this.GetComponent<ActionManager>();
@@ -125,6 +126,9 @@ public class DataManager : MonoBehaviour
         actionManager.RegistTickAction(Action_CheckDead);
         actionManager.RegistTickAction(Action_CheckEvolve);
         actionManager.RegistTickAction(Action_SetLastlogin);
+
+        actionManager.RegistQuitAction(PlayerInfo.SavetoJson);
+        actionManager.RegistQuitAction(SnailStat.SavetoJson);
     }
 
     void Action_CalcualteStat()
@@ -253,6 +257,8 @@ public class DataManager : MonoBehaviour
             PlayerInfo.UseCoin(value);
         else if (type == ConditionCheckType.stamina)
             PlayerInfo.UseStamina(value);
+        actionManager.RegistQuitAction(PlayerInfo.SavetoJson);
+        actionManager.RegistQuitAction(SnailStat.SavetoJson);
     }
 
     void RegistConditionAddAction()
@@ -267,6 +273,8 @@ public class DataManager : MonoBehaviour
             PlayerInfo.AddCoin(value);
         else if (type == ConditionCheckType.stamina)
             PlayerInfo.AddStamina(value);
+        actionManager.RegistQuitAction(PlayerInfo.SavetoJson);
+        actionManager.RegistQuitAction(SnailStat.SavetoJson);
     }
 
     void RegistConditionalAction()
@@ -318,6 +326,8 @@ public class DataManager : MonoBehaviour
     void RegistQuitAction()
     {
         actionManager.RegistQuitAction(PlayerInfo.SetLastLoginTime);
+        actionManager.RegistQuitAction(PlayerInfo.SavetoJson);
+        actionManager.RegistQuitAction(SnailStat.SavetoJson);
     }
 
     // ******* Debug Action *******
@@ -327,6 +337,7 @@ public class DataManager : MonoBehaviour
         PlayerInfo.ClearAllData();
         SnailStat.ClearAllStat();
         actionManager.DoEvolve(0);
-        //PlayerInfo.AddCoin(30);
+        actionManager.RegistQuitAction(PlayerInfo.SavetoJson);
+        actionManager.RegistQuitAction(SnailStat.SavetoJson);
     }
 }
