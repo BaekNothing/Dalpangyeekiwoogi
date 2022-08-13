@@ -6,8 +6,6 @@ using System;
 [CreateAssetMenu(fileName = "snailStatusObject", menuName = "SCObjects/PlayerInfoObject", order = 1)]
 public class PlayerInfoObject : ScriptableObject 
 {
-    public bool isLoaded;
-
     public string lastLoginTime;
     public int creatureIndex;
     public string creatureInitTime;
@@ -142,7 +140,6 @@ public class PlayerInfoObject : ScriptableObject
     //****** Load from Legacy *******
     public void CheckLegacyPrefs(CreatureDataObject _creature)
     {
-        isLoaded = true;
         if (PlayerPrefs.HasKey("IndexNumber"))
         {
             try

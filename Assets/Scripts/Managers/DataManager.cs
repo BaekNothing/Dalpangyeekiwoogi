@@ -28,7 +28,7 @@ public class DataManager : MonoBehaviour
     {
         //Creature.LoadCreatureData();
         //Creature.LoadSkeletonData();
-        if(!PlayerInfo.isLoaded) 
+        if(!PlayerPrefs.HasKey("PlayerInfoObject") || !PlayerPrefs.HasKey("SnailStatusObject"))
         {
             PlayerInfo.CheckLegacyPrefs(_creature);
             SnailStat.InitAllStat(900f, 1f);
