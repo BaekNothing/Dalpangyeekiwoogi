@@ -26,34 +26,24 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
+        SetObjects();
+        LinkBtnPnls();
+        Set_QuitBtnPnl();
+
+        actionManager.initFlag[nameof(UIManager)] = true;
+    }
+
+    void SetObjects()
+    {
         mainCanvas = GameObject.Find("MainCanvas").GetComponent<Canvas>();
         actionManager = this.GetComponent<ActionManager>();
         RegistUIPnlShowAction(actionManager);
 
-        foreach(UIPanels pnl in ComponentUtility.FindAllT<UIPanels>(mainCanvas.transform))
+        foreach (UIPanels pnl in ComponentUtility.FindAllT<UIPanels>(mainCanvas.transform))
             RegistPanel(pnl);
         uiPanels.ForEach(x => x.LinkManager(this));
         uiPanels.ForEach(x => x.Init(actionManager));
         btnList = ComponentUtility.FindAllT<SelfManageButton>(mainCanvas.transform);
-        
-        //******* TopPanel *********//
-        ComponentUtility.LinkBtnPnl("option", btnDict, uiPanels, btnList);
-            ComponentUtility.LinkBtnPnl("credits", btnDict, uiPanels, btnList);
-            ComponentUtility.LinkBtnPnl("developplan", btnDict, uiPanels, btnList);
-
-        ComponentUtility.LinkBtnPnl("book", btnDict, uiPanels, btnList);
-        ComponentUtility.LinkBtnPnl("stamina", btnDict, uiPanels, btnList);
-        ComponentUtility.LinkBtnPnl("shop", btnDict, uiPanels, btnList);
-
-        //******** Bottom *********//
-        ComponentUtility.LinkBtnPnl("food", btnDict, uiPanels, btnList);
-        ComponentUtility.LinkBtnPnl("play", btnDict, uiPanels, btnList);
-        ComponentUtility.LinkBtnPnl("rename", btnDict, uiPanels, btnList);
-        
-        //********* Other *********//
-        Set_QuitBtnPnl();
-
-        actionManager.initFlag[nameof(UIManager)] = true;
     }
 
     public void RegistPanel(UIPanels uiPanel)
@@ -70,6 +60,23 @@ public class UIManager : MonoBehaviour
             if (target)
                 ShowPanel(target.thisIndex, factors);
         });
+    }
+
+    void LinkBtnPnls()
+    {
+        ComponentUtility.LinkBtnPnl("option", btnDict, uiPanels, btnList);
+        ComponentUtility.LinkBtnPnl("credits", btnDict, uiPanels, btnList);
+        ComponentUtility.LinkBtnPnl("developplan", btnDict, uiPanels, btnList);
+
+        ComponentUtility.LinkBtnPnl("book", btnDict, uiPanels, btnList);
+        ComponentUtility.LinkBtnPnl("stamina", btnDict, uiPanels, btnList);
+        ComponentUtility.LinkBtnPnl("shop", btnDict, uiPanels, btnList);
+
+        //******** Bottom *********//
+        ComponentUtility.LinkBtnPnl("food", btnDict, uiPanels, btnList);
+        ComponentUtility.LinkBtnPnl("play", btnDict, uiPanels, btnList);
+        ComponentUtility.LinkBtnPnl("rename", btnDict, uiPanels, btnList);
+
     }
 
     public void ShowPanel(int index, List<UIPanels.textFactor> factor = null)

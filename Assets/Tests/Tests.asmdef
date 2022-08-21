@@ -7,7 +7,6 @@
         "Scripts"
     ],
     "includePlatforms": [
-        "Android",
         "Editor"
     ],
     "excludePlatforms": [],
