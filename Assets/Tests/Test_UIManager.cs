@@ -50,5 +50,6 @@ public class Test_UIManager
             if(method.Key == "LinkBtnPnls")
                 method.Value.Invoke(uiManager, null);
         var btnDict = TestUtils.GetField(uiManager, "btnDict") as SerializableDictionary<SelfManageButton, UIPanels>;
+        Assert.IsNotEmpty(btnDict);
     }
 }
