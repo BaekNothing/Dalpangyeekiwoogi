@@ -1,6 +1,6 @@
 # Dalpangyeekiwoogi
 
-![Icon 1](Assets\Resources\UI\Icon 1.png)
+[Icon 1](Assets\Resources\UI\Icon 1.png)
 
 
 
@@ -18,8 +18,5 @@ UnityVersion : 2020.3.19f1
 
 ## Update
 
-V.0.0.1 (2020.03 ~ 04) 최초구현
+V.0.0.1 (2020.03 ~ 04) 최초구현  
 V.0.0.2 (2022.07 ~ 08) [리팩토링](https://baeknothing.tistory.com/66?category=1060113)
-
-
-
