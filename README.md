@@ -1,6 +1,6 @@
 # Dalpangyeekiwoogi
 
-[Icon 1](Assets\Resources\UI\Icon 1.png)
+![Icon 1](https://github.com/BaekNothing/Dalpangyeekiwoogi/blob/e863db342aca2647285b767050b25b753301863d/Assets/Resources/UI/Icon%201.png)
 
 
 
