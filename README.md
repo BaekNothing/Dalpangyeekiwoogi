@@ -2,7 +2,7 @@
 
 
 
-![Icon 1](D:\unityWorks\Dalpangyeekiwoogi\readmeImage.jpg)
+![Icon 1](readmeImage.jpg)
 
 
 
