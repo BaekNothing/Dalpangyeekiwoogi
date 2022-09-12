@@ -107,7 +107,7 @@ classDiagram
 ## Update
 
 V.0.0.1 (2020.03 ~ 04) 최초구현  
-V.0.0.2 (2022.07 ~ 08) 리팩토링 [로그](https://baeknothing.tistory.com/66?category=1060113)
+V.0.0.2 (2022.07 ~ 08) 리팩토링 [(로그)](https://baeknothing.tistory.com/66?category=1060113)
 
 
 
