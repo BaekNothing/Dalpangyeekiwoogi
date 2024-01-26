@@ -10,53 +10,25 @@ using System;
 
 public static class CalculateUtility 
 {
-    public static float TimeToNumber(string yyyy_MM_dd_HH_mm, ref float Number){
-
-        int Counter = 0;
-        Number = 0f;
-
-        foreach (char n in yyyy_MM_dd_HH_mm) {
-
-            //더 세련되게 적을 수 있는 방법이 있다는걸 알긴 하는데., 그럼 나중에 못고칠듯 
-            // yyyy _ MM _ dd _  H H _ mm
-            // 0123 4 56 7 89 10 1112  1314
-
-            if (Counter == 4 || Counter == 7 || Counter == 10 || Counter == 13) { /* DoNothing */ }
-            else if (Counter == 0)
-            { Number += int.Parse(n.ToString()) * 8760f * 60f; } //Year
-            else if (Counter == 1)
-            { Number += int.Parse(n.ToString()) * 8760f * 60f; }
-            else if (Counter == 2)
-            { Number += int.Parse(n.ToString()) * 8760f * 60f; }
-            else if (Counter == 3)
-            { Number += int.Parse(n.ToString()) * 8760f * 60f; }
-
-            else if (Counter == 5)
-            { Number += int.Parse(n.ToString()) * 10f * 732f * 60f; } //Month
-            else if (Counter == 6)
-            { Number += int.Parse(n.ToString()) * 732f * 60f; } //Month
-
-            else if (Counter == 8)
-            { Number += int.Parse(n.ToString()) * 10f * 24f * 60f; } //Day
-            else if (Counter == 9)
-            { Number += int.Parse(n.ToString()) * 24f * 60f; } 
-
-
-            else if (Counter == 11)
-            { Number += int.Parse(n.ToString()) * 10f * 60f; } //Hour
-            else if (Counter == 12)
-            { Number += int.Parse(n.ToString()) * 60f; } 
-
-            else if (Counter == 14)
-            { Number += int.Parse(n.ToString()) * 10f; } //Minuate
-            else if (Counter == 15)
-            { Number += int.Parse(n.ToString()); }
-
-            Counter++;
+    public static float TimeToNumber(string yyyy_MM_dd_HH_mm)
+    {
+        if (DateTime.TryParseExact(yyyy_MM_dd_HH_mm, "yyyy_MM_dd_HH_mm", 
+            System.Globalization.CultureInfo.InvariantCulture, 
+            System.Globalization.DateTimeStyles.None, out DateTime parsedDateTime))
+        {
+            float yearComponent = parsedDateTime.Year * 8760f * 60f;
+            float monthComponent = parsedDateTime.Month * 732f * 60f;
+            float dayComponent = parsedDateTime.Day * 24f * 60f;
+            float hourComponent = parsedDateTime.Hour * 60f;
+            float minuteComponent = parsedDateTime.Minute;
+    
+            return yearComponent + monthComponent + dayComponent + hourComponent + minuteComponent;
         }
-        
-        // Debug.Log(Number.ToString());
-        return Number;
+        else
+        {
+            // Handle invalid format
+            throw new ArgumentException("Invalid date format", nameof(yyyy_MM_dd_HH_mm));
+        }
     }
 }
 
